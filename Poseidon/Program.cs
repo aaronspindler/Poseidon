@@ -1,22 +1,30 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
 
 namespace Poseidon
 {
-    class Program
+    internal class Program
     {
-        private static String KEY;
-        private static String SIGNATURE;
+        private static string KEY;
+        private static string SIGNATURE;
 
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-            Console.WriteLine("Poseidon: " + System.Reflection.Assembly.GetEntryAssembly().GetName().Version);
+            Console.WriteLine("Poseidon: " + Assembly.GetEntryAssembly().GetName().Version);
 
+            CheckKeyFile();
+            LoadKeys();
+
+            Console.ReadLine();
+        }
+
+        public static void CheckKeyFile()
+        {
             if (!File.Exists("API.txt"))
-            {
                 try
                 {
-                    using (StreamWriter sw = File.CreateText("API.txt"))
+                    using (var sw = File.CreateText("API.txt"))
                     {
                         sw.WriteLine("KEY=");
                         sw.WriteLine("SIGNATURE=");
@@ -28,18 +36,20 @@ namespace Poseidon
                 catch (Exception exception)
                 {
                     Console.WriteLine(exception.Message);
-                
+
                     ExitProgram();
                 }
-            }
+        }
 
-            using (StreamReader sr = new StreamReader("API.txt"))
+        public static void LoadKeys()
+        {
+            using (var sr = new StreamReader("API.txt"))
             {
-                String line = sr.ReadLine();
+                var line = sr.ReadLine();
                 if (line.Substring(0, 4) == "KEY=")
                 {
                     KEY = line.Substring(4);
-                    Console.WriteLine("Key = " +  KEY);
+                    Console.WriteLine("Key = " + KEY);
                 }
                 line = sr.ReadLine();
                 if (line.Substring(0, 10) == "SIGNATURE=")
@@ -48,8 +58,6 @@ namespace Poseidon
                     Console.WriteLine("Signature = " + SIGNATURE);
                 }
             }
-
-            Console.ReadLine();
         }
 
         public static void ExitProgram()

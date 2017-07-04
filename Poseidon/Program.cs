@@ -16,6 +16,9 @@ namespace Poseidon
             CheckKeyFile();
             LoadKeys();
 
+            Kraken kraken = new Kraken(KEY, SIGNATURE);
+            Console.WriteLine(kraken.GetServerTime().UnixTime);
+
             Console.ReadLine();
         }
 

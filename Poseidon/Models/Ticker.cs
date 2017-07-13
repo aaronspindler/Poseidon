@@ -1,61 +1,26 @@
-﻿using Newtonsoft.Json;
-
-namespace Poseidon.Models
+﻿namespace Poseidon.Models
 {
     public class Ticker
     {
-        /// <summary>
-        /// Ask array(<price>, <whole lot volume>, <lot volume>).
-        /// </summary>
-        [JsonProperty(PropertyName = "a")]
-        public decimal[] Ask;
+        public object[] error { get; set; }
+        public Result result { get; set; }
 
-        /// <summary>
-        /// Bid array(<price>, <whole lot volume>, <lot volume>).
-        /// </summary>
-        [JsonProperty(PropertyName = "b")]
-        public decimal[] Bid;
+        public class Result
+        {
+            public GNOUSD GNOUSD { get; set; }
+        }
 
-        /// <summary>
-        /// Last trade closed array(<price>, <lot volume>).
-        /// </summary>
-        [JsonProperty(PropertyName = "c")]
-        public decimal[] Closed;
-
-        /// <summary>
-        /// Volume array(<today>, <last 24 hours>).
-        /// </summary>
-        [JsonProperty(PropertyName = "v")]
-        public decimal[] Volume;
-
-        /// <summary>
-        /// Volume weighted average price array(<today>, <last 24 hours>).
-        /// </summary>
-        [JsonProperty(PropertyName = "p")]
-        public decimal[] VWAP;
-
-        /// <summary>
-        /// Number of trades array(<today>, <last 24 hours>).
-        /// </summary>
-        [JsonProperty(PropertyName = "t")]
-        public int[] Trades;
-
-        /// <summary>
-        /// Low array(<today>, <last 24 hours>).
-        /// </summary>
-        [JsonProperty(PropertyName = "l")]
-        public decimal[] Low;
-
-        /// <summary>
-        /// High array(<today>, <last 24 hours>).
-        /// </summary>
-        [JsonProperty(PropertyName = "h")]
-        public decimal[] High;
-
-        /// <summary>
-        /// Today's opening price.
-        /// </summary>
-        [JsonProperty(PropertyName = "o")]
-        public decimal Open;
+        public class GNOUSD
+        {
+            public string[] a { get; set; }
+            public string[] b { get; set; }
+            public string[] c { get; set; }
+            public string[] v { get; set; }
+            public string[] p { get; set; }
+            public int[] t { get; set; }
+            public string[] l { get; set; }
+            public string[] h { get; set; }
+            public string o { get; set; }
+        }
     }
 }

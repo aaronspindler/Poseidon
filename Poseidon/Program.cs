@@ -1,10 +1,12 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
+using Poseidon.Models;
 
 namespace Poseidon
 {
-    internal class Program
+    public class Program
     {
         private static string KEY;
         private static string SIGNATURE;
@@ -17,7 +19,11 @@ namespace Poseidon
             LoadKeys();
 
             Kraken kraken = new Kraken(KEY, SIGNATURE);
-            Console.WriteLine(kraken.GetServerTime().UnixTime);
+            Console.WriteLine("Login Successful");
+            Console.WriteLine(kraken.GetServerTime().result.rfc1123);
+
+            OHLCSet ohlc = kraken.GetOHLC(kraken.GetAssetPairs().result.GNOUSD.altname);
+            Console.WriteLine(ohlc.Pairs[0].Time);
 
             Console.ReadLine();
         }
@@ -52,13 +58,11 @@ namespace Poseidon
                 if (line.Substring(0, 4) == "KEY=")
                 {
                     KEY = line.Substring(4);
-                    Console.WriteLine("Key = " + KEY);
                 }
                 line = sr.ReadLine();
                 if (line.Substring(0, 10) == "SIGNATURE=")
                 {
                     SIGNATURE = line.Substring(10);
-                    Console.WriteLine("Signature = " + SIGNATURE);
                 }
             }
         }
@@ -68,6 +72,15 @@ namespace Poseidon
             Console.WriteLine("Press enter to close application");
             Console.ReadLine();
             Environment.Exit(-1);
+        }
+
+        public static void WriteToFile(string text)
+        {
+            using (var sw = File.CreateText("temp.txt"))
+            {
+                sw.Write(text);
+            }
+            Console.WriteLine("File written");
         }
     }
 }

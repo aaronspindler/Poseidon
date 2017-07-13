@@ -21,8 +21,6 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -32,20 +30,23 @@ using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Poseidon.Models;
+using Poseidon.Models.Old;
 
 namespace Poseidon
 {
     public class Kraken
     {
+        private readonly string _key;
+        private readonly int _rateLimitMilliseconds = 500;
+        private readonly string _secret;
         private readonly string _url;
         private readonly int _version;
-        private readonly string _key;
-        private readonly string _secret;
-        private readonly int _rateLimitMilliseconds = 5000;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Kraken"/> class.
+        ///     Initializes a new instance of the <see cref="Kraken" /> class.
         /// </summary>
         /// <param name="key">The API key.</param>
         /// <param name="secret">The API secret.</param>
@@ -64,49 +65,57 @@ namespace Poseidon
             if (param == null)
                 return "";
 
-            StringBuilder b = new StringBuilder();
+            var b = new StringBuilder();
             foreach (var item in param)
                 b.Append(string.Format("&{0}={1}", item.Key, item.Value));
 
-            try { return b.ToString().Substring(1); }
-            catch (Exception) { return ""; }
+            try
+            {
+                return b.ToString().Substring(1);
+            }
+            catch (Exception)
+            {
+                return "";
+            }
         }
 
         public string QueryPublic(string method, Dictionary<string, string> param = null)
         {
             RateLimit();
 
-            string address = string.Format(CultureInfo.InvariantCulture, "{0}/{1}/public/{2}", _url, _version, method);
-            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(new Uri(address));
+            var address = string.Format(CultureInfo.InvariantCulture, "{0}/{1}/public/{2}", _url, _version, method);
+            var webRequest = (HttpWebRequest) WebRequest.Create(new Uri(address));
             webRequest.ContentType = "application/x-www-form-urlencoded";
             webRequest.Method = "POST";
 
-            string postData = BuildPostData(param);
+            var postData = BuildPostData(param);
 
-            if (!String.IsNullOrEmpty(postData))
-            {
+            if (!string.IsNullOrEmpty(postData))
                 using (var writer = new StreamWriter(webRequest.GetRequestStream()))
+                {
                     writer.Write(postData);
-            }
+                }
 
             try
             {
-                using (WebResponse webResponse = webRequest.GetResponse())
+                using (var webResponse = webRequest.GetResponse())
                 {
-                    Stream str = webResponse.GetResponseStream();
-                    using (StreamReader sr = new StreamReader(str))
+                    var str = webResponse.GetResponseStream();
+                    using (var sr = new StreamReader(str))
+                    {
                         return sr.ReadToEnd();
+                    }
                 }
             }
             catch (WebException wex)
             {
-                using (HttpWebResponse response = (HttpWebResponse)wex.Response)
+                using (var response = (HttpWebResponse) wex.Response)
                 {
                     if (response == null)
                         throw;
 
-                    Stream str = response.GetResponseStream();
-                    using (StreamReader sr = new StreamReader(str))
+                    var str = response.GetResponseStream();
+                    using (var sr = new StreamReader(str))
                     {
                         if (response.StatusCode != HttpStatusCode.InternalServerError)
                             throw;
@@ -121,46 +130,48 @@ namespace Poseidon
             RateLimit();
 
             // generate a 64 bit nonce using a timestamp at tick resolution
-            Int64 nonce = DateTime.UtcNow.Ticks;
+            var nonce = DateTime.UtcNow.Ticks;
 
-            string postData = BuildPostData(param);
-            if (!String.IsNullOrEmpty(postData))
+            var postData = BuildPostData(param);
+            if (!string.IsNullOrEmpty(postData))
                 postData = "&" + postData;
             postData = "nonce=" + nonce + postData;
 
-            string path = string.Format(CultureInfo.InvariantCulture, "/{0}/private/{1}", _version, method);
-            string address = _url + path;
-            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(address);
+            var path = string.Format(CultureInfo.InvariantCulture, "/{0}/private/{1}", _version, method);
+            var address = _url + path;
+            var webRequest = (HttpWebRequest) WebRequest.Create(address);
             webRequest.ContentType = "application/x-www-form-urlencoded";
             webRequest.Method = "POST";
 
             AddHeaders(webRequest, nonce, postData, path);
 
             if (postData != null)
-            {
                 using (var writer = new StreamWriter(webRequest.GetRequestStream()))
+                {
                     writer.Write(postData);
-            }
+                }
 
             //Make the request
             try
             {
-                using (WebResponse webResponse = webRequest.GetResponse())
+                using (var webResponse = webRequest.GetResponse())
                 {
-                    Stream str = webResponse.GetResponseStream();
-                    using (StreamReader sr = new StreamReader(str))
+                    var str = webResponse.GetResponseStream();
+                    using (var sr = new StreamReader(str))
+                    {
                         return sr.ReadToEnd();
+                    }
                 }
             }
             catch (WebException wex)
             {
-                using (HttpWebResponse response = (HttpWebResponse)wex.Response)
+                using (var response = (HttpWebResponse) wex.Response)
                 {
-                    Stream str = response.GetResponseStream();
+                    var str = response.GetResponseStream();
                     if (str == null)
                         throw;
 
-                    using (StreamReader sr = new StreamReader(str))
+                    using (var sr = new StreamReader(str))
                     {
                         if (response.StatusCode != HttpStatusCode.InternalServerError)
                             throw;
@@ -170,11 +181,11 @@ namespace Poseidon
             }
         }
 
-        private void AddHeaders(HttpWebRequest webRequest, Int64 nonce, string postData, string path)
+        private void AddHeaders(HttpWebRequest webRequest, long nonce, string postData, string path)
         {
             webRequest.Headers.Add("API-Key", _key);
 
-            byte[] base64DecodedSecred = Convert.FromBase64String(_secret);
+            var base64DecodedSecred = Convert.FromBase64String(_secret);
 
             var np = nonce + Convert.ToChar(0) + postData;
 
@@ -192,128 +203,113 @@ namespace Poseidon
         #region Public Market Data
 
         /// <summary>
-        /// Gets the server time.
+        ///     Gets the server time.
         /// </summary>
         /// <returns></returns>
         /// <exception cref="KrakenException"></exception>
-        public GetServerTimeResult GetServerTime()
+        public ServerTime GetServerTime()
         {
-            string res = QueryPublic("Time");
-            var ret = JsonConvert.DeserializeObject<GetServerTimeResponse>(res);
-            if (ret.Error.Count != 0)
-                throw new KrakenException(ret.Error[0], ret);
-            return ret.Result;
+            var res = QueryPublic("Time");
+            try
+            {
+                var ret = JsonConvert.DeserializeObject<ServerTime>(res);
+                return ret;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
         }
 
         /// <summary>
-        /// Gets the asset information.
+        ///     Gets the asset information.
         /// </summary>
         /// <param name="info">The information.</param>
         /// <param name="aclass">The aclass.</param>
         /// <param name="asset">The asset.</param>
         /// <returns></returns>
         /// <exception cref="KrakenException"></exception>
-        public Dictionary<string, AssetInfo> GetAssetInfo(string info = null, string aclass = null, string asset = null)
+        public AssetInfo GetAssetInfo()
         {
-            var param = new Dictionary<string, string>();
-            if (info != null)
-                param.Add("info", info);
-            if (aclass != null)
-                param.Add("aclass", aclass);
-            if (asset != null)
-                param.Add("asset", asset);
-
-            var res = QueryPublic("Assets", param);
-            var ret = JsonConvert.DeserializeObject<GetAssetInfoResponse>(res);
-            if (ret.Error.Count != 0)
-                throw new KrakenException(ret.Error[0], ret);
-            return ret.Result;
+            var res = QueryPublic("Assets");
+            try
+            {
+                var ret = JsonConvert.DeserializeObject<AssetInfo>(res);
+                return ret;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
         }
 
         /// <summary>
-        /// Gets the asset pairs.
-        ///
-        /// Note: If an asset pair is on a maker/taker fee schedule, the taker side is given in
-        /// "fees" and maker side in "fees_maker". For pairs not on maker/taker, they will only be given in "fees".
+        ///     Gets the asset pairs.
+        ///     Note: If an asset pair is on a maker/taker fee schedule, the taker side is given in
+        ///     "fees" and maker side in "fees_maker". For pairs not on maker/taker, they will only be given in "fees".
         /// </summary>
-        /// <param name="info">
-        /// info = all info (default)
-        /// leverage = leverage info
-        /// fees = fees schedule
-        /// margin = margin info</param>
-        /// <param name="pair">comma delimited list of asset pairs to get info on (optional.  default = all).</param>
         /// <returns></returns>
         /// <exception cref="KrakenException"></exception>
-        public Dictionary<string, AssetPair> GetAssetPairs(string info = null, string pair = null)
+        public AssetPairs GetAssetPairs()
         {
-            var param = new Dictionary<string, string>();
-            if (info != null)
-                param.Add("info", info);
-            if (pair != null)
-                param.Add("pair", pair);
-
-            var res = QueryPublic("AssetPairs", param);
-            var ret = JsonConvert.DeserializeObject<GetAssetPairsResponse>(res);
-            if (ret.Error.Count != 0)
-                throw new KrakenException(ret.Error[0], ret);
-            return ret.Result;
+            var res = QueryPublic("AssetPairs");
+            try
+            {
+                var ret = JsonConvert.DeserializeObject<AssetPairs>(res);
+                return ret;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
         }
 
         /// <summary>
-        /// Gets the ticker info.
+        ///     Gets the ticker info.
         /// </summary>
         /// <param name="pair">Comma delimited list of asset pairs to get info on</param>
-        public Dictionary<string, Ticker> GetTicker(string pair)
+        public Ticker GetTicker(string pair)
         {
             var param = new Dictionary<string, string>();
             param.Add("pair", pair);
-
             var res = QueryPublic("Ticker", param);
-            var ret = JsonConvert.DeserializeObject<GetTickerResponse>(res);
-            if (ret.Error.Count != 0)
-                throw new KrakenException(ret.Error[0], ret);
-            return ret.Result;
+            try
+            {
+                Program.WriteToFile(res);
+                var ret = JsonConvert.DeserializeObject<Ticker>(res);
+                return ret;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
         }
 
         /// <summary>
-        /// Gets the ohlc.
+        ///     Gets the ohlc.
         /// </summary>
         /// <param name="pair">The pair.</param>
-        /// <param name="interval">The interval.</param>
-        /// <param name="since">The since.</param>
-        public GetOHLCResult GetOHLC(string pair, int? interval = null, int? since = null)
+        public OHLCSet GetOHLC(string pair)
         {
             var param = new Dictionary<string, string>();
             param.Add("pair", pair);
-            if (interval != null)
-                param.Add("interval", interval.ToString());
-            if (since != null)
-                param.Add("since", since.ToString());
-
             var res = QueryPublic("OHLC", param);
 
             JObject obj = (JObject)JsonConvert.DeserializeObject(res);
-            JArray err = (JArray)obj["error"];
-            if (err.Count != 0)
-                throw new KrakenException(err[0].ToString(), JsonConvert.DeserializeObject<ResponseBase>(res));
-
             JObject result = obj["result"].Value<JObject>();
 
-            var ret = new GetOHLCResult();
-            ret.Pairs = new Dictionary<string, List<OHLC>>();
+            var ret = new OHLCSet();
+            ret.Pairs = new List<OHLC>();
 
             foreach (var o in result)
             {
-                if (o.Key == "last")
-                {
-                    ret.Last = o.Value.Value<long>();
-                }
-                else
-                {
-                    var ohlc = new List<OHLC>();
+                if (o.Key != "last") { 
                     foreach (var v in o.Value.ToObject<decimal[][]>())
-                        ohlc.Add(new OHLC() { Time = (int)v[0], Open = v[1], High = v[2], Low = v[3], Close = v[4], Vwap = v[5], Volume = v[6], Count = (int)v[7] });
-                    ret.Pairs.Add(o.Key, ohlc);
+                        ret.Pairs.Add(new OHLC() { Time = (int)v[0], Open = v[1], High = v[2], Low = v[3], Close = v[4], Vwap = v[5], Volume = v[6], Count = (int)v[7] });
                 }
             }
 
@@ -321,7 +317,7 @@ namespace Poseidon
         }
 
         /// <summary>
-        /// Gets the order book.
+        ///     Gets the order book.
         /// </summary>
         /// <param name="pair">The pair.</param>
         /// <param name="count">The count.</param>
@@ -340,7 +336,7 @@ namespace Poseidon
         }
 
         /// <summary>
-        /// Gets the recent trades.
+        ///     Gets the recent trades.
         /// </summary>
         /// <param name="pair">The pair.</param>
         /// <param name="since">The timestamp since when values should be returned.</param>
@@ -353,18 +349,17 @@ namespace Poseidon
 
             var res = QueryPublic("Trades", param);
 
-            JObject obj = (JObject)JsonConvert.DeserializeObject(res);
-            JArray err = (JArray)obj["error"];
+            var obj = (JObject) JsonConvert.DeserializeObject(res);
+            var err = (JArray) obj["error"];
             if (err.Count != 0)
                 throw new KrakenException(err[0].ToString(), JsonConvert.DeserializeObject<ResponseBase>(res));
 
-            JObject result = obj["result"].Value<JObject>();
+            var result = obj["result"].Value<JObject>();
 
             var ret = new GetRecentTradesResult();
             ret.Trades = new Dictionary<string, List<Trade>>();
 
             foreach (var o in result)
-            {
                 if (o.Key == "last")
                 {
                     ret.Last = o.Value.Value<long>();
@@ -373,11 +368,11 @@ namespace Poseidon
                 {
                     var trade = new List<Trade>();
 
-                    foreach (var v in (JArray)o.Value)
+                    foreach (var v in (JArray) o.Value)
                     {
-                        var a = (JArray)v;
+                        var a = (JArray) v;
 
-                        trade.Add(new Trade()
+                        trade.Add(new Trade
                         {
                             Price = a[0].Value<decimal>(),
                             Volume = a[1].Value<decimal>(),
@@ -390,16 +385,14 @@ namespace Poseidon
 
                     ret.Trades.Add(o.Key, trade);
                 }
-            }
 
             return ret;
         }
 
         /// <summary>
-        /// Gets the recent spread.
-        ///
-        /// Note: "since" is inclusive so any returned data with the same time as the
-        /// previous set should overwrite all of the previous set's entries at that time.
+        ///     Gets the recent spread.
+        ///     Note: "since" is inclusive so any returned data with the same time as the
+        ///     previous set should overwrite all of the previous set's entries at that time.
         /// </summary>
         /// <param name="pair">The pair.</param>
         /// <param name="since">The since.</param>
@@ -412,18 +405,17 @@ namespace Poseidon
 
             var res = QueryPublic("Spread", param);
 
-            JObject obj = (JObject)JsonConvert.DeserializeObject(res);
-            JArray err = (JArray)obj["error"];
+            var obj = (JObject) JsonConvert.DeserializeObject(res);
+            var err = (JArray) obj["error"];
             if (err.Count != 0)
                 throw new KrakenException(err[0].ToString(), JsonConvert.DeserializeObject<ResponseBase>(res));
 
-            JObject result = obj["result"].Value<JObject>();
+            var result = obj["result"].Value<JObject>();
 
             var ret = new GetRecentSpreadResult();
             ret.Spread = new Dictionary<string, List<SpreadItem>>();
 
             foreach (var o in result)
-            {
                 if (o.Key == "last")
                 {
                     ret.Last = o.Value.Value<long>();
@@ -432,11 +424,11 @@ namespace Poseidon
                 {
                     var trade = new List<SpreadItem>();
 
-                    foreach (var v in (JArray)o.Value)
+                    foreach (var v in (JArray) o.Value)
                     {
-                        var a = (JArray)v;
+                        var a = (JArray) v;
 
-                        trade.Add(new SpreadItem()
+                        trade.Add(new SpreadItem
                         {
                             Time = a[0].Value<int>(),
                             Bid = a[1].Value<decimal>(),
@@ -446,7 +438,6 @@ namespace Poseidon
 
                     ret.Spread.Add(o.Key, trade);
                 }
-            }
 
             return ret;
         }
@@ -456,7 +447,7 @@ namespace Poseidon
         #region Private User Data
 
         /// <summary>
-        /// Gets the account balance.
+        ///     Gets the account balance.
         /// </summary>
         /// <returns></returns>
         public Dictionary<string, decimal> GetAccountBalance()
@@ -469,7 +460,7 @@ namespace Poseidon
         }
 
         /// <summary>
-        /// Gets the trade balance.
+        ///     Gets the trade balance.
         /// </summary>
         /// <param name="aclass">The asset class (optional) currency (default)</param>
         /// <param name="asset">Base asset used to determine balance (default = ZUSD).</param>
@@ -491,7 +482,7 @@ namespace Poseidon
         }
 
         /// <summary>
-        /// Gets the open orders.
+        ///     Gets the open orders.
         /// </summary>
         /// <param name="trades">Whether or not to include trades in output (optional.  default = false).</param>
         /// <param name="userref">Restrict results to given user reference id (optional).</param>
@@ -506,12 +497,12 @@ namespace Poseidon
 
             var res = QueryPrivate("OpenOrders");
 
-            JObject obj = (JObject)JsonConvert.DeserializeObject(res);
-            JArray err = (JArray)obj["error"];
+            var obj = (JObject) JsonConvert.DeserializeObject(res);
+            var err = (JArray) obj["error"];
             if (err.Count != 0)
                 throw new KrakenException(err[0].ToString(), JsonConvert.DeserializeObject<ResponseBase>(res));
 
-            JObject open = obj["result"]["open"].Value<JObject>();
+            var open = obj["result"]["open"].Value<JObject>();
 
             var ret = new Dictionary<string, OrderInfo>();
             foreach (var o in open)
@@ -521,7 +512,7 @@ namespace Poseidon
         }
 
         /// <summary>
-        /// Gets the closed orders.
+        ///     Gets the closed orders.
         /// </summary>
         /// <param name="trades">Whether or not to include trades in output (optional.  default = false)</param>
         /// <param name="userref">Restrict results to given user reference id (optional).</param>
@@ -529,10 +520,11 @@ namespace Poseidon
         /// <param name="end">Ending unix timestamp or order tx id of results (optional.  inclusive).</param>
         /// <param name="ofs">Result offset.</param>
         /// <param name="closetime">
-        /// Which time to use (optional)
+        ///     Which time to use (optional)
         ///     open
         ///     close
-        ///     both(default).</param>
+        ///     both(default).
+        /// </param>
         /// <returns></returns>
         /// <exception cref="KrakenException"></exception>
         public Dictionary<string, OrderInfo> GetClosedOrders(
@@ -551,12 +543,12 @@ namespace Poseidon
 
             var res = QueryPrivate("ClosedOrders");
 
-            JObject obj = (JObject)JsonConvert.DeserializeObject(res);
-            JArray err = (JArray)obj["error"];
+            var obj = (JObject) JsonConvert.DeserializeObject(res);
+            var err = (JArray) obj["error"];
             if (err.Count != 0)
                 throw new KrakenException(err[0].ToString(), JsonConvert.DeserializeObject<ResponseBase>(res));
 
-            JObject open = obj["result"]["closed"].Value<JObject>();
+            var open = obj["result"]["closed"].Value<JObject>();
 
             var ret = new Dictionary<string, OrderInfo>();
             foreach (var o in open)
@@ -566,18 +558,18 @@ namespace Poseidon
         }
 
         /// <summary>
-        /// Queries the orders.
+        ///     Queries the orders.
         /// </summary>
         /// <param name="txid">Transaction ids to query info about (20 maximum).</param>
         /// <param name="trades">Whether or not to include trades in output (optional.  default = false).</param>
         /// <param name="userref">Restrict results to given user reference id (optional).</param>
         public Dictionary<string, OrderInfo> QueryOrder(string txid, bool? trades = null, string userref = null)
         {
-            return QueryOrders(new string[] { txid }, trades, userref);
+            return QueryOrders(new[] {txid}, trades, userref);
         }
 
         /// <summary>
-        /// Queries the orders.
+        ///     Queries the orders.
         /// </summary>
         /// <param name="txid">Transaction ids to query info about (20 maximum).</param>
         /// <param name="trades">Whether or not to include trades in output (optional.  default = false).</param>
@@ -589,7 +581,7 @@ namespace Poseidon
                 param.Add("trades", trades.ToString().ToLower());
             if (userref != null)
                 param.Add("userref", userref);
-            param.Add("txid", String.Join(",", txid));
+            param.Add("txid", string.Join(",", txid));
 
             var res = QueryPrivate("QueryOrders", param);
             var ret = JsonConvert.DeserializeObject<QueryOrdersResponse>(res);
@@ -599,14 +591,16 @@ namespace Poseidon
         }
 
         /// <summary>
-        /// Gets the trades history.
+        ///     Gets the trades history.
         /// </summary>
-        /// <param name="type">Type of trade (optional)
-        /// all = all types(default)
-        /// any position = any position(open or closed)
-        /// closed position = positions that have been closed
-        /// closing position = any trade closing all or part of a position
-        /// no position = non - positional trades</param>
+        /// <param name="type">
+        ///     Type of trade (optional)
+        ///     all = all types(default)
+        ///     any position = any position(open or closed)
+        ///     closed position = positions that have been closed
+        ///     closing position = any trade closing all or part of a position
+        ///     no position = non - positional trades
+        /// </param>
         /// <param name="trades">Whether or not to include trades related to position in output (optional.  default = false).</param>
         /// <param name="start">Starting unix timestamp or trade tx id of results (optional.  exclusive).</param>
         /// <param name="end">Ending unix timestamp or trade tx id of results (optional.  inclusive).</param>
@@ -634,17 +628,17 @@ namespace Poseidon
         }
 
         /// <summary>
-        /// Queries the trades.
+        ///     Queries the trades.
         /// </summary>
         /// <param name="txid">Transaction id to query info about.</param>
         /// <param name="trades">Whether or not to include trades related to position in output (optional.  default = false).</param>
         public Dictionary<string, TradeInfo> QueryTrades(string txid, bool? trades = null)
         {
-            return QueryTrades(new string[] { txid }, trades);
+            return QueryTrades(new[] {txid}, trades);
         }
 
         /// <summary>
-        /// Queries the trades.
+        ///     Queries the trades.
         /// </summary>
         /// <param name="txid">Transaction ids to query info about (20 maximum).</param>
         /// <param name="trades">Whether or not to include trades related to position in output (optional.  default = false).</param>
@@ -653,7 +647,7 @@ namespace Poseidon
             var param = new Dictionary<string, string>();
             if (trades != null)
                 param.Add("trades", trades.ToString().ToLower());
-            param.Add("txid", String.Join(",", txid));
+            param.Add("txid", string.Join(",", txid));
 
             var res = QueryPrivate("QueryTrades", param);
             var ret = JsonConvert.DeserializeObject<QueryTradesResponse>(res);
@@ -663,7 +657,7 @@ namespace Poseidon
         }
 
         /// <summary>
-        /// Gets the open positions.
+        ///     Gets the open positions.
         /// </summary>
         /// <param name="txid">Transaction ids to restrict output to.</param>
         /// <param name="docalcs">Whether or not to include profit/loss calculations (optional.  default = false).</param>
@@ -672,7 +666,7 @@ namespace Poseidon
             var param = new Dictionary<string, string>();
             if (docalcs != null)
                 param.Add("docalcs", docalcs.ToString().ToLower());
-            param.Add("txid", String.Join(",", txid));
+            param.Add("txid", string.Join(",", txid));
 
             var res = QueryPrivate("OpenPositions", param);
             var ret = JsonConvert.DeserializeObject<GetOpenPositionsResponse>(res);
@@ -682,19 +676,20 @@ namespace Poseidon
         }
 
         /// <summary>
-        /// Gets the ledgers.
+        ///     Gets the ledgers.
         /// </summary>
         /// <param name="aclass">
-        /// asset class (optional):
-        /// currency(default).</param>
+        ///     asset class (optional):
+        ///     currency(default).
+        /// </param>
         /// <param name="asset">List of assets to restrict output to (optional.  default = all).</param>
         /// <param name="type">
-        /// type of ledger to retrieve (optional):
-        /// all(default)
-        /// deposit
-        /// withdrawal
-        /// trade
-        /// margin
+        ///     type of ledger to retrieve (optional):
+        ///     all(default)
+        ///     deposit
+        ///     withdrawal
+        ///     trade
+        ///     margin
         /// </param>
         /// <param name="start">Starting unix timestamp or ledger id of results (optional.  exclusive).</param>
         /// <param name="end">Ending unix timestamp or ledger id of results (optional.  inclusive).</param>
@@ -711,7 +706,7 @@ namespace Poseidon
             if (aclass != null)
                 param.Add("aclass", aclass);
             if (asset != null)
-                param.Add("asset", String.Join(",", asset));
+                param.Add("asset", string.Join(",", asset));
             if (type != null)
                 param.Add("type", type);
             if (start != null)
@@ -729,13 +724,13 @@ namespace Poseidon
         }
 
         /// <summary>
-        /// Queries the ledgers.
+        ///     Queries the ledgers.
         /// </summary>
         /// <param name="id">List of ledger ids to query info about (20 maximum).</param>
         public Dictionary<string, LedgerInfo> QueryLedgers(IEnumerable<string> id)
         {
             var param = new Dictionary<string, string>();
-            param.Add("id", String.Join(",", id));
+            param.Add("id", string.Join(",", id));
 
             var res = QueryPrivate("QueryLedgers", param);
             var ret = JsonConvert.DeserializeObject<QueryLedgersResponse>(res);
@@ -745,7 +740,7 @@ namespace Poseidon
         }
 
         /// <summary>
-        /// Gets the trade volume.
+        ///     Gets the trade volume.
         /// </summary>
         /// <param name="pair">List of asset pairs to get fee info on (optional).</param>
         /// <param name="feeInfo">Whether or not to include fee info in results (optional).</param>
@@ -753,7 +748,7 @@ namespace Poseidon
         {
             var param = new Dictionary<string, string>();
             if (pair != null)
-                param.Add("pair", String.Join(",", pair));
+                param.Add("pair", string.Join(",", pair));
             if (feeInfo != null)
                 param.Add("fee-info", feeInfo.ToString().ToLower());
 
@@ -805,17 +800,17 @@ namespace Poseidon
                 throw new KrakenException(ret.Error[0], ret);
 
             order.Txid = ret.Result.Txid.Select(x => x).ToArray();
-            order.Descr = new AddOrderDescr() { Order = ret.Result.Descr.Order, Close = ret.Result.Descr.Close };
+            order.Descr = new AddOrderDescr {Order = ret.Result.Descr.Order, Close = ret.Result.Descr.Close};
 
             return ret.Result;
         }
 
         /// <summary>
-        /// Cancels the order.
+        ///     Cancels the order.
         /// </summary>
         /// <param name="txid">
-        /// Transaction id.
-        /// Note: txid may be a user reference id.
+        ///     Transaction id.
+        ///     Note: txid may be a user reference id.
         /// </param>
         public CancelOrderResult CancelOrder(string txid)
         {
@@ -834,11 +829,12 @@ namespace Poseidon
         #region Private User Funding
 
         /// <summary>
-        /// Gets the deposit methods.
+        ///     Gets the deposit methods.
         /// </summary>
         /// <param name="aclass">
-        /// Asset class (optional):
-        /// currency(default).</param>
+        ///     Asset class (optional):
+        ///     currency(default).
+        /// </param>
         /// <param name="asset">Asset being deposited.</param>
         public GetDepositMethodsResult[] GetDepositMethods(string aclass = null, string asset = null)
         {
@@ -856,13 +852,14 @@ namespace Poseidon
         }
 
         /// <summary>
-        /// Gets the deposit addresses.
+        ///     Gets the deposit addresses.
         /// </summary>
         /// <param name="asset">Asset being deposited.</param>
         /// <param name="method">Name of the deposit method.</param>
         /// <param name="aclass">
-        /// Asset class (optional):
-        /// currency(default).</param>
+        ///     Asset class (optional):
+        ///     currency(default).
+        /// </param>
         /// <param name="new">Whether or not to generate a new address (optional.  default = false).</param>
         public GetDepositAddressesResult GetDepositAddresses(string asset, string method, string aclass = null, bool? @new = null)
         {
@@ -882,12 +879,14 @@ namespace Poseidon
         }
 
         /// <summary>
-        /// Gets the deposit status.
+        ///     Gets the deposit status.
         /// </summary>
         /// <param name="asset">Asset being deposited.</param>
         /// <param name="method">Name of the deposit method.</param>
-        /// <param name="aclass">Asset class (optional):
-        /// currency(default).</param>
+        /// <param name="aclass">
+        ///     Asset class (optional):
+        ///     currency(default).
+        /// </param>
         /// <returns></returns>
         public GetDepositStatusResult[] GetDepositStatus(string asset, string method, string aclass = null)
         {
@@ -905,13 +904,15 @@ namespace Poseidon
         }
 
         /// <summary>
-        /// Gets the withdraw information.
+        ///     Gets the withdraw information.
         /// </summary>
         /// <param name="asset">Asset being withdrawn.</param>
         /// <param name="key">Withdrawal key name, as set up on your account.</param>
         /// <param name="amount">Amount to withdraw.</param>
-        /// <param name="aclass">Asset class (optional):
-        /// currency(default).</param>
+        /// <param name="aclass">
+        ///     Asset class (optional):
+        ///     currency(default).
+        /// </param>
         /// <returns></returns>
         public GetWithdrawInfoResult GetWithdrawInfo(string asset, string key, decimal amount, string aclass = null)
         {
@@ -930,13 +931,15 @@ namespace Poseidon
         }
 
         /// <summary>
-        /// Withdraws the specified asset.
+        ///     Withdraws the specified asset.
         /// </summary>
         /// <param name="asset">Asset being withdrawn.</param>
         /// <param name="key">Withdrawal key name, as set up on your account.</param>
         /// <param name="amount">Amount to withdraw.</param>
-        /// <param name="aclass">Asset class (optional):
-        /// currency(default).</param>
+        /// <param name="aclass">
+        ///     Asset class (optional):
+        ///     currency(default).
+        /// </param>
         /// <returns>The reference id.</returns>
         public string Withdraw(string asset, string key, decimal amount, string aclass = null)
         {
@@ -955,12 +958,14 @@ namespace Poseidon
         }
 
         /// <summary>
-        /// Gets the withdraw status.
+        ///     Gets the withdraw status.
         /// </summary>
         /// <param name="asset">Asset being withdrawn.</param>
         /// <param name="method">Withdrawal method name (optional).</param>
-        /// <param name="aclass">Asset class (optional):
-        /// currency(default).</param>
+        /// <param name="aclass">
+        ///     Asset class (optional):
+        ///     currency(default).
+        /// </param>
         /// <returns></returns>
         public GetWithdrawStatusResult GetWithdrawStatus(string asset, string method, string aclass = null)
         {
@@ -978,15 +983,16 @@ namespace Poseidon
         }
 
         /// <summary>
-        /// Cancel the withdrawal.
-        ///
-        /// Note: Cancelation cannot be guaranteed. This will put in a cancelation request.
-        /// Depending upon how far along the withdrawal process is, it may not be possible to cancel the withdrawal.
+        ///     Cancel the withdrawal.
+        ///     Note: Cancelation cannot be guaranteed. This will put in a cancelation request.
+        ///     Depending upon how far along the withdrawal process is, it may not be possible to cancel the withdrawal.
         /// </summary>
         /// <param name="asset">Asset being withdrawn.</param>
         /// <param name="refid">Withdrawal reference id.</param>
-        /// <param name="aclass">Asset class (optional):
-        /// currency(default).</param>
+        /// <param name="aclass">
+        ///     Asset class (optional):
+        ///     currency(default).
+        /// </param>
         public bool WithdrawCancel(string asset, string refid, string aclass = null)
         {
             var param = new Dictionary<string, string>();
@@ -1006,33 +1012,37 @@ namespace Poseidon
 
         #region Helper methods
 
-        private byte[] sha256_hash(String value)
+        private byte[] sha256_hash(string value)
         {
-            using (SHA256 hash = SHA256Managed.Create())
+            using (var hash = SHA256.Create())
+            {
                 return hash.ComputeHash(Encoding.UTF8.GetBytes(value));
+            }
         }
 
         private byte[] getHash(byte[] keyByte, byte[] messageBytes)
         {
             using (var hmacsha512 = new HMACSHA512(keyByte))
+            {
                 return hmacsha512.ComputeHash(messageBytes);
+            }
         }
 
         #endregion Helper methods
 
         #region Rate limiter
 
-        private long lastTicks = 0;
-        private object thisLock = new object();
+        private long lastTicks;
+        private readonly object thisLock = new object();
 
         private void RateLimit()
         {
             lock (thisLock)
             {
-                long elapsedTicks = DateTime.Now.Ticks - lastTicks;
-                TimeSpan elapsedSpan = new TimeSpan(elapsedTicks);
+                var elapsedTicks = DateTime.Now.Ticks - lastTicks;
+                var elapsedSpan = new TimeSpan(elapsedTicks);
                 if (elapsedSpan.TotalMilliseconds < _rateLimitMilliseconds)
-                    Thread.Sleep(_rateLimitMilliseconds - (int)elapsedSpan.TotalMilliseconds);
+                    Thread.Sleep(_rateLimitMilliseconds - (int) elapsedSpan.TotalMilliseconds);
                 lastTicks = DateTime.Now.Ticks;
             }
         }

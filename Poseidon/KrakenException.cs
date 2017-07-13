@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Runtime.Serialization;
-using Poseidon.Models;
+using Poseidon.Models.Old;
 
 namespace Poseidon
 {
     [Serializable]
     public class KrakenException : Exception
     {
-        public ResponseBase Response { get; }
-
         public KrakenException()
         {
         }
@@ -29,6 +27,8 @@ namespace Poseidon
         protected KrakenException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
+
+        public ResponseBase Response { get; }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using Poseidon.Models;
 
 namespace Poseidon
 {
@@ -18,11 +16,11 @@ namespace Poseidon
             CheckKeyFile();
             LoadKeys();
 
-            Kraken kraken = new Kraken(KEY, SIGNATURE);
+            var kraken = new Kraken(KEY, SIGNATURE);
             Console.WriteLine("Login Successful");
             Console.WriteLine(kraken.GetServerTime().result.rfc1123);
 
-            OHLCSet ohlc = kraken.GetOHLC(kraken.GetAssetPairs().result.GNOUSD.altname);
+            var ohlc = kraken.GetOHLC(kraken.GetAssetPairs().result.GNOUSD.altname);
             Console.WriteLine(ohlc.Pairs[0].Time);
 
             Console.ReadLine();
@@ -56,14 +54,10 @@ namespace Poseidon
             {
                 var line = sr.ReadLine();
                 if (line.Substring(0, 4) == "KEY=")
-                {
                     KEY = line.Substring(4);
-                }
                 line = sr.ReadLine();
                 if (line.Substring(0, 10) == "SIGNATURE=")
-                {
                     SIGNATURE = line.Substring(10);
-                }
             }
         }
 

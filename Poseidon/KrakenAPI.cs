@@ -299,19 +299,16 @@ namespace Poseidon
             param.Add("pair", pair);
             var res = QueryPublic("OHLC", param);
 
-            JObject obj = (JObject)JsonConvert.DeserializeObject(res);
-            JObject result = obj["result"].Value<JObject>();
+            var obj = (JObject) JsonConvert.DeserializeObject(res);
+            var result = obj["result"].Value<JObject>();
 
             var ret = new OHLCSet();
             ret.Pairs = new List<OHLC>();
 
             foreach (var o in result)
-            {
-                if (o.Key != "last") { 
+                if (o.Key != "last")
                     foreach (var v in o.Value.ToObject<decimal[][]>())
-                        ret.Pairs.Add(new OHLC() { Time = (int)v[0], Open = v[1], High = v[2], Low = v[3], Close = v[4], Vwap = v[5], Volume = v[6], Count = (int)v[7] });
-                }
-            }
+                        ret.Pairs.Add(new OHLC {Time = (int) v[0], Open = v[1], High = v[2], Low = v[3], Close = v[4], Vwap = v[5], Volume = v[6], Count = (int) v[7]});
 
             return ret;
         }

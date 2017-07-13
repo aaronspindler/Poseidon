@@ -1341,6 +1341,5 @@
             public int margin_call { get; set; }
             public int margin_stop { get; set; }
         }
-
     }
 }

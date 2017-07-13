@@ -52,12 +52,12 @@
         /// </summary>
         public string Txid;
 
-        //onhold = withdrawal is on hold pending review.
-        //return = a return transaction initiated by Kraken; it cannot be canceled.
-        //cancel-denied = cancelation requested but was denied.
-        //canceled = canceled.
-        //cancel-pending = cancelation requested.
-
         //status-prop = additional status properties(if available).
+        //cancel-pending = cancelation requested.
+        //canceled = canceled.
+        //cancel-denied = cancelation requested but was denied.
+        //return = a return transaction initiated by Kraken; it cannot be canceled.
+
+        //onhold = withdrawal is on hold pending review.
     }
 }

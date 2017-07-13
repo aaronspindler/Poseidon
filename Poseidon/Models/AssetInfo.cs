@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Poseidon.Models
+﻿namespace Poseidon.Models
 {
-
     public class AssetInfo
     {
         public object[] error { get; set; }
@@ -249,6 +242,5 @@ namespace Poseidon.Models
             public int decimals { get; set; }
             public int display_decimals { get; set; }
         }
-
     }
 }

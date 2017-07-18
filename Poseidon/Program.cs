@@ -12,6 +12,7 @@ namespace Poseidon
 
         private static void Main(string[] args)
         {
+            Console.Title = "Poseidon";
             Console.WriteLine("Poseidon: " + Assembly.GetEntryAssembly().GetName().Version);
 
             CheckKeyFile();

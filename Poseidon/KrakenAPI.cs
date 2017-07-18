@@ -30,6 +30,7 @@ using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
+using System.Xml;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Poseidon.Models;
@@ -276,10 +277,51 @@ namespace Poseidon
             var param = new Dictionary<string, string>();
             param.Add("pair", pair);
             var res = QueryPublic("Ticker", param);
+            Program.WriteToFile(res);
+            Ticker ret = new Ticker();
             try
             {
-                Program.WriteToFile(res);
-                var ret = JsonConvert.DeserializeObject<Ticker>(res);
+                var obj = (JObject)JsonConvert.DeserializeObject(res);
+                var result = obj["result"].Value<JObject>();
+                var pairLevel = result[pair].Value<JObject>();
+
+                var ask = pairLevel["a"].Value<JArray>().ToArray();
+                ret.ask.price = (decimal) ask[0];
+                ret.ask.wholeVolume = (decimal) ask[1];
+                ret.ask.volume = (decimal) ask[2];
+
+                var bid = pairLevel["b"].Value<JArray>();
+                ret.bid.price = (decimal) bid[0];
+                ret.bid.wholeVolume = (decimal) bid[1];
+                ret.bid.volume = (decimal) bid[2];
+
+                var lastClosed = pairLevel["c"].Value<JArray>();
+                ret.lastClosed.price = (decimal) lastClosed[0];
+                ret.lastClosed.volume = (decimal) lastClosed[1];
+
+                var volume = pairLevel["v"].Value<JArray>();
+                ret.volume.today = (decimal) volume[0];
+                ret.volume.last24hours = (decimal) volume[1];
+
+                var volumeWeightedByPrice = pairLevel["p"].Value<JArray>();
+                ret.volumeWeightedByPrice.today = (decimal) volumeWeightedByPrice[0];
+                ret.volumeWeightedByPrice.last24hours = (decimal) volumeWeightedByPrice[1];
+
+                var numTrades = pairLevel["t"].Value<JArray>();
+                ret.numTrades.today = (decimal) numTrades[0];
+                ret.numTrades.last24hours = (decimal) numTrades[1];
+
+                var low = pairLevel["l"].Value<JArray>();
+                ret.low.today = (decimal) low[0];
+                ret.low.last24hours = (decimal) low[1];
+
+                var high = pairLevel["h"].Value<JArray>();
+                ret.high.today = (decimal) high[0];
+                ret.high.last24hours = (decimal) high[1];
+
+                var opening = pairLevel["o"].Value<String>();
+                ret.opening = Convert.ToDecimal(opening);
+
                 return ret;
             }
             catch (Exception ex)
@@ -303,13 +345,21 @@ namespace Poseidon
             var result = obj["result"].Value<JObject>();
 
             var ret = new OHLCSet();
-            ret.Pairs = new List<OHLC>();
+            try
+            {
+                ret.Pairs = new List<OHLC>();
 
-            foreach (var o in result)
-                if (o.Key != "last")
-                    foreach (var v in o.Value.ToObject<decimal[][]>())
-                        ret.Pairs.Add(new OHLC {Time = (int) v[0], Open = v[1], High = v[2], Low = v[3], Close = v[4], Vwap = v[5], Volume = v[6], Count = (int) v[7]});
+                foreach (var o in result)
+                    if (o.Key != "last")
+                        foreach (var v in o.Value.ToObject<decimal[][]>())
+                            ret.Pairs.Add(new OHLC {Time = (int) v[0], Open = v[1], High = v[2], Low = v[3], Close = v[4], Vwap = v[5], Volume = v[6], Count = (int) v[7]});
 
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
             return ret;
         }
 
@@ -318,7 +368,7 @@ namespace Poseidon
         /// </summary>
         /// <param name="pair">The pair.</param>
         /// <param name="count">The count.</param>
-        public Dictionary<string, OrderBook> GetOrderBook(string pair, int? count = null)
+        public OrderBook GetOrderBook(string pair, int? count = null)
         {
             var param = new Dictionary<string, string>();
             param.Add("pair", pair);
@@ -326,25 +376,86 @@ namespace Poseidon
                 param.Add("count", count.ToString());
 
             var res = QueryPublic("Depth", param);
-            var ret = JsonConvert.DeserializeObject<GetOrderBookResponse>(res);
-            if (ret.Error.Count != 0)
-                throw new KrakenException(ret.Error[0], ret);
-            return ret.Result;
+            var obj = (JObject)JsonConvert.DeserializeObject(res);
+
+            var ret = new OrderBook();
+            try
+            {
+                ret.asks = new List<OrderBookOrder>();
+                ret.bids = new List<OrderBookOrder>();
+
+                var result = obj["result"].Value<JObject>();
+                var pairLevel = result[pair].Value<JObject>();
+
+                var asks = pairLevel["asks"].Value<JArray>();
+
+                foreach (var o in asks)
+                {
+                    int j = 0;
+                    OrderBookOrder order = new OrderBookOrder();
+                    foreach (var i in o)
+                    {
+                        if (j == 0)
+                        {
+                            order.price = (decimal) i;
+                        }
+                        else if (j == 1)
+                        {
+                            order.volume = (decimal) i;
+                        }else if (j == 2)
+                        {
+                            order.timestamp = (decimal) i;
+                        }
+                        j++;
+                    }
+                    ret.asks.Add(order);
+                }
+            
+                var bids = pairLevel["bids"].Value<JArray>();
+
+                foreach (var o in bids)
+                {
+                    int j = 0;
+                    OrderBookOrder order = new OrderBookOrder();
+                    foreach (var i in o)
+                    {
+                        if (j == 0)
+                        {
+                            order.price = (decimal)i;
+                        }
+                        else if (j == 1)
+                        {
+                            order.volume = (decimal)i;
+                        }
+                        else if (j == 2)
+                        {
+                            order.timestamp = (decimal)i;
+                        }
+                        j++;
+                    }
+                    ret.bids.Add(order);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
+
+            return ret;
         }
 
         /// <summary>
         ///     Gets the recent trades.
         /// </summary>
         /// <param name="pair">The pair.</param>
-        /// <param name="since">The timestamp since when values should be returned.</param>
-        public GetRecentTradesResult GetRecentTrades(string pair, int? since = null)
+        public GetRecentTradesResult GetRecentTrades(string pair)
         {
             var param = new Dictionary<string, string>();
             param.Add("pair", pair);
-            if (since != null)
-                param.Add("since", since.ToString());
 
             var res = QueryPublic("Trades", param);
+            Program.WriteToFile(res);
 
             var obj = (JObject) JsonConvert.DeserializeObject(res);
             var err = (JArray) obj["error"];

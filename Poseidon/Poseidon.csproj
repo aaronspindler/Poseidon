@@ -52,12 +52,17 @@
     <StartupObject>Poseidon.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Colorful.Console, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Colorful.Console.1.1.2\lib\net45\Colorful.Console.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -85,7 +90,6 @@
     <Compile Include="Models\Old\GetLedgerResponse.cs" />
     <Compile Include="Models\Old\GetLedgerResult.cs" />
     <Compile Include="Models\Old\GetOpenPositionsResponse.cs" />
-    <Compile Include="Models\Old\GetOrderBookResponse.cs" />
     <Compile Include="Models\Old\GetRecentSpreadResult.cs" />
     <Compile Include="Models\Old\GetRecentTradesResult.cs" />
     <Compile Include="Models\Old\GetTradeBalanceResponse.cs" />
@@ -102,10 +106,13 @@
     <Compile Include="Models\Old\GetTickerResponse.cs" />
     <Compile Include="KrakenAPI.cs" />
     <Compile Include="KrakenException.cs" />
-    <Compile Include="Models\Old\OrderBook.cs" />
     <Compile Include="Models\Old\OrderDescription.cs" />
     <Compile Include="Models\Old\OrderInfo.cs" />
     <Compile Include="Models\OHLCSet.cs" />
+    <Compile Include="Models\OrderBook.cs" />
+    <Compile Include="Models\OrderBookOrder.cs" />
+    <Compile Include="Models\RecentTrade.cs" />
+    <Compile Include="Models\RecentTrades.cs" />
     <Compile Include="Models\ServerTime.cs" />
     <Compile Include="Models\Ticker.cs" />
     <Compile Include="PositionInfo.cs" />

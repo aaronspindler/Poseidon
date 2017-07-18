@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using Console = Colorful.Console;
 
 namespace Poseidon
 {
@@ -20,8 +21,8 @@ namespace Poseidon
             Console.WriteLine("Login Successful");
             Console.WriteLine(kraken.GetServerTime().result.rfc1123);
 
-            var ohlc = kraken.GetOHLC(kraken.GetAssetPairs().result.GNOUSD.altname);
-            Console.WriteLine(ohlc.Pairs[0].Time);
+            //var recent = kraken.GetRecentTrades(kraken.GetAssetPairs().result.GNOUSD.altname);
+            kraken.GetTicker(kraken.GetAssetPairs().result.GNOUSD.altname);
 
             Console.ReadLine();
         }

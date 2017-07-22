@@ -13,18 +13,13 @@ namespace Poseidon
         private static void Main(string[] args)
         {
             Console.Title = "Poseidon";
-            Console.WriteLine("Poseidon: " + Assembly.GetEntryAssembly().GetName().Version);
-
             CheckKeyFile();
             LoadKeys();
 
             var kraken = new Kraken(KEY, SIGNATURE);
-            Console.WriteLine("Login Successful");
             Console.WriteLine(kraken.GetServerTime().result.rfc1123);
 
             var balances = kraken.GetAccountBalance().balances;
-            Console.WriteLine("Account Balances");
-
             Console.WriteLine(balances.ToStringTable(new[] {"Currency", "Amount"}, a => a.Key, a => a.Value));
 
             Console.ReadLine();

@@ -440,7 +440,6 @@ namespace Poseidon
             param.Add("pair", pair);
 
             var res = QueryPublic("Trades", param);
-            Program.WriteToFile(res);
 
             var obj = (JObject) JsonConvert.DeserializeObject(res);
 
@@ -477,7 +476,6 @@ namespace Poseidon
             param.Add("pair", pair);
 
             var res = QueryPublic("Spread", param);
-            Program.WriteToFile(res);
 
             var obj = (JObject) JsonConvert.DeserializeObject(res);
 
@@ -506,13 +504,16 @@ namespace Poseidon
         ///     Gets the account balance.
         /// </summary>
         /// <returns></returns>
-        public Dictionary<string, decimal> GetAccountBalance()
+        public AccountBalance GetAccountBalance()
         {
             var res = QueryPrivate("Balance");
-            var ret = JsonConvert.DeserializeObject<GetBalanceResponse>(res);
-            if (ret.Error.Count != 0)
-                throw new KrakenException(ret.Error[0], ret);
-            return ret.Result;
+            var obj = (JObject) JsonConvert.DeserializeObject(res);
+            var ret = new AccountBalance();
+            ret.balances = new Dictionary<string, decimal>();
+
+            var temp = obj["result"].Value<JObject>();
+            ret.balances = temp.ToObject<Dictionary<String, decimal>>();
+            return ret;
         }
 
         /// <summary>

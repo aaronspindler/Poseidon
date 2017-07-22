@@ -71,6 +71,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\AccountBalance.cs" />
     <Compile Include="Models\AssetInfo.cs" />
     <Compile Include="Models\AssetPairs.cs" />
     <Compile Include="Models\OHLC.cs" />
@@ -80,7 +81,6 @@
     <Compile Include="Models\Old\CancelOrderResponse.cs" />
     <Compile Include="Models\Old\CancelOrderResult.cs" />
     <Compile Include="Models\Old\FeeInfo.cs" />
-    <Compile Include="Models\Old\GetBalanceResponse.cs" />
     <Compile Include="Models\Old\GetDepositAddressesResponse.cs" />
     <Compile Include="Models\Old\GetDepositAddressesResult.cs" />
     <Compile Include="Models\Old\GetDepositMethodsResponse.cs" />

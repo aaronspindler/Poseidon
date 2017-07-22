@@ -816,255 +816,255 @@ namespace Poseidon
         }
 
         #endregion Private User Data
-
-        #region Private User Trading
-
-        public AddOrderResult AddOrder(KrakenOrder order)
-        {
-            var param = new Dictionary<string, string>();
-            param.Add("pair", order.Pair);
-            param.Add("type", order.Type);
-            param.Add("ordertype", order.OrderType);
-            if (order.Price != null)
-                param.Add("price", order.Price.Value.ToString(CultureInfo.InvariantCulture));
-            if (order.Price2 != null)
-                param.Add("price2", order.Price2.Value.ToString(CultureInfo.InvariantCulture));
-            param.Add("volume", order.Volume.ToString(CultureInfo.InvariantCulture));
-            if (order.Leverage != null)
-                param.Add("leverage", order.Leverage.Value.ToString(CultureInfo.InvariantCulture));
-            if (order.OFlags != null)
-                param.Add("oflags", order.OFlags);
-            if (order.StartTm != null)
-                param.Add("starttm", order.StartTm.ToString());
-            if (order.ExpireTm != null)
-                param.Add("expiretm", order.ExpireTm.ToString());
-            if (order.UserRef != null)
-                param.Add("userref", order.UserRef.ToString());
-            if (order.Validate != null)
-                param.Add("validate", order.Validate.ToString().ToLower());
-
-            if (order.Close != null)
-            {
-                param.Add("close[ordertype]", order.Close["ordertype"]);
-                param.Add("close[price]", order.Close["price"]);
-                param.Add("close[price2]", order.Close["price2"]);
-            }
-
-            var res = QueryPrivate("AddOrder", param);
-            var ret = JsonConvert.DeserializeObject<AddOrderResponse>(res);
-            if (ret.Error.Count != 0)
-                throw new KrakenException(ret.Error[0], ret);
-
-            order.Txid = ret.Result.Txid.Select(x => x).ToArray();
-            order.Descr = new AddOrderDescr {Order = ret.Result.Descr.Order, Close = ret.Result.Descr.Close};
-
-            return ret.Result;
-        }
-
-        /// <summary>
-        ///     Cancels the order.
-        /// </summary>
-        /// <param name="txid">
-        ///     Transaction id.
-        ///     Note: txid may be a user reference id.
-        /// </param>
-        public CancelOrderResult CancelOrder(string txid)
-        {
-            var param = new Dictionary<string, string>();
-            param.Add("txid", txid);
-
-            var res = QueryPrivate("CancelOrder", param);
-            var ret = JsonConvert.DeserializeObject<CancelOrderResponse>(res);
-            if (ret.Error.Count != 0)
-                throw new KrakenException(ret.Error[0], ret);
-            return ret.Result;
-        }
-
-        #endregion Private User Trading
-
-        #region Private User Funding
-
-        /// <summary>
-        ///     Gets the deposit methods.
-        /// </summary>
-        /// <param name="aclass">
-        ///     Asset class (optional):
-        ///     currency(default).
-        /// </param>
-        /// <param name="asset">Asset being deposited.</param>
-        public GetDepositMethodsResult[] GetDepositMethods(string aclass = null, string asset = null)
-        {
-            var param = new Dictionary<string, string>();
-            if (aclass != null)
-                param.Add("aclass", aclass);
-            if (asset != null)
-                param.Add("asset", asset);
-
-            var res = QueryPrivate("DepositMethods", param);
-            var ret = JsonConvert.DeserializeObject<GetDepositMethodsResponse>(res);
-            if (ret.Error.Count != 0)
-                throw new KrakenException(ret.Error[0], ret);
-            return ret.Result;
-        }
-
-        /// <summary>
-        ///     Gets the deposit addresses.
-        /// </summary>
-        /// <param name="asset">Asset being deposited.</param>
-        /// <param name="method">Name of the deposit method.</param>
-        /// <param name="aclass">
-        ///     Asset class (optional):
-        ///     currency(default).
-        /// </param>
-        /// <param name="new">Whether or not to generate a new address (optional.  default = false).</param>
-        public GetDepositAddressesResult GetDepositAddresses(string asset, string method, string aclass = null, bool? @new = null)
-        {
-            var param = new Dictionary<string, string>();
-            param.Add("asset", asset);
-            param.Add("method", method);
-            if (aclass != null)
-                param.Add("aclass", aclass);
-            if (@new != null)
-                param.Add("new", @new.ToString().ToLower());
-
-            var res = QueryPrivate("DepositAddresses", param);
-            var ret = JsonConvert.DeserializeObject<GetDepositAddressesResponse>(res);
-            if (ret.Error.Count != 0)
-                throw new KrakenException(ret.Error[0], ret);
-            return ret.Result;
-        }
-
-        /// <summary>
-        ///     Gets the deposit status.
-        /// </summary>
-        /// <param name="asset">Asset being deposited.</param>
-        /// <param name="method">Name of the deposit method.</param>
-        /// <param name="aclass">
-        ///     Asset class (optional):
-        ///     currency(default).
-        /// </param>
-        /// <returns></returns>
-        public GetDepositStatusResult[] GetDepositStatus(string asset, string method, string aclass = null)
-        {
-            var param = new Dictionary<string, string>();
-            param.Add("asset", asset);
-            param.Add("method", method);
-            if (aclass != null)
-                param.Add("aclass", aclass);
-
-            var res = QueryPrivate("DepositStatus", param);
-            var ret = JsonConvert.DeserializeObject<GetDepositStatusResponse>(res);
-            if (ret.Error.Count != 0)
-                throw new KrakenException(ret.Error[0], ret);
-            return ret.Result;
-        }
-
-        /// <summary>
-        ///     Gets the withdraw information.
-        /// </summary>
-        /// <param name="asset">Asset being withdrawn.</param>
-        /// <param name="key">Withdrawal key name, as set up on your account.</param>
-        /// <param name="amount">Amount to withdraw.</param>
-        /// <param name="aclass">
-        ///     Asset class (optional):
-        ///     currency(default).
-        /// </param>
-        /// <returns></returns>
-        public GetWithdrawInfoResult GetWithdrawInfo(string asset, string key, decimal amount, string aclass = null)
-        {
-            var param = new Dictionary<string, string>();
-            param.Add("asset", asset);
-            param.Add("key", key);
-            param.Add("amount", amount.ToString(CultureInfo.InvariantCulture));
-            if (aclass != null)
-                param.Add("aclass", aclass);
-
-            var res = QueryPrivate("WithdrawInfo", param);
-            var ret = JsonConvert.DeserializeObject<GetWithdrawInfoResponse>(res);
-            if (ret.Error.Count != 0)
-                throw new KrakenException(ret.Error[0], ret);
-            return ret.Result;
-        }
-
-        /// <summary>
-        ///     Withdraws the specified asset.
-        /// </summary>
-        /// <param name="asset">Asset being withdrawn.</param>
-        /// <param name="key">Withdrawal key name, as set up on your account.</param>
-        /// <param name="amount">Amount to withdraw.</param>
-        /// <param name="aclass">
-        ///     Asset class (optional):
-        ///     currency(default).
-        /// </param>
-        /// <returns>The reference id.</returns>
-        public string Withdraw(string asset, string key, decimal amount, string aclass = null)
-        {
-            var param = new Dictionary<string, string>();
-            param.Add("asset", asset);
-            param.Add("key", key);
-            param.Add("amount", amount.ToString(CultureInfo.InvariantCulture));
-            if (aclass != null)
-                param.Add("aclass", aclass);
-
-            var res = QueryPrivate("Withdraw", param);
-            var ret = JsonConvert.DeserializeObject<WithdrawResponse>(res);
-            if (ret.Error.Count != 0)
-                throw new KrakenException(ret.Error[0], ret);
-            return ret.Result.RefId;
-        }
-
-        /// <summary>
-        ///     Gets the withdraw status.
-        /// </summary>
-        /// <param name="asset">Asset being withdrawn.</param>
-        /// <param name="method">Withdrawal method name (optional).</param>
-        /// <param name="aclass">
-        ///     Asset class (optional):
-        ///     currency(default).
-        /// </param>
-        /// <returns></returns>
-        public GetWithdrawStatusResult GetWithdrawStatus(string asset, string method, string aclass = null)
-        {
-            var param = new Dictionary<string, string>();
-            param.Add("asset", asset);
-            param.Add("method", method);
-            if (aclass != null)
-                param.Add("aclass", aclass);
-
-            var res = QueryPrivate("WithdrawStatus", param);
-            var ret = JsonConvert.DeserializeObject<GetWithdrawStatusResponse>(res);
-            if (ret.Error.Count != 0)
-                throw new KrakenException(ret.Error[0], ret);
-            return ret.Result;
-        }
-
-        /// <summary>
-        ///     Cancel the withdrawal.
-        ///     Note: Cancelation cannot be guaranteed. This will put in a cancelation request.
-        ///     Depending upon how far along the withdrawal process is, it may not be possible to cancel the withdrawal.
-        /// </summary>
-        /// <param name="asset">Asset being withdrawn.</param>
-        /// <param name="refid">Withdrawal reference id.</param>
-        /// <param name="aclass">
-        ///     Asset class (optional):
-        ///     currency(default).
-        /// </param>
-        public bool WithdrawCancel(string asset, string refid, string aclass = null)
-        {
-            var param = new Dictionary<string, string>();
-            param.Add("asset", asset);
-            param.Add("refid", refid);
-            if (aclass != null)
-                param.Add("aclass", aclass);
-
-            var res = QueryPrivate("WithdrawCancel", param);
-            var ret = JsonConvert.DeserializeObject<WithdrawCancelResponse>(res);
-            if (ret.Error.Count != 0)
-                throw new KrakenException(ret.Error[0], ret);
-            return ret.Result;
-        }
-
-        #endregion Private User Funding
+//
+//        #region Private User Trading
+//
+//        public AddOrderResult AddOrder(KrakenOrder order)
+//        {
+//            var param = new Dictionary<string, string>();
+//            param.Add("pair", order.Pair);
+//            param.Add("type", order.Type);
+//            param.Add("ordertype", order.OrderType);
+//            if (order.Price != null)
+//                param.Add("price", order.Price.Value.ToString(CultureInfo.InvariantCulture));
+//            if (order.Price2 != null)
+//                param.Add("price2", order.Price2.Value.ToString(CultureInfo.InvariantCulture));
+//            param.Add("volume", order.Volume.ToString(CultureInfo.InvariantCulture));
+//            if (order.Leverage != null)
+//                param.Add("leverage", order.Leverage.Value.ToString(CultureInfo.InvariantCulture));
+//            if (order.OFlags != null)
+//                param.Add("oflags", order.OFlags);
+//            if (order.StartTm != null)
+//                param.Add("starttm", order.StartTm.ToString());
+//            if (order.ExpireTm != null)
+//                param.Add("expiretm", order.ExpireTm.ToString());
+//            if (order.UserRef != null)
+//                param.Add("userref", order.UserRef.ToString());
+//            if (order.Validate != null)
+//                param.Add("validate", order.Validate.ToString().ToLower());
+//
+//            if (order.Close != null)
+//            {
+//                param.Add("close[ordertype]", order.Close["ordertype"]);
+//                param.Add("close[price]", order.Close["price"]);
+//                param.Add("close[price2]", order.Close["price2"]);
+//            }
+//
+//            var res = QueryPrivate("AddOrder", param);
+//            var ret = JsonConvert.DeserializeObject<AddOrderResponse>(res);
+//            if (ret.Error.Count != 0)
+//                throw new KrakenException(ret.Error[0], ret);
+//
+//            order.Txid = ret.Result.Txid.Select(x => x).ToArray();
+//            order.Descr = new AddOrderDescr {Order = ret.Result.Descr.Order, Close = ret.Result.Descr.Close};
+//
+//            return ret.Result;
+//        }
+//
+//        /// <summary>
+//        ///     Cancels the order.
+//        /// </summary>
+//        /// <param name="txid">
+//        ///     Transaction id.
+//        ///     Note: txid may be a user reference id.
+//        /// </param>
+//        public CancelOrderResult CancelOrder(string txid)
+//        {
+//            var param = new Dictionary<string, string>();
+//            param.Add("txid", txid);
+//
+//            var res = QueryPrivate("CancelOrder", param);
+//            var ret = JsonConvert.DeserializeObject<CancelOrderResponse>(res);
+//            if (ret.Error.Count != 0)
+//                throw new KrakenException(ret.Error[0], ret);
+//            return ret.Result;
+//        }
+//
+//        #endregion Private User Trading
+//
+//        #region Private User Funding
+//
+//        /// <summary>
+//        ///     Gets the deposit methods.
+//        /// </summary>
+//        /// <param name="aclass">
+//        ///     Asset class (optional):
+//        ///     currency(default).
+//        /// </param>
+//        /// <param name="asset">Asset being deposited.</param>
+//        public GetDepositMethodsResult[] GetDepositMethods(string aclass = null, string asset = null)
+//        {
+//            var param = new Dictionary<string, string>();
+//            if (aclass != null)
+//                param.Add("aclass", aclass);
+//            if (asset != null)
+//                param.Add("asset", asset);
+//
+//            var res = QueryPrivate("DepositMethods", param);
+//            var ret = JsonConvert.DeserializeObject<GetDepositMethodsResponse>(res);
+//            if (ret.Error.Count != 0)
+//                throw new KrakenException(ret.Error[0], ret);
+//            return ret.Result;
+//        }
+//
+//        /// <summary>
+//        ///     Gets the deposit addresses.
+//        /// </summary>
+//        /// <param name="asset">Asset being deposited.</param>
+//        /// <param name="method">Name of the deposit method.</param>
+//        /// <param name="aclass">
+//        ///     Asset class (optional):
+//        ///     currency(default).
+//        /// </param>
+//        /// <param name="new">Whether or not to generate a new address (optional.  default = false).</param>
+//        public GetDepositAddressesResult GetDepositAddresses(string asset, string method, string aclass = null, bool? @new = null)
+//        {
+//            var param = new Dictionary<string, string>();
+//            param.Add("asset", asset);
+//            param.Add("method", method);
+//            if (aclass != null)
+//                param.Add("aclass", aclass);
+//            if (@new != null)
+//                param.Add("new", @new.ToString().ToLower());
+//
+//            var res = QueryPrivate("DepositAddresses", param);
+//            var ret = JsonConvert.DeserializeObject<GetDepositAddressesResponse>(res);
+//            if (ret.Error.Count != 0)
+//                throw new KrakenException(ret.Error[0], ret);
+//            return ret.Result;
+//        }
+//
+//        /// <summary>
+//        ///     Gets the deposit status.
+//        /// </summary>
+//        /// <param name="asset">Asset being deposited.</param>
+//        /// <param name="method">Name of the deposit method.</param>
+//        /// <param name="aclass">
+//        ///     Asset class (optional):
+//        ///     currency(default).
+//        /// </param>
+//        /// <returns></returns>
+//        public GetDepositStatusResult[] GetDepositStatus(string asset, string method, string aclass = null)
+//        {
+//            var param = new Dictionary<string, string>();
+//            param.Add("asset", asset);
+//            param.Add("method", method);
+//            if (aclass != null)
+//                param.Add("aclass", aclass);
+//
+//            var res = QueryPrivate("DepositStatus", param);
+//            var ret = JsonConvert.DeserializeObject<GetDepositStatusResponse>(res);
+//            if (ret.Error.Count != 0)
+//                throw new KrakenException(ret.Error[0], ret);
+//            return ret.Result;
+//        }
+//
+//        /// <summary>
+//        ///     Gets the withdraw information.
+//        /// </summary>
+//        /// <param name="asset">Asset being withdrawn.</param>
+//        /// <param name="key">Withdrawal key name, as set up on your account.</param>
+//        /// <param name="amount">Amount to withdraw.</param>
+//        /// <param name="aclass">
+//        ///     Asset class (optional):
+//        ///     currency(default).
+//        /// </param>
+//        /// <returns></returns>
+//        public GetWithdrawInfoResult GetWithdrawInfo(string asset, string key, decimal amount, string aclass = null)
+//        {
+//            var param = new Dictionary<string, string>();
+//            param.Add("asset", asset);
+//            param.Add("key", key);
+//            param.Add("amount", amount.ToString(CultureInfo.InvariantCulture));
+//            if (aclass != null)
+//                param.Add("aclass", aclass);
+//
+//            var res = QueryPrivate("WithdrawInfo", param);
+//            var ret = JsonConvert.DeserializeObject<GetWithdrawInfoResponse>(res);
+//            if (ret.Error.Count != 0)
+//                throw new KrakenException(ret.Error[0], ret);
+//            return ret.Result;
+//        }
+//
+//        /// <summary>
+//        ///     Withdraws the specified asset.
+//        /// </summary>
+//        /// <param name="asset">Asset being withdrawn.</param>
+//        /// <param name="key">Withdrawal key name, as set up on your account.</param>
+//        /// <param name="amount">Amount to withdraw.</param>
+//        /// <param name="aclass">
+//        ///     Asset class (optional):
+//        ///     currency(default).
+//        /// </param>
+//        /// <returns>The reference id.</returns>
+//        public string Withdraw(string asset, string key, decimal amount, string aclass = null)
+//        {
+//            var param = new Dictionary<string, string>();
+//            param.Add("asset", asset);
+//            param.Add("key", key);
+//            param.Add("amount", amount.ToString(CultureInfo.InvariantCulture));
+//            if (aclass != null)
+//                param.Add("aclass", aclass);
+//
+//            var res = QueryPrivate("Withdraw", param);
+//            var ret = JsonConvert.DeserializeObject<WithdrawResponse>(res);
+//            if (ret.Error.Count != 0)
+//                throw new KrakenException(ret.Error[0], ret);
+//            return ret.Result.RefId;
+//        }
+//
+//        /// <summary>
+//        ///     Gets the withdraw status.
+//        /// </summary>
+//        /// <param name="asset">Asset being withdrawn.</param>
+//        /// <param name="method">Withdrawal method name (optional).</param>
+//        /// <param name="aclass">
+//        ///     Asset class (optional):
+//        ///     currency(default).
+//        /// </param>
+//        /// <returns></returns>
+//        public GetWithdrawStatusResult GetWithdrawStatus(string asset, string method, string aclass = null)
+//        {
+//            var param = new Dictionary<string, string>();
+//            param.Add("asset", asset);
+//            param.Add("method", method);
+//            if (aclass != null)
+//                param.Add("aclass", aclass);
+//
+//            var res = QueryPrivate("WithdrawStatus", param);
+//            var ret = JsonConvert.DeserializeObject<GetWithdrawStatusResponse>(res);
+//            if (ret.Error.Count != 0)
+//                throw new KrakenException(ret.Error[0], ret);
+//            return ret.Result;
+//        }
+//
+//        /// <summary>
+//        ///     Cancel the withdrawal.
+//        ///     Note: Cancelation cannot be guaranteed. This will put in a cancelation request.
+//        ///     Depending upon how far along the withdrawal process is, it may not be possible to cancel the withdrawal.
+//        /// </summary>
+//        /// <param name="asset">Asset being withdrawn.</param>
+//        /// <param name="refid">Withdrawal reference id.</param>
+//        /// <param name="aclass">
+//        ///     Asset class (optional):
+//        ///     currency(default).
+//        /// </param>
+//        public bool WithdrawCancel(string asset, string refid, string aclass = null)
+//        {
+//            var param = new Dictionary<string, string>();
+//            param.Add("asset", asset);
+//            param.Add("refid", refid);
+//            if (aclass != null)
+//                param.Add("aclass", aclass);
+//
+//            var res = QueryPrivate("WithdrawCancel", param);
+//            var ret = JsonConvert.DeserializeObject<WithdrawCancelResponse>(res);
+//            if (ret.Error.Count != 0)
+//                throw new KrakenException(ret.Error[0], ret);
+//            return ret.Result;
+//        }
+//
+//        #endregion Private User Funding
 
         #region Helper methods
 

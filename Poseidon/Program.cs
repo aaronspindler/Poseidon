@@ -22,6 +22,11 @@ namespace Poseidon
             Console.WriteLine("Login Successful");
             Console.WriteLine(kraken.GetServerTime().result.rfc1123);
 
+            var balances = kraken.GetAccountBalance().balances;
+            Console.WriteLine("Account Balances");
+
+            Console.WriteLine(balances.ToStringTable(new[] {"Currency", "Amount"}, a => a.Key, a => a.Value));
+
             Console.ReadLine();
         }
 

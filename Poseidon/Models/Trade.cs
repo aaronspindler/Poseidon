@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Poseidon.Models
+﻿namespace Poseidon.Models
 {
-    public class RecentTrade
+    public class Trade
     {
         public decimal price { get; set; }
         public decimal volume { get; set; }

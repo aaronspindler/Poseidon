@@ -30,7 +30,6 @@ using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
-using System.Xml;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Poseidon.Models;
@@ -278,10 +277,10 @@ namespace Poseidon
             param.Add("pair", pair);
             var res = QueryPublic("Ticker", param);
             Program.WriteToFile(res);
-            Ticker ret = new Ticker();
+            var ret = new Ticker();
             try
             {
-                var obj = (JObject)JsonConvert.DeserializeObject(res);
+                var obj = (JObject) JsonConvert.DeserializeObject(res);
                 var result = obj["result"].Value<JObject>();
                 var pairLevel = result[pair].Value<JObject>();
 
@@ -319,7 +318,7 @@ namespace Poseidon
                 ret.high.today = (decimal) high[0];
                 ret.high.last24hours = (decimal) high[1];
 
-                var opening = pairLevel["o"].Value<String>();
+                var opening = pairLevel["o"].Value<string>();
                 ret.opening = Convert.ToDecimal(opening);
 
                 return ret;
@@ -353,7 +352,6 @@ namespace Poseidon
                     if (o.Key != "last")
                         foreach (var v in o.Value.ToObject<decimal[][]>())
                             ret.Pairs.Add(new OHLC {Time = (int) v[0], Open = v[1], High = v[2], Low = v[3], Close = v[4], Vwap = v[5], Volume = v[6], Count = (int) v[7]});
-
             }
             catch (Exception ex)
             {
@@ -368,15 +366,13 @@ namespace Poseidon
         /// </summary>
         /// <param name="pair">The pair.</param>
         /// <param name="count">The count.</param>
-        public OrderBook GetOrderBook(string pair, int? count = null)
+        public OrderBook GetOrderBook(string pair)
         {
             var param = new Dictionary<string, string>();
             param.Add("pair", pair);
-            if (count != null)
-                param.Add("count", count.ToString());
 
             var res = QueryPublic("Depth", param);
-            var obj = (JObject)JsonConvert.DeserializeObject(res);
+            var obj = (JObject) JsonConvert.DeserializeObject(res);
 
             var ret = new OrderBook();
             try
@@ -391,46 +387,35 @@ namespace Poseidon
 
                 foreach (var o in asks)
                 {
-                    int j = 0;
-                    OrderBookOrder order = new OrderBookOrder();
+                    var j = 0;
+                    var order = new OrderBookOrder();
                     foreach (var i in o)
                     {
                         if (j == 0)
-                        {
                             order.price = (decimal) i;
-                        }
                         else if (j == 1)
-                        {
                             order.volume = (decimal) i;
-                        }else if (j == 2)
-                        {
+                        else if (j == 2)
                             order.timestamp = (decimal) i;
-                        }
                         j++;
                     }
                     ret.asks.Add(order);
                 }
-            
+
                 var bids = pairLevel["bids"].Value<JArray>();
 
                 foreach (var o in bids)
                 {
-                    int j = 0;
-                    OrderBookOrder order = new OrderBookOrder();
+                    var j = 0;
+                    var order = new OrderBookOrder();
                     foreach (var i in o)
                     {
                         if (j == 0)
-                        {
-                            order.price = (decimal)i;
-                        }
+                            order.price = (decimal) i;
                         else if (j == 1)
-                        {
-                            order.volume = (decimal)i;
-                        }
+                            order.volume = (decimal) i;
                         else if (j == 2)
-                        {
-                            order.timestamp = (decimal)i;
-                        }
+                            order.timestamp = (decimal) i;
                         j++;
                     }
                     ret.bids.Add(order);
@@ -449,7 +434,7 @@ namespace Poseidon
         ///     Gets the recent trades.
         /// </summary>
         /// <param name="pair">The pair.</param>
-        public GetRecentTradesResult GetRecentTrades(string pair)
+        public RecentTrades GetRecentTrades(string pair)
         {
             var param = new Dictionary<string, string>();
             param.Add("pair", pair);
@@ -458,41 +443,23 @@ namespace Poseidon
             Program.WriteToFile(res);
 
             var obj = (JObject) JsonConvert.DeserializeObject(res);
-            var err = (JArray) obj["error"];
-            if (err.Count != 0)
-                throw new KrakenException(err[0].ToString(), JsonConvert.DeserializeObject<ResponseBase>(res));
 
             var result = obj["result"].Value<JObject>();
+            var trades = result[pair].Value<JArray>();
 
-            var ret = new GetRecentTradesResult();
-            ret.Trades = new Dictionary<string, List<Trade>>();
-
-            foreach (var o in result)
-                if (o.Key == "last")
-                {
-                    ret.Last = o.Value.Value<long>();
-                }
-                else
-                {
-                    var trade = new List<Trade>();
-
-                    foreach (var v in (JArray) o.Value)
+            var ret = new RecentTrades();
+            ret.trades = new List<Trade>();
+            foreach (var t in trades)
+                ret.trades.Add(new Trade
                     {
-                        var a = (JArray) v;
-
-                        trade.Add(new Trade
-                        {
-                            Price = a[0].Value<decimal>(),
-                            Volume = a[1].Value<decimal>(),
-                            Time = a[2].Value<int>(),
-                            Side = a[3].Value<string>(),
-                            Type = a[4].Value<string>(),
-                            Misc = a[5].Value<string>()
-                        });
+                        price = t[0].Value<decimal>(),
+                        volume = t[1].Value<decimal>(),
+                        time = t[2].Value<decimal>(),
+                        buysell = t[3].Value<char>(),
+                        marketlimit = t[4].Value<char>(),
+                        misc = t[5].Value<string>()
                     }
-
-                    ret.Trades.Add(o.Key, trade);
-                }
+                );
 
             return ret;
         }
@@ -504,48 +471,29 @@ namespace Poseidon
         /// </summary>
         /// <param name="pair">The pair.</param>
         /// <param name="since">The since.</param>
-        public GetRecentSpreadResult GetRecentSpread(string pair, int? since = null)
+        public RecentSpread GetRecentSpread(string pair)
         {
             var param = new Dictionary<string, string>();
             param.Add("pair", pair);
-            if (since != null)
-                param.Add("since", since.ToString());
 
             var res = QueryPublic("Spread", param);
+            Program.WriteToFile(res);
 
             var obj = (JObject) JsonConvert.DeserializeObject(res);
-            var err = (JArray) obj["error"];
-            if (err.Count != 0)
-                throw new KrakenException(err[0].ToString(), JsonConvert.DeserializeObject<ResponseBase>(res));
 
             var result = obj["result"].Value<JObject>();
+            var spread = result[pair].Value<JArray>();
 
-            var ret = new GetRecentSpreadResult();
-            ret.Spread = new Dictionary<string, List<SpreadItem>>();
+            var ret = new RecentSpread();
+            ret.spread = new List<SpreadItem>();
 
-            foreach (var o in result)
-                if (o.Key == "last")
+            foreach (var s in spread)
+                ret.spread.Add(new SpreadItem
                 {
-                    ret.Last = o.Value.Value<long>();
-                }
-                else
-                {
-                    var trade = new List<SpreadItem>();
-
-                    foreach (var v in (JArray) o.Value)
-                    {
-                        var a = (JArray) v;
-
-                        trade.Add(new SpreadItem
-                        {
-                            Time = a[0].Value<int>(),
-                            Bid = a[1].Value<decimal>(),
-                            Ask = a[2].Value<decimal>()
-                        });
-                    }
-
-                    ret.Spread.Add(o.Key, trade);
-                }
+                    time = s[0].Value<decimal>(),
+                    ask = s[1].Value<decimal>(),
+                    bid = s[2].Value<decimal>()
+                });
 
             return ret;
         }

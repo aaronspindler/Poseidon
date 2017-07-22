@@ -52,9 +52,9 @@
         /// </summary>
         public string Txid;
 
-        // status-prop = additional status properties(if available)
+        //    onhold = deposit is on hold pending review
         //    return = a return transaction initiated by Kraken
 
-        //    onhold = deposit is on hold pending review
+        // status-prop = additional status properties(if available)
     }
 }

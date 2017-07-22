@@ -4,6 +4,6 @@ namespace Poseidon.Models
 {
     public class RecentTrades
     {
-        public List<RecentTrade> trades { get; set; }
+        public List<Trade> trades { get; set; }
     }
 }

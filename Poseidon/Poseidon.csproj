@@ -90,8 +90,6 @@
     <Compile Include="Models\Old\GetLedgerResponse.cs" />
     <Compile Include="Models\Old\GetLedgerResult.cs" />
     <Compile Include="Models\Old\GetOpenPositionsResponse.cs" />
-    <Compile Include="Models\Old\GetRecentSpreadResult.cs" />
-    <Compile Include="Models\Old\GetRecentTradesResult.cs" />
     <Compile Include="Models\Old\GetTradeBalanceResponse.cs" />
     <Compile Include="Models\Old\GetTradesHistoryResponse.cs" />
     <Compile Include="Models\Old\GetTradesHistoryResult.cs" />
@@ -111,7 +109,9 @@
     <Compile Include="Models\OHLCSet.cs" />
     <Compile Include="Models\OrderBook.cs" />
     <Compile Include="Models\OrderBookOrder.cs" />
-    <Compile Include="Models\RecentTrade.cs" />
+    <Compile Include="Models\RecentSpread.cs" />
+    <Compile Include="Models\SpreadItem.cs" />
+    <Compile Include="Models\Trade.cs" />
     <Compile Include="Models\RecentTrades.cs" />
     <Compile Include="Models\ServerTime.cs" />
     <Compile Include="Models\Ticker.cs" />
@@ -122,8 +122,6 @@
     <Compile Include="Models\Old\QueryLedgersResponse.cs" />
     <Compile Include="Models\Old\QueryOrdersResponse.cs" />
     <Compile Include="Models\Old\QueryTradesResponse.cs" />
-    <Compile Include="Models\Old\SpreadItem.cs" />
-    <Compile Include="Models\Old\Trade.cs" />
     <Compile Include="Models\Old\TradeBalanceInfo.cs" />
     <Compile Include="Models\Old\TradeInfo.cs" />
     <Compile Include="Models\Old\WithdrawCancelResponse.cs" />

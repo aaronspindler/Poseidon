@@ -2,15 +2,6 @@
 {
     public class Ticker
     {
-        public Ask ask { get; set; }
-        public Bid bid { get; set; }
-        public LastClosed lastClosed { get; set; }
-        public Volume volume { get; set; }
-        public VolumeWeightedByPrice volumeWeightedByPrice { get; set; }
-        public NumTrades numTrades { get; set; }
-        public Low low { get; set; }
-        public High high { get; set; }
-
         public Ticker()
         {
             ask = new Ask();
@@ -22,7 +13,18 @@
             low = new Low();
             high = new High();
         }
-      
+
+        public Ask ask { get; set; }
+        public Bid bid { get; set; }
+        public LastClosed lastClosed { get; set; }
+        public Volume volume { get; set; }
+        public VolumeWeightedByPrice volumeWeightedByPrice { get; set; }
+        public NumTrades numTrades { get; set; }
+        public Low low { get; set; }
+        public High high { get; set; }
+
+        public decimal opening { get; set; }
+
         public class Ask
         {
             public decimal price { get; set; }
@@ -72,7 +74,5 @@
             public decimal today { get; set; }
             public decimal last24hours { get; set; }
         }
-
-        public decimal opening { get; set; }
     }
 }

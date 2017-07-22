@@ -22,9 +22,6 @@ namespace Poseidon
             Console.WriteLine("Login Successful");
             Console.WriteLine(kraken.GetServerTime().result.rfc1123);
 
-            //var recent = kraken.GetRecentTrades(kraken.GetAssetPairs().result.GNOUSD.altname);
-            kraken.GetTicker(kraken.GetAssetPairs().result.GNOUSD.altname);
-
             Console.ReadLine();
         }
 
@@ -77,6 +74,13 @@ namespace Poseidon
                 sw.Write(text);
             }
             Console.WriteLine("File written");
+        }
+
+        public static string UNIXTimeToString(decimal unix)
+        {
+            var dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+            dtDateTime = dtDateTime.AddSeconds((double) unix).ToLocalTime();
+            return dtDateTime.ToString();
         }
     }
 }

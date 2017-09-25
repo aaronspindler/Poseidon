@@ -40,7 +40,7 @@ namespace Poseidon
     public class Kraken
     {
         private readonly string _key;
-        private readonly int _rateLimitMilliseconds = 500;
+        private readonly int _rateLimitMilliseconds;
         private readonly string _secret;
         private readonly string _url;
         private readonly int _version;
@@ -51,7 +51,7 @@ namespace Poseidon
         /// <param name="key">The API key.</param>
         /// <param name="secret">The API secret.</param>
         /// <param name="rateLimitMilliseconds">The rate limit in milliseconds.</param>
-        public Kraken(string key, string secret, int rateLimitMilliseconds = 5000)
+        public Kraken(string key, string secret, int rateLimitMilliseconds = 100)
         {
             _url = "https://api.kraken.com";
             _version = 0;

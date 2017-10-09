@@ -3,8 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="1f19de70-d40c-4eb7-af23-dccceac051c1" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/.idea.Poseidon/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/.idea.Poseidon/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/.idea.Poseidon/riderModule.iml" afterPath="$PROJECT_DIR$/.idea/.idea.Poseidon/riderModule.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Poseidon.sln" afterPath="$PROJECT_DIR$/Poseidon.sln" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Poseidon/Models/AssetPairs.cs" afterPath="$PROJECT_DIR$/Poseidon/Models/AssetPairs.cs" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -148,11 +148,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Ticker.cs" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Ticker.cs" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Poseidon/Models/Ticker.cs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="11" column="40" lean-forward="true" selection-start-line="11" selection-start-column="40" selection-end-line="11" selection-end-column="40" />
+            <state relative-caret-position="405">
+              <caret line="27" column="24" lean-forward="false" selection-start-line="27" selection-start-column="24" selection-end-line="27" selection-end-column="24" />
               <folding>
                 <marker date="1500692160000" expanded="true" signature="25:2118" ph="{...}" />
                 <marker date="1500692160000" expanded="true" signature="51:2116" ph="{...}" />
@@ -165,6 +165,20 @@
                 <marker date="1500692160000" expanded="true" signature="1697:1817" ph="{...}" />
                 <marker date="1500692160000" expanded="true" signature="1843:1963" ph="{...}" />
                 <marker date="1500692160000" expanded="true" signature="1990:2110" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Tests.cs" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Poseidon.Test/Tests.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="180">
+              <caret line="12" column="1" lean-forward="false" selection-start-line="12" selection-start-column="1" selection-end-line="12" selection-end-column="1" />
+              <folding>
+                <marker date="1507581415000" expanded="true" signature="47:180" ph="{...}" />
+                <marker date="1507581415000" expanded="true" signature="72:178" ph="{...}" />
+                <marker date="1507581415000" expanded="true" signature="121:172" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -185,6 +199,7 @@
     <setting file="file://$PROJECT_DIR$/Poseidon/KrakenAPI.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Poseidon/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Poseidon/Models/Ticker.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Poseidon.Test/Tests.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Poseidon/Models/AssetInfo.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Poseidon/Models/AssetPairs.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
@@ -194,8 +209,8 @@
         <option value="$PROJECT_DIR$/Poseidon/Models/AssetPairs.cs" />
         <option value="$PROJECT_DIR$/Poseidon/Models/Ticker.cs" />
         <option value="$PROJECT_DIR$/Poseidon/KrakenAPI.cs" />
-        <option value="$PROJECT_DIR$/Poseidon.Test/Tests.cs" />
         <option value="$PROJECT_DIR$/Poseidon/Program.cs" />
+        <option value="$PROJECT_DIR$/Poseidon.Test/Tests.cs" />
       </list>
     </option>
   </component>
@@ -235,7 +250,17 @@
               <option name="myItemType" value="com.jetbrains.rider.projectView.solutionExplorer.SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Poseidon (1 project)" />
+              <option name="myItemId" value="Poseidon (2 projects)" />
+              <option name="myItemType" value="com.jetbrains.rider.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" />
+              <option name="myItemType" value="com.jetbrains.rider.projectView.solutionExplorer.SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Poseidon (2 projects)" />
               <option name="myItemType" value="com.jetbrains.rider.projectView.solutionExplorer.SolutionExplorerNodeRider" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -249,7 +274,7 @@
               <option name="myItemType" value="com.jetbrains.rider.projectView.solutionExplorer.SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Poseidon (1 project)" />
+              <option name="myItemId" value="Poseidon (2 projects)" />
               <option name="myItemType" value="com.jetbrains.rider.projectView.solutionExplorer.SolutionExplorerNodeRider" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -413,6 +438,7 @@
       <envs />
       <method />
     </configuration>
+    <configuration />
     <list size="1">
       <item index="0" class="java.lang.String" itemvalue=".NET Project.Default" />
     </list>
@@ -428,12 +454,12 @@
       <option name="presentableId" value="Default" />
       <updated>1507132437920</updated>
       <workItem from="1507132441447" duration="61000" />
-      <workItem from="1507132821636" duration="3118000" />
+      <workItem from="1507132821636" duration="3383000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="3179000" />
+    <option name="totallyTimeSpent" value="3444000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -451,8 +477,8 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Errors In Solution" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Unit Tests" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32992035" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Unit Tests" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32992035" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32992035" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="NuGet" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -647,6 +673,61 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Poseidon/Models/AssetPairs.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="435">
+          <caret line="29" column="1" lean-forward="false" selection-start-line="29" selection-start-column="1" selection-end-line="29" selection-end-column="1" />
+          <folding>
+            <marker date="1507134106000" expanded="true" signature="60:987" ph="{...}" />
+            <marker date="1507134106000" expanded="true" signature="90:209" ph="{...}" />
+            <marker date="1507134106000" expanded="true" signature="234:985" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Poseidon/Program.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="22" column="110" lean-forward="false" selection-start-line="22" selection-start-column="110" selection-end-line="22" selection-end-column="110" />
+          <folding>
+            <marker date="1507581186000" expanded="false" signature="6:55" ph="..." />
+            <marker date="1507581186000" expanded="true" signature="111:2530" ph="{...}" />
+            <marker date="1507581186000" expanded="true" signature="138:2528" ph="{...}" />
+            <marker date="1507581186000" expanded="true" signature="269:714" ph="{...}" />
+            <marker date="1507581186000" expanded="false" signature="757:1373" ph="{...}" />
+            <marker date="1507581186000" expanded="true" signature="828:1189" ph="{...}" />
+            <marker date="1507581186000" expanded="true" signature="910:1052" ph="{...}" />
+            <marker date="1507581186000" expanded="true" signature="1233:1363" ph="{...}" />
+            <marker date="1507581186000" expanded="false" signature="1412:1805" ph="{...}" />
+            <marker date="1507581186000" expanded="true" signature="1479:1795" ph="{...}" />
+            <marker date="1507581186000" expanded="false" signature="1847:2000" ph="{...}" />
+            <marker date="1507581186000" expanded="false" signature="2053:2237" ph="{...}" />
+            <marker date="1507581186000" expanded="true" signature="2120:2180" ph="{...}" />
+            <marker date="1507581186000" expanded="false" signature="2298:2522" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Poseidon/Models/Ticker.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="27" column="24" lean-forward="false" selection-start-line="27" selection-start-column="24" selection-end-line="27" selection-end-column="24" />
+          <folding>
+            <marker date="1500692160000" expanded="true" signature="25:2118" ph="{...}" />
+            <marker date="1500692160000" expanded="true" signature="51:2116" ph="{...}" />
+            <marker date="1500692160000" expanded="true" signature="81:403" ph="{...}" />
+            <marker date="1500692160000" expanded="true" signature="842:1010" ph="{...}" />
+            <marker date="1500692160000" expanded="true" signature="1036:1204" ph="{...}" />
+            <marker date="1500692160000" expanded="true" signature="1237:1352" ph="{...}" />
+            <marker date="1500692160000" expanded="true" signature="1381:1501" ph="{...}" />
+            <marker date="1500692160000" expanded="true" signature="1545:1665" ph="{...}" />
+            <marker date="1500692160000" expanded="true" signature="1697:1817" ph="{...}" />
+            <marker date="1500692160000" expanded="true" signature="1843:1963" ph="{...}" />
+            <marker date="1500692160000" expanded="true" signature="1990:2110" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Poseidon/KrakenAPI.cs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="429">
@@ -754,63 +835,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Poseidon.Test/Tests.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="14" column="1" lean-forward="false" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Poseidon/Models/AssetPairs.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="29" column="1" lean-forward="false" selection-start-line="29" selection-start-column="1" selection-end-line="29" selection-end-column="1" />
+        <state relative-caret-position="180">
+          <caret line="12" column="1" lean-forward="false" selection-start-line="12" selection-start-column="1" selection-end-line="12" selection-end-column="1" />
           <folding>
-            <marker date="1507134106000" expanded="true" signature="60:987" ph="{...}" />
-            <marker date="1507134106000" expanded="true" signature="90:209" ph="{...}" />
-            <marker date="1507134106000" expanded="true" signature="234:985" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Poseidon/Program.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="22" column="110" lean-forward="false" selection-start-line="22" selection-start-column="110" selection-end-line="22" selection-end-column="110" />
-          <folding>
-            <marker date="1507581186000" expanded="false" signature="6:55" ph="..." />
-            <marker date="1507581186000" expanded="true" signature="111:2530" ph="{...}" />
-            <marker date="1507581186000" expanded="true" signature="138:2528" ph="{...}" />
-            <marker date="1507581186000" expanded="true" signature="269:714" ph="{...}" />
-            <marker date="1507581186000" expanded="false" signature="757:1373" ph="{...}" />
-            <marker date="1507581186000" expanded="true" signature="828:1189" ph="{...}" />
-            <marker date="1507581186000" expanded="true" signature="910:1052" ph="{...}" />
-            <marker date="1507581186000" expanded="true" signature="1233:1363" ph="{...}" />
-            <marker date="1507581186000" expanded="false" signature="1412:1805" ph="{...}" />
-            <marker date="1507581186000" expanded="true" signature="1479:1795" ph="{...}" />
-            <marker date="1507581186000" expanded="false" signature="1847:2000" ph="{...}" />
-            <marker date="1507581186000" expanded="false" signature="2053:2237" ph="{...}" />
-            <marker date="1507581186000" expanded="true" signature="2120:2180" ph="{...}" />
-            <marker date="1507581186000" expanded="false" signature="2298:2522" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Poseidon/Models/Ticker.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="40" lean-forward="true" selection-start-line="11" selection-start-column="40" selection-end-line="11" selection-end-column="40" />
-          <folding>
-            <marker date="1500692160000" expanded="true" signature="25:2118" ph="{...}" />
-            <marker date="1500692160000" expanded="true" signature="51:2116" ph="{...}" />
-            <marker date="1500692160000" expanded="true" signature="81:403" ph="{...}" />
-            <marker date="1500692160000" expanded="true" signature="842:1010" ph="{...}" />
-            <marker date="1500692160000" expanded="true" signature="1036:1204" ph="{...}" />
-            <marker date="1500692160000" expanded="true" signature="1237:1352" ph="{...}" />
-            <marker date="1500692160000" expanded="true" signature="1381:1501" ph="{...}" />
-            <marker date="1500692160000" expanded="true" signature="1545:1665" ph="{...}" />
-            <marker date="1500692160000" expanded="true" signature="1697:1817" ph="{...}" />
-            <marker date="1500692160000" expanded="true" signature="1843:1963" ph="{...}" />
-            <marker date="1500692160000" expanded="true" signature="1990:2110" ph="{...}" />
+            <marker date="1507581415000" expanded="true" signature="47:180" ph="{...}" />
+            <marker date="1507581415000" expanded="true" signature="72:178" ph="{...}" />
+            <marker date="1507581415000" expanded="true" signature="121:172" ph="{...}" />
           </folding>
         </state>
       </provider>

@@ -6,9 +6,9 @@ using System.Text;
 
 namespace Poseidon
 {
-        /*
-         * From https://stackoverflow.com/a/19353995
-         */
+    /*
+     * From https://stackoverflow.com/a/19353995
+     */
 
     public static class TableParser
     {
@@ -35,9 +35,9 @@ namespace Poseidon
 
             // Fill table rows
             for (var rowIndex = 1; rowIndex < arrValues.GetLength(0); rowIndex++)
-                for (var colIndex = 0; colIndex < arrValues.GetLength(1); colIndex++)
-                    arrValues[rowIndex, colIndex] = valueSelectors[colIndex]
-                        .Invoke(values[rowIndex - 1]).ToString();
+            for (var colIndex = 0; colIndex < arrValues.GetLength(1); colIndex++)
+                arrValues[rowIndex, colIndex] = valueSelectors[colIndex]
+                    .Invoke(values[rowIndex - 1]).ToString();
 
             return ToStringTable(arrValues);
         }
@@ -78,14 +78,14 @@ namespace Poseidon
         {
             var maxColumnsWidth = new int[arrValues.GetLength(1)];
             for (var colIndex = 0; colIndex < arrValues.GetLength(1); colIndex++)
-                for (var rowIndex = 0; rowIndex < arrValues.GetLength(0); rowIndex++)
-                {
-                    var newLength = arrValues[rowIndex, colIndex].Length;
-                    var oldLength = maxColumnsWidth[colIndex];
+            for (var rowIndex = 0; rowIndex < arrValues.GetLength(0); rowIndex++)
+            {
+                var newLength = arrValues[rowIndex, colIndex].Length;
+                var oldLength = maxColumnsWidth[colIndex];
 
-                    if (newLength > oldLength)
-                        maxColumnsWidth[colIndex] = newLength;
-                }
+                if (newLength > oldLength)
+                    maxColumnsWidth[colIndex] = newLength;
+            }
 
             return maxColumnsWidth;
         }

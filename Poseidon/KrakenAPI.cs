@@ -351,7 +351,17 @@ namespace Poseidon
                 foreach (var o in result)
                     if (o.Key != "last")
                         foreach (var v in o.Value.ToObject<decimal[][]>())
-                            ret.Pairs.Add(new OHLC {Time = (int) v[0], Open = v[1], High = v[2], Low = v[3], Close = v[4], Vwap = v[5], Volume = v[6], Count = (int) v[7]});
+                            ret.Pairs.Add(new OHLC
+                            {
+                                Time = (int) v[0],
+                                Open = v[1],
+                                High = v[2],
+                                Low = v[3],
+                                Close = v[4],
+                                Vwap = v[5],
+                                Volume = v[6],
+                                Count = (int) v[7]
+                            });
             }
             catch (Exception ex)
             {
@@ -512,7 +522,7 @@ namespace Poseidon
             ret.balances = new Dictionary<string, decimal>();
 
             var temp = obj["result"].Value<JObject>();
-            ret.balances = temp.ToObject<Dictionary<String, decimal>>();
+            ret.balances = temp.ToObject<Dictionary<string, decimal>>();
             return ret;
         }
 
@@ -631,7 +641,8 @@ namespace Poseidon
         /// <param name="txid">Transaction ids to query info about (20 maximum).</param>
         /// <param name="trades">Whether or not to include trades in output (optional.  default = false).</param>
         /// <param name="userref">Restrict results to given user reference id (optional).</param>
-        public Dictionary<string, OrderInfo> QueryOrders(IEnumerable<string> txid, bool? trades = null, string userref = null)
+        public Dictionary<string, OrderInfo> QueryOrders(IEnumerable<string> txid, bool? trades = null,
+            string userref = null)
         {
             var param = new Dictionary<string, string>();
             if (trades != null)
@@ -663,7 +674,8 @@ namespace Poseidon
         /// <param name="end">Ending unix timestamp or trade tx id of results (optional.  inclusive).</param>
         /// <param name="ofs">Result offset.</param>
         /// <returns></returns>
-        public GetTradesHistoryResult GetTradesHistory(string type = null, bool? trades = null, int? start = null, int? end = null, int? ofs = null)
+        public GetTradesHistoryResult GetTradesHistory(string type = null, bool? trades = null, int? start = null,
+            int? end = null, int? ofs = null)
         {
             var param = new Dictionary<string, string>();
             if (type != null)
@@ -817,6 +829,7 @@ namespace Poseidon
         }
 
         #endregion Private User Data
+
 //
 //        #region Private User Trading
 //

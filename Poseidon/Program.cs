@@ -1,7 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Reflection;
-//using Console = Colorful.Console;
 
 namespace Poseidon
 {
@@ -10,7 +8,7 @@ namespace Poseidon
         private static string KEY;
         private static string SIGNATURE;
 
-        private static void Main(string[] args)
+        private static void Main()
         {
             Console.Title = "Poseidon";
             CheckKeyFile();
@@ -52,10 +50,10 @@ namespace Poseidon
             using (var sr = new StreamReader("API.txt"))
             {
                 var line = sr.ReadLine();
-                if (line.Substring(0, 4) == "KEY=")
+                if (line != null && line.Substring(0, 4) == "KEY=")
                     KEY = line.Substring(4);
                 line = sr.ReadLine();
-                if (line.Substring(0, 10) == "SIGNATURE=")
+                if (line != null && line.Substring(0, 10) == "SIGNATURE=")
                     SIGNATURE = line.Substring(10);
             }
         }
@@ -85,7 +83,7 @@ namespace Poseidon
             Console.WriteLine("File written");
         }
 
-        public static string UNIXTimeToString(decimal unix)
+        public static string UnixTimeToString(decimal unix)
         {
             var dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
             dtDateTime = dtDateTime.AddSeconds((double) unix).ToLocalTime();

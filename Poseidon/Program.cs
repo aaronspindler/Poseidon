@@ -76,6 +76,15 @@ namespace Poseidon
             Console.WriteLine("File written");
         }
 
+        public static void WriteToFile(string fileText, string text)
+        {
+            using (var sw = File.CreateText(fileText + "_" + DateTime.Now.ToFileTime() + ".txt"))
+            {
+                sw.Write(text);
+            }
+            Console.WriteLine("File written");
+        }
+
         public static string UNIXTimeToString(decimal unix)
         {
             var dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);

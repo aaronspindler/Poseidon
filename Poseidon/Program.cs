@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.IO;
 
 namespace Poseidon
@@ -8,6 +9,7 @@ namespace Poseidon
         private static string KEY;
         private static string SIGNATURE;
         private static Kraken kraken;
+        
 
         private static void Main()
         {
@@ -20,6 +22,8 @@ namespace Poseidon
 
             var balances = kraken.GetAccountBalance().balances;
             Console.WriteLine(balances.ToStringTable(new[] {"Currency", "Amount"}, a => a.Key, a => a.Value));
+
+            
 
             Console.ReadLine();
         }
@@ -58,6 +62,7 @@ namespace Poseidon
                     SIGNATURE = line.Substring(10);
             }
         }
+
 
         public static void ExitProgram()
         {

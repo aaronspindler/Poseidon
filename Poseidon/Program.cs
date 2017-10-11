@@ -7,6 +7,7 @@ namespace Poseidon
     {
         private static string KEY;
         private static string SIGNATURE;
+        private static Kraken kraken;
 
         private static void Main()
         {
@@ -14,7 +15,7 @@ namespace Poseidon
             CheckKeyFile();
             LoadKeys();
 
-            var kraken = new Kraken(KEY, SIGNATURE);
+            kraken = new Kraken(KEY, SIGNATURE);
             Console.WriteLine(kraken.GetServerTime().result.rfc1123);
 
             var balances = kraken.GetAccountBalance().balances;
@@ -88,6 +89,11 @@ namespace Poseidon
             var dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
             dtDateTime = dtDateTime.AddSeconds((double) unix).ToLocalTime();
             return dtDateTime.ToString();
+        }
+
+        public static Kraken GetKraken()
+        {
+            return kraken;
         }
     }
 }

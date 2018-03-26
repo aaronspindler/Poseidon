@@ -10,6 +10,7 @@ namespace Poseidon
         private static string KEY;
         private static string SIGNATURE;
         private static Kraken kraken;
+        private static FiatCurrency fiat;
         private static string currency;
         
 
@@ -30,6 +31,10 @@ namespace Poseidon
             
             kraken = new Kraken(KEY, SIGNATURE);
             Console.WriteLine(kraken.GetServerTime().result.rfc1123);
+
+            fiat = new FiatCurrency();
+            fiat.GetData();
+
 
             var balances = kraken.GetAccountBalance().balances;
             Console.WriteLine(balances.ToStringTable(new[] {"Currency", "Amount"}, a => a.Key, a => a.Value));

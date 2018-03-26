@@ -32,7 +32,7 @@ using System.Text;
 using System.Threading;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Poseidon.Models;
+using Poseidon.Models.Kraken;
 using Poseidon.Models.Old;
 
 namespace Poseidon

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Poseidon.Models
+namespace Poseidon.Models.Kraken
 {
     public class CurrencyLog
     {

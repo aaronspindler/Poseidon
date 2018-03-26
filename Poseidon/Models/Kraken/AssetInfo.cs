@@ -1,4 +1,4 @@
-﻿namespace Poseidon.Models
+﻿namespace Poseidon.Models.Kraken
 {
     public class AssetInfo
     {

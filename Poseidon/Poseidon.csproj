@@ -140,6 +140,7 @@
     <Compile Include="Models\Old\WithdrawResponse.cs" />
     <Compile Include="Models\Old\WithdrawResult.cs" />
     <Compile Include="Wrapper.cs" />
+    <Compile Include="FiatCurrency.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">

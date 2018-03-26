@@ -136,9 +136,9 @@ namespace Poseidon
             Console.WriteLine("File written");
         }
 
-        public static void WriteToFile(string fileText, string text)
+        public static void WriteToFile(string fileName, string text)
         {
-            using (var sw = File.CreateText(fileText + "_" + DateTime.Now.ToFileTime() + ".txt"))
+            using (var sw = File.CreateText(fileName + "_" + DateTime.Now.ToFileTime() + ".txt"))
             {
                 sw.Write(text);
             }

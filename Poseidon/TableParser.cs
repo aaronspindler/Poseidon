@@ -10,6 +10,9 @@ namespace Poseidon
      * From https://stackoverflow.com/a/19353995
      */
 
+    /// <summary>
+    /// Table parser
+    /// </summary>
     public static class TableParser
     {
         public static string ToStringTable<T>(
@@ -19,7 +22,7 @@ namespace Poseidon
         {
             return ToStringTable(values.ToArray(), columnHeaders, valueSelectors);
         }
-
+        
         public static string ToStringTable<T>(
             this T[] values,
             string[] columnHeaders,
@@ -74,6 +77,11 @@ namespace Poseidon
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Calculates the maximum column width
+        /// </summary>
+        /// <returns>The max columns width.</returns>
+        /// <param name="arrValues">Arr values.</param>
         private static int[] GetMaxColumnsWidth(string[,] arrValues)
         {
             var maxColumnsWidth = new int[arrValues.GetLength(1)];

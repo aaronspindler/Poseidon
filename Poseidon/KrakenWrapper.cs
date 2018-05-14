@@ -3,6 +3,9 @@ using System;
 
 namespace Poseidon
 {
+	/// <summary>
+    /// Kraken wrapper
+    /// </summary>
     public static class KrakenWrapper
     {
         private static readonly Kraken kraken = Program.GetKraken();

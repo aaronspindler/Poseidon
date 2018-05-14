@@ -189,7 +189,7 @@ namespace Poseidon
         public static void CheckNetworkConnection()
         {
             try
-            {
+			{
                 using (var client = new WebClient())
                 using (Stream stream = client.OpenRead("http://www.google.com"))
                 {

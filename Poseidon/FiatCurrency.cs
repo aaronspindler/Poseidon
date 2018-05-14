@@ -8,11 +8,17 @@ namespace Poseidon
 {
     public class FiatCurrency
     {
+		/// <summary>
+        /// Initializes a new instance of the <see cref="T:Poseidon.FiatCurrency"/> class.
+        /// </summary>
         public FiatCurrency()
         {
             
         }
 
+        /// <summary>
+        /// Gets current data containing exchange rates for fiat currencies
+        /// </summary>
         public void GetData()
         {
             WebClient client = new WebClient();

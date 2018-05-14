@@ -13,7 +13,9 @@ namespace Poseidon
         private static FiatCurrency fiat;
         private static string currency;
         
-
+        /// <summary>
+        /// The entry point of the program, where the program control starts and ends.
+        /// </summary>
         private static void Main()
         {
             Console.Title = "Poseidon";
@@ -43,7 +45,9 @@ namespace Poseidon
 
             Console.ReadLine();
         }
-
+        /// <summary>
+        /// Checks the key file.
+        /// </summary>
         public static void CheckKeyFile()
         {
             if (!File.Exists("API.txt"))
@@ -65,7 +69,9 @@ namespace Poseidon
                     ExitProgram();
                 }
         }
-
+        /// <summary>
+        /// Loads the keys.
+        /// </summary>
         public static void LoadKeys()
         {
             using (var sr = new StreamReader("API.txt"))
@@ -78,7 +84,9 @@ namespace Poseidon
                     SIGNATURE = line.Substring(10);
             }
         }
-
+        /// <summary>
+        /// Checks the settings file.
+        /// </summary>
         public static void CheckSettingsFile()
         {
 //            if (!File.Exists("settings.txt"))
@@ -100,7 +108,9 @@ namespace Poseidon
 //                }
 //            }
         }
-
+        /// <summary>
+        /// Creates a default settings file.
+        /// </summary>
         public static void CreateDefaultSettingsFile()
         {
             try
@@ -118,20 +128,27 @@ namespace Poseidon
                 ExitProgram();
             }
         }
-
+        /// <summary>
+        /// Loads the settings.
+        /// </summary>
         public static void LoadSettings()
         {
             
         }
 
-
+        /// <summary>
+        /// Exits the program.
+        /// </summary>
         public static void ExitProgram()
         {
             Console.WriteLine("Press enter to close application");
             Console.ReadLine();
             Environment.Exit(-1);
         }
-
+        /// <summary>
+        /// Writes to a file.
+        /// </summary>
+        /// <param name="text">The text thats written to the file</param>
         public static void WriteToFile(string text)
         {
             using (var sw = File.CreateText("temp.txt"))
@@ -140,7 +157,11 @@ namespace Poseidon
             }
             Console.WriteLine("File written");
         }
-
+        /// <summary>
+        /// Writes to a file.
+        /// </summary>
+        /// <param name="fileName">File name of where to write the text</param>
+        /// <param name="text">The text thats written toa  file</param>
         public static void WriteToFile(string fileName, string text)
         {
             using (var sw = File.CreateText(fileName + "_" + DateTime.Now.ToFileTime() + ".txt"))
@@ -150,6 +171,11 @@ namespace Poseidon
             Console.WriteLine("File written");
         }
 
+        /// <summary>
+        /// Gets the Unix time and puts it to a string.
+        /// </summary>
+        /// <returns>The time to string.</returns>
+        /// <param name="unix">Unix.</param>
         public static string UnixTimeToString(decimal unix)
         {
             var dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
@@ -160,7 +186,6 @@ namespace Poseidon
         /// <summary>
         ///     Checks for an available internet connection by pinging google.com
         /// </summary>
-        /// <returns></returns>
         public static void CheckNetworkConnection()
         {
             try

@@ -19,3 +19,11 @@ If you would like to help out with the project give me an email at Aaron@xNovax.
 ## Code of Conduct
 
 This project has a strict code of conduct for contributing and communication. For detailed information visit: [Code Of Conduct](https://github.com/xNovax/Poseidon/blob/master/CODE_OF_CONDUCT.md)
+
+
+## Donations
+
+If you would like to contribute to the development of this software donations can be sent in Bitcoins to
+```
+13WDTFpLYLk9d4exokuoQ4o3qr8HyboKVh
+```

@@ -9,18 +9,20 @@ namespace Poseidon
 {
     public class FiatCurrency
     {
+		EuropeanCentralBankResponse ecbData;
+
 		/// <summary>
         /// Initializes a new instance of the <see cref="T:Poseidon.FiatCurrency"/> class.
         /// </summary>
         public FiatCurrency()
         {
-            
+			ecbData = new EuropeanCentralBankResponse();
         }
 
         /// <summary>
-        /// Gets current data containing exchange rates for fiat currencies
+		/// Gets current data containing exchange rates for fiat currencies from the ECB (European Central Bank)
         /// </summary>
-        public void GetData()
+        public void GetEcbData()
         {
             try
 			{
@@ -36,7 +38,7 @@ namespace Poseidon
                 //Write the date
 				writer.WriteLine(reader.ReadLine());
 
-                //Read the actual currency data
+                //Read and write the actual currency data
 				for (int i = 0; i < 32; i++){
 					writer.WriteLine(reader.ReadLine());
 				}
@@ -44,7 +46,6 @@ namespace Poseidon
 				writer.Close();
 				reader.Close();
 
-               
             }catch(Exception e){
                 Console.WriteLine(e.Message);
             }

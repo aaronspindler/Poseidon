@@ -39,7 +39,7 @@ namespace Poseidon
             Console.WriteLine(kraken.GetServerTime().result.rfc1123);
 
             fiat = new FiatCurrency();
-            fiat.GetData();
+            fiat.GetEcbData();
 
 
             var balances = kraken.GetAccountBalance().balances;

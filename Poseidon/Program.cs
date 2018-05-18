@@ -6,12 +6,16 @@ namespace Poseidon
 {
     public class Program
     {
+		// State of the network connection
         private static bool NETWORK = false;
+        // Kraken key
         private static string KEY;
+        // Kraken signature
         private static string SIGNATURE;
+        // Kraken Object
         private static Kraken kraken;
+        // Fiat Object
         private static FiatCurrency fiat;
-        private static string currency;
         
         /// <summary>
         /// The entry point of the program, where the program control starts and ends.
@@ -22,8 +26,8 @@ namespace Poseidon
             CheckNetworkConnection();
             CheckKeyFile();
             LoadKeys();
-            CheckSettingsFile();
-            LoadSettings();
+            //CheckSettingsFile();
+            //LoadSettings();
 
             if (!NETWORK)
             {
@@ -40,8 +44,6 @@ namespace Poseidon
 
             var balances = kraken.GetAccountBalance().balances;
             Console.WriteLine(balances.ToStringTable(new[] {"Currency", "Amount"}, a => a.Key, a => a.Value));
-
-            
 
             Console.ReadLine();
         }
@@ -89,24 +91,24 @@ namespace Poseidon
         /// </summary>
         public static void CheckSettingsFile()
         {
-//            if (!File.Exists("settings.txt"))
-//            {
-//               CreateDefaultSettingsFile();
-//            }
-//            else
-//            {
-//                using (var sr = new StreamReader("settings.txt"))
-//                {
-//                    var line = sr.ReadLine();
-//                    if (line.Substring(line.LastIndexOf('='), (line.Length - line.LastIndexOf('='))) !=
-//                        System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString())
-//                    {
-//                        CreateDefaultSettingsFile();
-//                        Console.WriteLine("Looks like you were using a previous version of the settings file.");
-//                        Console.WriteLine("Your settings file has been remade");
-//                    }
-//                }
-//            }
+            if (!File.Exists("settings.txt"))
+            {
+               CreateDefaultSettingsFile();
+            }
+            else
+            {
+                using (var sr = new StreamReader("settings.txt"))
+                {
+                    var line = sr.ReadLine();
+                    if (line.Substring(line.LastIndexOf('='), (line.Length - line.LastIndexOf('='))) !=
+                        System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString())
+                    {
+						Console.WriteLine("Looks like you were using a previous version of the settings file.");
+						CreateDefaultSettingsFile();
+                        Console.WriteLine("Your settings file has been remade");
+                    }
+                }
+            }
         }
         /// <summary>
         /// Creates a default settings file.

@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net;
 using System.Xml;
+using System.Xml.Linq;
 using Poseidon.Models.FiatCurrency;
 
 namespace Poseidon
@@ -21,18 +22,22 @@ namespace Poseidon
         /// </summary>
         public void GetData()
         {
-            WebClient client = new WebClient();
             try
-            {
-                Stream data = client.OpenRead("http://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml");
-                StreamReader reader = new StreamReader(data);
-                string xmlText = reader.ReadToEnd();
+			{
+				XmlDocument xml = new XmlDocument();
+				xml.Load("http://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml");
 
-                XmlDocument doc = new XmlDocument();
-                doc.LoadXml(xmlText);
+				var nsmgr = new XmlNamespaceManager(xml.NameTable);
+				nsmgr.AddNamespace("gesmes", "http://www.gesmes.org/xml/2002-08-01");
 
+				XmlNodeList nodeList = xml.SelectNodes("/gesmes:Envelope/Cube/Cube", nsmgr);
 
-                Program.WriteToFile(xmlText);
+				Console.WriteLine(nodeList.Count);
+
+				foreach(XmlNode node in nodeList){
+					Console.WriteLine(node.Attributes.GetNamedItem("currency").Value);
+				}
+               
             }catch(Exception e){
                 Console.WriteLine(e.Message);
             }

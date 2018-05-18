@@ -6,3 +6,4 @@
 - [ ] SqLite for Fiat
 - [ ] SqLite for Crypto
 - [ ] Comment all existing code
+- [ ] Make settings file

@@ -1,4 +1,5 @@
 # Poseidon
+![alt text](https://upload.wikimedia.org/wikipedia/commons/7/7d/Poseidon_sculpture_Copenhagen_2005.jpg)
 
 ## Bug / Issue Reporting
 

@@ -4,10 +4,11 @@ using System.Collections.Generic;
 namespace Poseidon.Models.FiatCurrency
 {
     public class EuropeanCentralBankResponse
-    {
+	{
+		public List<Currency> currencies;
         public EuropeanCentralBankResponse()
         {
-            List<Currency> currencies = new List<Currency>();
+			 currencies = new List<Currency>();
         }
     }
 }

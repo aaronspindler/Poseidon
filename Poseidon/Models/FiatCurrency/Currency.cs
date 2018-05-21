@@ -3,11 +3,11 @@ namespace Poseidon.Models.FiatCurrency
 {
     public class Currency
     {
-        public Currency(string n, float r){
+        public Currency(string n, double r){
             Name = n;
             Rate = r;
         }
         string Name { get; set; }
-        float Rate { get; set; }
+        double Rate { get; set; }
     }
 }

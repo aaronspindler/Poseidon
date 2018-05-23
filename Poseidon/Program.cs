@@ -36,9 +36,6 @@ namespace Poseidon
                 Utilities.ExitProgram();
             }
 
-            CheckKrakenKeyFile();
-            LoadKrakenKeys();
-
 			settings = new Settings();
 			settings.CheckSettingsFile();
 			settings.LoadSettings();
@@ -46,8 +43,7 @@ namespace Poseidon
 			database = new Database();
 			database.CreateTables();
             
-            
-            kraken = new Kraken(KEY, SIGNATURE);
+            kraken = new Kraken();
             Console.WriteLine(kraken.GetServerTime().result.rfc1123);
 
             fiat = new FiatCurrency();
@@ -59,49 +55,38 @@ namespace Poseidon
 
             Console.ReadLine();
         }
+
         /// <summary>
-        /// Checks the key file.
+        /// Gets the kraken.
         /// </summary>
-        public static void CheckKrakenKeyFile()
-        {
-            if (!File.Exists("KrakenAPI.txt"))
-                try
-                {
-                    using (var sw = File.CreateText("KrakenAPI.txt"))
-                    {
-                        sw.WriteLine("KEY=");
-                        sw.WriteLine("SIGNATURE=");
-                    }
-                    Console.WriteLine("Please enter your credentials in KrakenAPI.txt");
-
-                    Utilities.ExitProgram();
-                }
-                catch (Exception exception)
-                {
-                    Console.WriteLine(exception.Message);
-
-                    Utilities.ExitProgram();
-                }
-        }
-        /// <summary>
-        /// Loads the keys.
-        /// </summary>
-        public static void LoadKrakenKeys()
-        {
-            using (var sr = new StreamReader("KrakenAPI.txt"))
-            {
-                var line = sr.ReadLine();
-                if (line != null && line.Substring(0, 4) == "KEY=")
-                    KEY = line.Substring(4);
-                line = sr.ReadLine();
-                if (line != null && line.Substring(0, 10) == "SIGNATURE=")
-                    SIGNATURE = line.Substring(10);
-            }
-        }
-
+        /// <returns>The kraken.</returns>
         public static Kraken GetKraken()
         {
             return kraken;
         }
+
+        /// <summary>
+        /// Gets the fiat currency.
+        /// </summary>
+        /// <returns>The fiat currency.</returns>
+		public static FiatCurrency GetFiatCurrency(){
+			return fiat;
+		}
+
+        /// <summary>
+        /// Gets the database.
+        /// </summary>
+        /// <returns>The database.</returns>
+		public static Database GetDatabase(){
+			return database;
+		}
+
+        /// <summary>
+        /// Gets the settings.
+        /// </summary>
+        /// <returns>The settings.</returns>
+		public static Settings GetSettings(){
+			return settings;
+		}
     }
 }

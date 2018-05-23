@@ -39,25 +39,63 @@ namespace Poseidon
 {
     public class Kraken
     {
-        private readonly string _key;
+        private string _key;
         private readonly int _rateLimitMilliseconds;
-        private readonly string _secret;
+        private string _secret;
         private readonly string _url;
         private readonly int _version;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="Kraken" /> class.
         /// </summary>
-        /// <param name="key">The API key.</param>
-        /// <param name="secret">The API secret.</param>
         /// <param name="rateLimitMilliseconds">The rate limit in milliseconds.</param>
-        public Kraken(string key, string secret, int rateLimitMilliseconds = 100)
+        public Kraken(int rateLimitMilliseconds = 100)
         {
+			CheckKrakenKeyFile();
+			LoadKrakenKeys();
             _url = "https://api.kraken.com";
             _version = 0;
-            _key = key;
-            _secret = secret;
             _rateLimitMilliseconds = rateLimitMilliseconds;
+        }
+
+		/// <summary>
+        /// Checks the key file.
+        /// </summary>
+        public void CheckKrakenKeyFile()
+        {
+            if (!File.Exists("KrakenAPI.txt"))
+                try
+                {
+                    using (var sw = File.CreateText("KrakenAPI.txt"))
+                    {
+                        sw.WriteLine("KEY=");
+                        sw.WriteLine("SIGNATURE=");
+                    }
+                    Console.WriteLine("Please enter your credentials in KrakenAPI.txt");
+
+                    Utilities.ExitProgram();
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine(exception.Message);
+
+                    Utilities.ExitProgram();
+                }
+        }
+        /// <summary>
+        /// Loads the keys.
+        /// </summary>
+        public void LoadKrakenKeys()
+        {
+            using (var sr = new StreamReader("KrakenAPI.txt"))
+            {
+                var line = sr.ReadLine();
+                if (line != null && line.Substring(0, 4) == "KEY=")
+                    _key = line.Substring(4);
+                line = sr.ReadLine();
+                if (line != null && line.Substring(0, 10) == "SIGNATURE=")
+                    _secret = line.Substring(10);
+            }
         }
 
         private string BuildPostData(Dictionary<string, string> param)

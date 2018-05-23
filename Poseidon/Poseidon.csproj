@@ -85,7 +85,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="TableParser.cs" />
-    <Compile Include="KrakenAPI.cs" />
+    <Compile Include="Kraken.cs" />
     <Compile Include="KrakenException.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

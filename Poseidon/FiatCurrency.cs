@@ -24,7 +24,8 @@ namespace Poseidon
         /// </summary>
         public void GetEcbData()
         {
-			string xmlDataFileName = "test.txt";
+			System.IO.Directory.CreateDirectory("Fiat/ECB");
+			var xmlDataFileName = string.Format(@"Fiat/ECB/{0}.txt", DateTime.Now.Ticks);
             try
 			{
 				WebClient client = new WebClient();

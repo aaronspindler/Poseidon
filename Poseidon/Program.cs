@@ -16,6 +16,9 @@ namespace Poseidon
         private static Kraken kraken;
         // Fiat Object
         private static FiatCurrency fiat;
+		// Database Object
+		private static Database database;
+
         
         /// <summary>
         /// The entry point of the program, where the program control starts and ends.
@@ -34,6 +37,8 @@ namespace Poseidon
                 Console.WriteLine("No network connection!");
                 ExitProgram();
             }
+
+			database = new Database();
             
             kraken = new Kraken(KEY, SIGNATURE);
             Console.WriteLine(kraken.GetServerTime().result.rfc1123);

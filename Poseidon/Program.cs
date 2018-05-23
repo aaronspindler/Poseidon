@@ -18,6 +18,8 @@ namespace Poseidon
         private static FiatCurrency fiat;
 		// Database Object
 		private static Database database;
+		// Settings Object
+		private static Settings settings;
 
         
         /// <summary>
@@ -26,20 +28,24 @@ namespace Poseidon
         private static void Main()
         {
             Console.Title = "Poseidon";
-            CheckNetworkConnection();
-            CheckKrakenKeyFile();
-            LoadKrakenKeys();
-            //CheckSettingsFile();
-            //LoadSettings();
 
-            if (!NETWORK)
+            CheckNetworkConnection();
+			if (!NETWORK)
             {
                 Console.WriteLine("No network connection!");
                 ExitProgram();
             }
 
+            CheckKrakenKeyFile();
+            LoadKrakenKeys();
+
+			settings = new Settings();
+			settings.CheckSettingsFile();
+			settings.LoadSettings();
+
 			database = new Database();
 			database.CreateTables();
+            
             
             kraken = new Kraken(KEY, SIGNATURE);
             Console.WriteLine(kraken.GetServerTime().result.rfc1123);
@@ -91,57 +97,6 @@ namespace Poseidon
                 if (line != null && line.Substring(0, 10) == "SIGNATURE=")
                     SIGNATURE = line.Substring(10);
             }
-        }
-        /// <summary>
-        /// Checks the settings file.
-        /// </summary>
-        public static void CheckSettingsFile()
-        {
-            if (!File.Exists("settings.txt"))
-            {
-               CreateDefaultSettingsFile();
-            }
-            else
-            {
-                using (var sr = new StreamReader("settings.txt"))
-                {
-                    var line = sr.ReadLine();
-                    if (line.Substring(line.LastIndexOf('='), (line.Length - line.LastIndexOf('='))) !=
-                        System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString())
-                    {
-						Console.WriteLine("Looks like you were using a previous version of the settings file.");
-						CreateDefaultSettingsFile();
-                        Console.WriteLine("Your settings file has been remade");
-                    }
-                }
-            }
-        }
-        /// <summary>
-        /// Creates a default settings file.
-        /// </summary>
-        public static void CreateDefaultSettingsFile()
-        {
-            try
-            {
-                using (var sw = File.CreateText("settings.txt"))
-                {
-                    sw.WriteLine("VERSION=" + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version);
-                    sw.WriteLine("CURRENCY=CAD");
-                }
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine(exception.Message);
-
-                ExitProgram();
-            }
-        }
-        /// <summary>
-        /// Loads the settings.
-        /// </summary>
-        public static void LoadSettings()
-        {
-            
         }
 
         /// <summary>

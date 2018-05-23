@@ -146,6 +146,7 @@
     <Compile Include="Models\Kraken\Old\WithdrawResponse.cs" />
     <Compile Include="Models\Kraken\Old\WithdrawResult.cs" />
     <Compile Include="Database.cs" />
+    <Compile Include="Settings.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">

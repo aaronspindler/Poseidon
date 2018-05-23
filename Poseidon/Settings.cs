@@ -15,24 +15,24 @@ namespace Poseidon
         /// </summary>
         public void CheckSettingsFile()
         {
-            if (!File.Exists("settings.txt"))
-            {
-                CreateDefaultSettingsFile();
-            }
-            else
-            {
-                using (var sr = new StreamReader("settings.txt"))
-                {
-                    var line = sr.ReadLine();
-                    if (line.Substring(line.LastIndexOf('='), (line.Length - line.LastIndexOf('='))) !=
-                        System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString())
-                    {
-                        Console.WriteLine("Looks like you were using a previous version of the settings file.");
-                        CreateDefaultSettingsFile();
-                        Console.WriteLine("Your settings file has been remade");
-                    }
-                }
-            }
+            //if (!File.Exists("settings.txt"))
+            //{
+            //    CreateDefaultSettingsFile();
+            //}
+            //else
+            //{
+            //    using (var sr = new StreamReader("settings.txt"))
+            //    {
+            //        var line = sr.ReadLine();
+            //        if (line.Substring(line.LastIndexOf('='), (line.Length - line.LastIndexOf('='))) !=
+            //            System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString())
+            //        {
+            //            Console.WriteLine("Looks like you were using a previous version of the settings file.");
+            //            CreateDefaultSettingsFile();
+            //            Console.WriteLine("Your settings file has been remade");
+            //        }
+            //    }
+            //}
         }
 
         
@@ -62,7 +62,7 @@ namespace Poseidon
             {
                 Console.WriteLine(exception.Message);
 
-                Program.ExitProgram();
+                Utilities.ExitProgram();
             }
         }
     }

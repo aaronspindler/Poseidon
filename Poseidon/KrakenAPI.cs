@@ -276,7 +276,7 @@ namespace Poseidon
             var param = new Dictionary<string, string>();
             param.Add("pair", pair);
             var res = QueryPublic("Ticker", param);
-            Program.WriteToFile(res);
+            Utilities.WriteToFile(res);
             var ret = new Ticker();
             try
             {

@@ -39,6 +39,7 @@ namespace Poseidon
             }
 
 			database = new Database();
+			database.CreateTables();
             
             kraken = new Kraken(KEY, SIGNATURE);
             Console.WriteLine(kraken.GetServerTime().result.rfc1123);

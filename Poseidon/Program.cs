@@ -27,8 +27,8 @@ namespace Poseidon
         {
             Console.Title = "Poseidon";
             CheckNetworkConnection();
-            CheckKeyFile();
-            LoadKeys();
+            CheckKrakenKeyFile();
+            LoadKrakenKeys();
             //CheckSettingsFile();
             //LoadSettings();
 
@@ -56,17 +56,17 @@ namespace Poseidon
         /// <summary>
         /// Checks the key file.
         /// </summary>
-        public static void CheckKeyFile()
+        public static void CheckKrakenKeyFile()
         {
-            if (!File.Exists("API.txt"))
+            if (!File.Exists("KrakenAPI.txt"))
                 try
                 {
-                    using (var sw = File.CreateText("API.txt"))
+                    using (var sw = File.CreateText("KrakenAPI.txt"))
                     {
                         sw.WriteLine("KEY=");
                         sw.WriteLine("SIGNATURE=");
                     }
-                    Console.WriteLine("Please enter your credentials in API.txt");
+                    Console.WriteLine("Please enter your credentials in KrakenAPI.txt");
 
                     ExitProgram();
                 }
@@ -80,9 +80,9 @@ namespace Poseidon
         /// <summary>
         /// Loads the keys.
         /// </summary>
-        public static void LoadKeys()
+        public static void LoadKrakenKeys()
         {
-            using (var sr = new StreamReader("API.txt"))
+            using (var sr = new StreamReader("KrakenAPI.txt"))
             {
                 var line = sr.ReadLine();
                 if (line != null && line.Substring(0, 4) == "KEY=")

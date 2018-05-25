@@ -18,20 +18,20 @@ namespace Poseidon
         /// <summary>
         /// Gets the connection string.
         /// </summary>
-		//public MySqlConnection GetMySqlConnection(){
-		//	MySqlConnection connection;
-		//	string connectionString;
-		//	string server;
-		//	string database;
-		//	string uid;
-		//	string password;
-		//	string port;
+		public MySqlConnection GetMySqlConnection(){
+			MySqlConnection connection;
+			string connectionString;
+			string host = Settings.GetDB_Host();
+			string database = Settings.GetDB_Name();
+			string uid = Settings.GetDB_Username();
+			string password = Settings.GetDB_Password();
+			string port = Settings.GetDB_Port();
 
-		//	connectionString = "SERVER=" + server + ";" + "DATABASE=" + database + ";" + "U`enter code here`ID=" + uid + ";" + "PASSWORD=" + password + ";";
+			connectionString = "SERVER=" + host + ";" + "DATABASE=" + database + ";" + "U`enter code here`ID=" + uid + ";" + "PASSWORD=" + password + ";";
 
-		//	connection = new MySqlConnection(connectionString);
-		//	return connection;
-		//}
+			connection = new MySqlConnection(connectionString);
+			return connection;
+		}
 
         /// <summary>
         /// Creates the tables in the database.

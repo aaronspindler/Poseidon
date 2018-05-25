@@ -18,8 +18,6 @@ namespace Poseidon
         private static FiatCurrency fiat;
 		// Database Object
 		private static Database database;
-		// Settings Object
-		private static Settings settings;
 
         
         /// <summary>
@@ -35,10 +33,9 @@ namespace Poseidon
                 Console.WriteLine("No network connection!");
                 Utilities.ExitProgram();
             }
-
-			settings = new Settings();
-			settings.CheckSettingsFile();
-			settings.LoadSettings();
+            
+			Settings.CheckSettingsFile();
+			Settings.LoadSettings();
 
 			database = new Database();
 			database.CreateTables();
@@ -79,14 +76,6 @@ namespace Poseidon
         /// <returns>The database.</returns>
 		public static Database GetDatabase(){
 			return database;
-		}
-
-        /// <summary>
-        /// Gets the settings.
-        /// </summary>
-        /// <returns>The settings.</returns>
-		public static Settings GetSettings(){
-			return settings;
 		}
     }
 }

@@ -27,7 +27,7 @@ namespace Poseidon
 			string password = Settings.GetDB_Password();
 			string port = Settings.GetDB_Port();
 
-			connectionString = "SERVER=" + host + ";" + "DATABASE=" + database + ";" + "U`enter code here`ID=" + uid + ";" + "PASSWORD=" + password + ";";
+			connectionString = "SERVER=" + host + ";" + "DATABASE=" + database + ";" + "UID=" + uid + ";" + "PASSWORD=" + password + ";";
 
 			connection = new MySqlConnection(connectionString);
 			return connection;

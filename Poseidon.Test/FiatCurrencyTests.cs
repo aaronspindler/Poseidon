@@ -9,7 +9,7 @@ namespace Poseidon.Test
     {
         
         public FiatCurrencyTests(){
-            FiatCurrency fiat = new FiatCurrency();
+            var fiat = new FiatCurrency();
         }
 
         [Test]

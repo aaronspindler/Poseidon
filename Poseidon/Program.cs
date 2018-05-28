@@ -6,7 +6,7 @@ namespace Poseidon
 {
     public class Program
     {
-		// State of the network connection
+        // State of the network connection
         private static bool NETWORK = false;
         // Kraken key
         private static string KEY;
@@ -16,10 +16,10 @@ namespace Poseidon
         private static Kraken kraken;
         // Fiat Object
         private static FiatCurrency fiat;
-		// Database Object
-		private static Database database;
+        // Database Object
+        private static Database database;
 
-        
+
         /// <summary>
         /// The entry point of the program, where the program control starts and ends.
         /// </summary>
@@ -28,18 +28,18 @@ namespace Poseidon
             Console.Title = "Poseidon";
 
             NETWORK = Utilities.CheckNetworkConnection();
-			if (!NETWORK)
+            if (!NETWORK)
             {
                 Console.WriteLine("No network connection!");
                 Utilities.ExitProgram();
             }
-            
-			Settings.CheckSettingsFile();
-			Settings.LoadSettings();
 
-			database = new Database();
-			database.CreateTables();
-            
+            Settings.CheckSettingsFile();
+            Settings.LoadSettings();
+
+            database = new Database();
+            database.CreateTables();
+
             kraken = new Kraken();
             Console.WriteLine(kraken.GetServerTime().result.rfc1123);
 
@@ -48,7 +48,7 @@ namespace Poseidon
 
 
             var balances = kraken.GetAccountBalance().balances;
-            Console.WriteLine(balances.ToStringTable(new[] {"Currency", "Amount"}, a => a.Key, a => a.Value));
+            Console.WriteLine(balances.ToStringTable(new[] { "Currency", "Amount" }, a => a.Key, a => a.Value));
 
             Console.ReadLine();
         }
@@ -66,16 +66,18 @@ namespace Poseidon
         /// Gets the fiat currency.
         /// </summary>
         /// <returns>The fiat currency.</returns>
-		public static FiatCurrency GetFiatCurrency(){
-			return fiat;
-		}
+		public static FiatCurrency GetFiatCurrency()
+        {
+            return fiat;
+        }
 
         /// <summary>
         /// Gets the database.
         /// </summary>
         /// <returns>The database.</returns>
-		public static Database GetDatabase(){
-			return database;
-		}
+		public static Database GetDatabase()
+        {
+            return database;
+        }
     }
 }

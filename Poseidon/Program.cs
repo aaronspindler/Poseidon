@@ -61,6 +61,8 @@ namespace Poseidon
             Settings.CheckSettingsFile();
             Settings.LoadSettings();
 
+            Console.WriteLine(Settings.GetDB_Host());
+
             database = new Database();
             database.CreateTables();
 

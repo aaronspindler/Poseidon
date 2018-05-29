@@ -88,7 +88,7 @@ namespace Poseidon
 					string name = split[1];
 					double rate = Convert.ToDouble(split[3]);
 
-					response.currencies.Add(new Currency(name, rate));
+					response.currencies.Add(name, rate);
 					txt = reader.ReadLine();
 				}
 				reader.Close();

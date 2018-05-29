@@ -29,10 +29,10 @@ namespace Poseidon.Models.FiatCurrency
 {
     public class EuropeanCentralBankResponse
 	{
-		public List<Currency> currencies;
+		public Dictionary<string, double> currencies;
         public EuropeanCentralBankResponse()
         {
-			 currencies = new List<Currency>();
+            currencies = new Dictionary<string, double>();
         }
     }
 }

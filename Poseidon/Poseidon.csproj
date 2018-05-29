@@ -95,7 +95,6 @@
     <Compile Include="KrakenWrapper.cs" />
     <Compile Include="FiatCurrency.cs" />
     <Compile Include="Models\FiatCurrency\EuropeanCentralBankResponse.cs" />
-    <Compile Include="Models\FiatCurrency\Currency.cs" />
     <Compile Include="Models\Kraken\AccountBalance.cs" />
     <Compile Include="Models\Kraken\AssetInfo.cs" />
     <Compile Include="Models\Kraken\AssetPairs.cs" />

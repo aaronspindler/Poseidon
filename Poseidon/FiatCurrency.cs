@@ -51,7 +51,8 @@ namespace Poseidon
         public void GetEcbData()
         {
 			System.IO.Directory.CreateDirectory("Fiat/ECB");
-			var xmlDataFileName = string.Format(@"Fiat/ECB/{0}.txt", DateTime.Now.Ticks);
+            var now = DateTime.Now.Ticks;
+			var xmlDataFileName = string.Format(@"Fiat/ECB/{0}.txt", now);
             try
 			{
 				WebClient client = new WebClient();
@@ -78,7 +79,9 @@ namespace Poseidon
 				reader = new StreamReader(xmlDataFileName);
 
                 ///Skip over the date line
-				reader.ReadLine();
+				String date = reader.ReadLine();
+                String[] dateSplit = date.Split('\'');
+                date = dateSplit[1];
 
                 //Start the loop
                 EuropeanCentralBankResponse response = new EuropeanCentralBankResponse();
@@ -98,39 +101,39 @@ namespace Poseidon
                 conn.Open();
                 MySqlCommand cmd = conn.CreateCommand();
                 cmd.CommandText = "INSERT INTO Fiat_ECB(Date, USD, JPY, BGN, CZK, DKK, GBP, HUF, PLN, RON, SEK, CHF, ISK, NOK, HRK, RUB, TRY, AUD, BRL, CAD, CNY, HKD, IDR, ILS, INR, KRW, MXN, MYR, NZD, PHP, SGD, THB, ZAR) VALUES(@Date, @USD, @JPY, @BGN, @CZK, @DKK, @GBP, @HUF, @PLN, @RON, @SEK, @CHF, @ISK, @NOK, @HRK, @RUB, @TRY, @AUD, @BRL, @CAD, @CNY, @HKD, @IDR, @ILS, @INR, @KRW, @MXN, @MYR, @NZD, @PHP, @SGD, @THB, @ZAR)";
-                cmd.Parameters.Add("@Date","asdf");
-                cmd.Parameters.Add("@USD", "1.1");
-                cmd.Parameters.Add("@JPY", "1.1");
-                cmd.Parameters.Add("@BGN", "1.1");
-                cmd.Parameters.Add("@CZK", "1.1");
-                cmd.Parameters.Add("@DKK", "1.1");
-                cmd.Parameters.Add("@GBP", "1.1");
-                cmd.Parameters.Add("@HUF", "1.1");
-                cmd.Parameters.Add("@PLN", "1.1");
-                cmd.Parameters.Add("@RON", "1.1");
-                cmd.Parameters.Add("@SEK", "1.1");
-                cmd.Parameters.Add("@CHF", "1.1");
-                cmd.Parameters.Add("@ISK", "1.1");
-                cmd.Parameters.Add("@NOK", "1.1");
-                cmd.Parameters.Add("@HRK", "1.1");
-                cmd.Parameters.Add("@RUB", "1.1");
-                cmd.Parameters.Add("@TRY", "1.1");
-                cmd.Parameters.Add("@AUD", "1.1");
-                cmd.Parameters.Add("@BRL", "1.1");
-                cmd.Parameters.Add("@CAD", "1.1");
-                cmd.Parameters.Add("@CNY", "1.1");
-                cmd.Parameters.Add("@HKD", "1.1");
-                cmd.Parameters.Add("@IDR", "1.1");
-                cmd.Parameters.Add("@ILS", "1.1");
-                cmd.Parameters.Add("@INR", "1.1");
-                cmd.Parameters.Add("@KRW", "1.1");
-                cmd.Parameters.Add("@MXN", "1.1");
-                cmd.Parameters.Add("@MYR", "1.1");
-                cmd.Parameters.Add("@NZD", "1.1");
-                cmd.Parameters.Add("@PHP", "1.1");
-                cmd.Parameters.Add("@SGD", "1.1");
-                cmd.Parameters.Add("@THB", "1.1");
-                cmd.Parameters.Add("@ZAR", "1.1");
+                cmd.Parameters.Add("@Date", date);
+                cmd.Parameters.Add("@USD", response.currencies["USD"]);
+                cmd.Parameters.Add("@JPY", response.currencies["JPY"]);
+                cmd.Parameters.Add("@BGN", response.currencies["BGN"]);
+                cmd.Parameters.Add("@CZK", response.currencies["CZK"]);
+                cmd.Parameters.Add("@DKK", response.currencies["DKK"]);
+                cmd.Parameters.Add("@GBP", response.currencies["GBP"]);
+                cmd.Parameters.Add("@HUF", response.currencies["HUF"]);
+                cmd.Parameters.Add("@PLN", response.currencies["PLN"]);
+                cmd.Parameters.Add("@RON", response.currencies["RON"]);
+                cmd.Parameters.Add("@SEK", response.currencies["SEK"]);
+                cmd.Parameters.Add("@CHF", response.currencies["CHF"]);
+                cmd.Parameters.Add("@ISK", response.currencies["ISK"]);
+                cmd.Parameters.Add("@NOK", response.currencies["NOK"]);
+                cmd.Parameters.Add("@HRK", response.currencies["HRK"]);
+                cmd.Parameters.Add("@RUB", response.currencies["RUB"]);
+                cmd.Parameters.Add("@TRY", response.currencies["TRY"]);
+                cmd.Parameters.Add("@AUD", response.currencies["AUD"]);
+                cmd.Parameters.Add("@BRL", response.currencies["BRL"]);
+                cmd.Parameters.Add("@CAD", response.currencies["CAD"]);
+                cmd.Parameters.Add("@CNY", response.currencies["CNY"]);
+                cmd.Parameters.Add("@HKD", response.currencies["HKD"]);
+                cmd.Parameters.Add("@IDR", response.currencies["IDR"]);
+                cmd.Parameters.Add("@ILS", response.currencies["ILS"]);
+                cmd.Parameters.Add("@INR", response.currencies["INR"]);
+                cmd.Parameters.Add("@KRW", response.currencies["KRW"]);
+                cmd.Parameters.Add("@MXN", response.currencies["MXN"]);
+                cmd.Parameters.Add("@MYR", response.currencies["MYR"]);
+                cmd.Parameters.Add("@NZD", response.currencies["NZD"]);
+                cmd.Parameters.Add("@PHP", response.currencies["PHP"]);
+                cmd.Parameters.Add("@SGD", response.currencies["SGD"]);
+                cmd.Parameters.Add("@THB", response.currencies["THB"]);
+                cmd.Parameters.Add("@ZAR", response.currencies["ZAR"]);
                 cmd.ExecuteNonQuery();
                 conn.Close();
 

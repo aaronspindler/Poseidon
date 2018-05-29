@@ -23,24 +23,26 @@
 // SOFTWARE.
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Xml;
 using System.Xml.Linq;
+using MySql.Data.MySqlClient;
 using Poseidon.Models.FiatCurrency;
 
 namespace Poseidon
 {
     public class FiatCurrency
     {
-		EuropeanCentralBankResponse ecbData;
+		List<EuropeanCentralBankResponse> ecbData;
 
 		/// <summary>
         /// Initializes a new instance of the <see cref="T:Poseidon.FiatCurrency"/> class.
         /// </summary>
         public FiatCurrency()
         {
-			ecbData = new EuropeanCentralBankResponse();
+			ecbData = new List<EuropeanCentralBankResponse>();
         }
 
         /// <summary>
@@ -77,18 +79,61 @@ namespace Poseidon
 
                 ///Skip over the date line
 				reader.ReadLine();
-                
+
                 //Start the loop
+                EuropeanCentralBankResponse response = new EuropeanCentralBankResponse();
 				string txt = reader.ReadLine();
 				while(txt != null){
 					string[] split = txt.Split('\'');
 					string name = split[1];
 					double rate = Convert.ToDouble(split[3]);
 
-					ecbData.currencies.Add(new Currency(name, rate));
+					response.currencies.Add(new Currency(name, rate));
 					txt = reader.ReadLine();
 				}
 				reader.Close();
+                ecbData.Add(response);
+
+                MySqlConnection conn = Database.GetMySqlConnection();
+                conn.Open();
+                MySqlCommand cmd = conn.CreateCommand();
+                cmd.CommandText = "INSERT INTO Fiat_ECB(Date, USD, JPY, BGN, CZK, DKK, GBP, HUF, PLN, RON, SEK, CHF, ISK, NOK, HRK, RUB, TRY, AUD, BRL, CAD, CNY, HKD, IDR, ILS, INR, KRW, MXN, MYR, NZD, PHP, SGD, THB, ZAR) VALUES(@Date, @USD, @JPY, @BGN, @CZK, @DKK, @GBP, @HUF, @PLN, @RON, @SEK, @CHF, @ISK, @NOK, @HRK, @RUB, @TRY, @AUD, @BRL, @CAD, @CNY, @HKD, @IDR, @ILS, @INR, @KRW, @MXN, @MYR, @NZD, @PHP, @SGD, @THB, @ZAR)";
+                cmd.Parameters.Add("@Date","asdf");
+                cmd.Parameters.Add("@USD", "1.1");
+                cmd.Parameters.Add("@JPY", "1.1");
+                cmd.Parameters.Add("@BGN", "1.1");
+                cmd.Parameters.Add("@CZK", "1.1");
+                cmd.Parameters.Add("@DKK", "1.1");
+                cmd.Parameters.Add("@GBP", "1.1");
+                cmd.Parameters.Add("@HUF", "1.1");
+                cmd.Parameters.Add("@PLN", "1.1");
+                cmd.Parameters.Add("@RON", "1.1");
+                cmd.Parameters.Add("@SEK", "1.1");
+                cmd.Parameters.Add("@CHF", "1.1");
+                cmd.Parameters.Add("@ISK", "1.1");
+                cmd.Parameters.Add("@NOK", "1.1");
+                cmd.Parameters.Add("@HRK", "1.1");
+                cmd.Parameters.Add("@RUB", "1.1");
+                cmd.Parameters.Add("@TRY", "1.1");
+                cmd.Parameters.Add("@AUD", "1.1");
+                cmd.Parameters.Add("@BRL", "1.1");
+                cmd.Parameters.Add("@CAD", "1.1");
+                cmd.Parameters.Add("@CNY", "1.1");
+                cmd.Parameters.Add("@HKD", "1.1");
+                cmd.Parameters.Add("@IDR", "1.1");
+                cmd.Parameters.Add("@ILS", "1.1");
+                cmd.Parameters.Add("@INR", "1.1");
+                cmd.Parameters.Add("@KRW", "1.1");
+                cmd.Parameters.Add("@MXN", "1.1");
+                cmd.Parameters.Add("@MYR", "1.1");
+                cmd.Parameters.Add("@NZD", "1.1");
+                cmd.Parameters.Add("@PHP", "1.1");
+                cmd.Parameters.Add("@SGD", "1.1");
+                cmd.Parameters.Add("@THB", "1.1");
+                cmd.Parameters.Add("@ZAR", "1.1");
+                cmd.ExecuteNonQuery();
+                conn.Close();
+
 
 
             }catch(Exception e){

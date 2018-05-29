@@ -32,16 +32,10 @@ namespace Poseidon
     {
         // State of the network connection
         private static bool NETWORK = false;
-        // Kraken key
-        private static string KEY;
-        // Kraken signature
-        private static string SIGNATURE;
         // Kraken Object
         private static Kraken kraken;
         // Fiat Object
         private static FiatCurrency fiat;
-        // Database Object
-        private static Database database;
 
 
         /// <summary>
@@ -61,8 +55,7 @@ namespace Poseidon
             Settings.CheckSettingsFile();
             Settings.LoadSettings();
 
-            database = new Database();
-            database.CreateTables();
+            Database.CreateTables();
 
             kraken = new Kraken();
             Console.WriteLine(kraken.GetServerTime().result.rfc1123);
@@ -93,15 +86,6 @@ namespace Poseidon
 		public static FiatCurrency GetFiatCurrency()
         {
             return fiat;
-        }
-
-        /// <summary>
-        /// Gets the database.
-        /// </summary>
-        /// <returns>The database.</returns>
-		public static Database GetDatabase()
-        {
-            return database;
         }
     }
 }

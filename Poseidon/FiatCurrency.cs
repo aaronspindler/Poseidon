@@ -97,6 +97,7 @@ namespace Poseidon
 				reader.Close();
                 ecbData.Add(response);
 
+                //Database Data Storage
                 MySqlConnection conn = Database.GetMySqlConnection();
                 conn.Open();
                 MySqlCommand cmd = conn.CreateCommand();
@@ -136,8 +137,6 @@ namespace Poseidon
                 cmd.Parameters.Add("@ZAR", response.currencies["ZAR"]);
                 cmd.ExecuteNonQuery();
                 conn.Close();
-
-
 
             }catch(Exception e){
                 Console.WriteLine(e.Message);

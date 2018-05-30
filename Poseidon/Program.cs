@@ -25,11 +25,14 @@
 using System;
 using System.IO;
 using System.Net;
+using System.Threading;
 
 namespace Poseidon
 {
     public class Program
     {
+        //Time to wait inbetween polling for data in milliseconds
+        public static int DATA_COLLECTION_RATE = 10000;
         // State of the network connection
         private static bool NETWORK = false;
         // Kraken Object
@@ -61,13 +64,24 @@ namespace Poseidon
             Console.WriteLine(kraken.GetServerTime().result.rfc1123);
 
             fiat = new FiatCurrency();
-            fiat.GetEcbData();
-
+            Thread fiatThread = new Thread(UpdateFiatData);
+            fiatThread.Start();
 
             var balances = kraken.GetAccountBalance().balances;
             Console.WriteLine(balances.ToStringTable(new[] { "Currency", "Amount" }, a => a.Key, a => a.Value));
 
             Console.ReadLine();
+        }
+
+        /// <summary>
+        /// Updates the fiat data.
+        /// </summary>
+        private static void UpdateFiatData(){
+            while (true)
+            {
+                fiat.GetEcbData();
+                Thread.Sleep(DATA_COLLECTION_RATE);
+            }
         }
 
         /// <summary>

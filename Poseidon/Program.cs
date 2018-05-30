@@ -58,7 +58,7 @@ namespace Poseidon
             Settings.CheckSettingsFile();
             Settings.LoadSettings();
 
-            Database.CreateTables();
+            Database.Initialize();
 
             kraken = new Kraken();
             Console.WriteLine(kraken.GetServerTime().result.rfc1123);

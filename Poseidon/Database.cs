@@ -33,6 +33,13 @@ namespace Poseidon
 		static List<String> tables = new List<string>();
 
         /// <summary>
+        /// Initialize the database.
+        /// </summary>
+        public static void Initialize(){
+            CreateTables();
+        }
+
+        /// <summary>
         /// Gets the connection string.
         /// </summary>
 		public static MySqlConnection GetMySqlConnection(){

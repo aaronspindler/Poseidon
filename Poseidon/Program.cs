@@ -31,7 +31,7 @@ namespace Poseidon
 {
     public class Program
     {
-        //Time to wait inbetween polling for data in milliseconds
+        // Time to wait inbetween polling for data in milliseconds
         public static int DATA_COLLECTION_RATE = 10000;
         // State of the network connection
         private static bool NETWORK = false;
@@ -39,6 +39,11 @@ namespace Poseidon
         private static Kraken kraken;
         // Fiat Object
         private static FiatCurrency fiat;
+
+        // Threads
+        private static Thread fiatThread;
+        private static Thread cryptoThread;
+        private static Thread dataThread;
 
 
         /// <summary>
@@ -64,7 +69,7 @@ namespace Poseidon
             Console.WriteLine(kraken.GetServerTime().result.rfc1123);
 
             fiat = new FiatCurrency();
-            Thread fiatThread = new Thread(UpdateFiatData);
+            fiatThread = new Thread(UpdateFiatData);
             fiatThread.Start();
 
             var balances = kraken.GetAccountBalance().balances;

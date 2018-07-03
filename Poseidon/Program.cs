@@ -39,6 +39,8 @@ namespace Poseidon
         private static Kraken kraken;
         // Fiat Object
         private static FiatCurrency fiat;
+        // Crypto Object
+        private static CryptoCurrency crypto;
 
         // Threads
         private static Thread fiatThread;

@@ -55,6 +55,8 @@ namespace Poseidon
         {
             Console.Title = "Poseidon";
 
+            Logger.Initialize();
+
             NETWORK = Utilities.CheckNetworkConnection();
             if (!NETWORK)
             {
@@ -64,6 +66,7 @@ namespace Poseidon
 
             Settings.CheckSettingsFile();
             Settings.LoadSettings();
+
 
             kraken = new Kraken();
             Console.WriteLine(kraken.GetServerTime().result.rfc1123);
@@ -75,7 +78,6 @@ namespace Poseidon
             fiat = new FiatCurrency();
             fiatThread = new Thread(UpdateFiatData);
             fiatThread.Start();
-
 
 
             Console.ReadLine();

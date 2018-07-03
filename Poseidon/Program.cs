@@ -63,19 +63,24 @@ namespace Poseidon
             Settings.CheckSettingsFile();
             Settings.LoadSettings();
 
-            Database.Initialize();
-
             kraken = new Kraken();
             Console.WriteLine(kraken.GetServerTime().result.rfc1123);
+            var balances = kraken.GetAccountBalance().balances;
+            Console.WriteLine(balances.ToStringTable(new[] { "Currency", "Amount" }, a => a.Key, a => a.Value));
+
+            Database.Initialize();
 
             fiat = new FiatCurrency();
             fiatThread = new Thread(UpdateFiatData);
             fiatThread.Start();
 
-            var balances = kraken.GetAccountBalance().balances;
-            Console.WriteLine(balances.ToStringTable(new[] { "Currency", "Amount" }, a => a.Key, a => a.Value));
+
 
             Console.ReadLine();
+        }
+
+        public static void MenuScreen(){
+            Console.WriteLine("");
         }
 
         /// <summary>

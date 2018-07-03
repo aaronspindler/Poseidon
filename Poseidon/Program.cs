@@ -117,5 +117,14 @@ namespace Poseidon
         {
             return fiat;
         }
+
+        /// <summary>
+        /// Gets the crypto currency.
+        /// </summary>
+        /// <returns>The crypto currency.</returns>
+        public static CryptoCurrency GetCryptoCurrency()
+        {
+            return crypto;
+        }
     }
 }

@@ -57,10 +57,12 @@ namespace Poseidon
 
             Logger.Initialize();
 
+            Logger.WriteLine("Welcome to Poseidon!");
+
             NETWORK = Utilities.CheckNetworkConnection();
             if (!NETWORK)
             {
-                Console.WriteLine("No network connection!");
+                Logger.WriteLine("No network connection!");
                 Utilities.ExitProgram();
             }
 
@@ -69,9 +71,9 @@ namespace Poseidon
 
 
             kraken = new Kraken();
-            Console.WriteLine(kraken.GetServerTime().result.rfc1123);
+            Logger.WriteLine(kraken.GetServerTime().result.rfc1123);
             var balances = kraken.GetAccountBalance().balances;
-            Console.WriteLine(balances.ToStringTable(new[] { "Currency", "Amount" }, a => a.Key, a => a.Value));
+            Logger.WriteLine(balances.ToStringTable(new[] { "Currency", "Amount" }, a => a.Key, a => a.Value));
 
             Database.Initialize();
 
@@ -84,7 +86,7 @@ namespace Poseidon
         }
 
         public static void MenuScreen(){
-            Console.WriteLine("");
+            Logger.WriteLine("");
         }
 
         /// <summary>

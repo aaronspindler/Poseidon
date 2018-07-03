@@ -109,7 +109,7 @@ namespace Poseidon
             if (!File.Exists("settings.txt"))
             {
                 Settings.CreateDefaultSettingsFile();
-                Console.WriteLine("Created default settings file");
+                Logger.WriteLine("Created default settings file");
             }
         }
 
@@ -166,7 +166,7 @@ namespace Poseidon
             }
             catch (Exception exception)
             {
-                Console.WriteLine(exception.Message);
+                Logger.WriteLine(exception.Message);
 
                 Utilities.ExitProgram();
             }

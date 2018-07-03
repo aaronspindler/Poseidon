@@ -38,7 +38,7 @@ namespace Poseidon
         /// </summary>
         public static void ExitProgram()
         {
-            Console.WriteLine("Press enter to close application");
+            Logger.WriteLine("Press enter to close application");
             Console.ReadLine();
             Environment.Exit(-1);
         }
@@ -52,7 +52,7 @@ namespace Poseidon
             {
                 sw.Write(text);
             }
-            Console.WriteLine("File written");
+            Logger.WriteLine("File written");
         }
         /// <summary>
         /// Writes to a file.
@@ -65,7 +65,7 @@ namespace Poseidon
             {
                 sw.Write(text);
             }
-            Console.WriteLine("File written");
+            Logger.WriteLine("File written");
         }
 
         /// <summary>

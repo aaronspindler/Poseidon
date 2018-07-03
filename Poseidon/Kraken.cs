@@ -71,13 +71,13 @@ namespace Poseidon
                         sw.WriteLine("KEY=");
                         sw.WriteLine("SIGNATURE=");
                     }
-                    Console.WriteLine("Please enter your credentials in KrakenAPI.txt");
+                    Logger.WriteLine("Please enter your credentials in KrakenAPI.txt");
 
                     Utilities.ExitProgram();
                 }
                 catch (Exception exception)
                 {
-                    Console.WriteLine(exception.Message);
+                    Logger.WriteLine(exception.Message);
 
                     Utilities.ExitProgram();
                 }
@@ -255,7 +255,7 @@ namespace Poseidon
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Logger.WriteLine(ex.Message);
                 throw;
             }
         }
@@ -278,7 +278,7 @@ namespace Poseidon
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Logger.WriteLine(ex.Message);
                 throw;
             }
         }
@@ -300,7 +300,7 @@ namespace Poseidon
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Logger.WriteLine(ex.Message);
                 throw;
             }
         }
@@ -363,7 +363,7 @@ namespace Poseidon
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Logger.WriteLine(ex.Message);
                 throw;
             }
         }
@@ -403,7 +403,7 @@ namespace Poseidon
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Logger.WriteLine(ex.Message);
                 throw;
             }
             return ret;
@@ -471,7 +471,7 @@ namespace Poseidon
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Logger.WriteLine(ex.Message);
                 throw;
             }
 

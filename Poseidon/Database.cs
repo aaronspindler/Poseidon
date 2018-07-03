@@ -71,7 +71,7 @@ namespace Poseidon
                 try{
                     cmd.ExecuteNonQuery();
                 }catch(Exception e){
-                    Console.WriteLine("Database Message: " + e.Message);
+                    Logger.WriteLine("Database Message: " + e.Message);
                 }
 			}
             conn.Close();

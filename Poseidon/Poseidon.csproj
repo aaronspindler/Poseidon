@@ -92,7 +92,6 @@
     <Compile Include="KrakenException.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="KrakenWrapper.cs" />
     <Compile Include="FiatCurrency.cs" />
     <Compile Include="Models\FiatCurrency\EuropeanCentralBankResponse.cs" />
     <Compile Include="Models\Kraken\AccountBalance.cs" />

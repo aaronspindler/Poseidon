@@ -85,10 +85,6 @@ namespace Poseidon
             Console.ReadLine();
         }
 
-        public static void MenuScreen(){
-            Logger.WriteLine("");
-        }
-
         /// <summary>
         /// Updates the fiat data.
         /// </summary>

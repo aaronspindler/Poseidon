@@ -18,7 +18,8 @@ namespace Poseidon.Models.Old
         /// <summary>
         ///     Maker fee tier info (if requested) for any pairs on maker/taker schedule.
         /// </summary>
-        [JsonProperty(PropertyName = "fees_maker")] public Dictionary<string, FeeInfo> FeesMaker;
+        [JsonProperty(PropertyName = "fees_maker")]
+        public Dictionary<string, FeeInfo> FeesMaker;
 
         /// <summary>
         ///     Current discount volume.

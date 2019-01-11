@@ -29,36 +29,37 @@ namespace Poseidon
 {
     public static class Logger
     {
-        static StreamWriter writer;
-        static string fileName;
+        private static StreamWriter writer;
+        private static string fileName;
 
         /// <summary>
-        /// Initialize this instance.
+        ///     Initialize this instance.
         /// </summary>
         public static void Initialize()
         {
-            System.IO.Directory.CreateDirectory("Logs");
+            Directory.CreateDirectory("Logs");
             var now = DateTime.Now.Ticks;
             fileName = string.Format(@"Logs/{0}.txt", now);
         }
 
         /// <summary>
-        /// Writes the input to the console and to a file
+        ///     Writes the input to the console and to a file
         /// </summary>
         /// <param name="input">Input.</param>
         public static void WriteLine(string input)
         {
             Console.WriteLine(input);
 
-            try{
+            try
+            {
                 writer = new StreamWriter(fileName, true);
                 writer.WriteLine(input);
                 writer.Close();
-            }catch(Exception e){
+            }
+            catch (Exception e)
+            {
                 Console.WriteLine("Logger Error: " + e.Message);
             }
         }
-
-
     }
 }

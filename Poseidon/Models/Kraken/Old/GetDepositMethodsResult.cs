@@ -7,7 +7,8 @@ namespace Poseidon.Models.Old
         /// <summary>
         ///     Whether or not method has an address setup fee (optional).
         /// </summary>
-        [JsonProperty(PropertyName = "address-setup-fee")] public bool? AddressSetupFee;
+        [JsonProperty(PropertyName = "address-setup-fee")]
+        public bool? AddressSetupFee;
 
         /// <summary>
         ///     Amount of fees that will be paid.

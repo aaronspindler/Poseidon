@@ -77,6 +77,7 @@ namespace Poseidon
         /// <summary>
         ///     Position volume closed (base currency unless viqc set in oflags).
         /// </summary>
-        [JsonProperty(PropertyName = "vol_closed")] public decimal VolClosed;
+        [JsonProperty(PropertyName = "vol_closed")]
+        public decimal VolClosed;
     }
 }

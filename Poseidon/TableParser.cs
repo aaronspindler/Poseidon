@@ -11,7 +11,7 @@ namespace Poseidon
      */
 
     /// <summary>
-    /// Table parser
+    ///     Table parser
     /// </summary>
     public static class TableParser
     {
@@ -38,9 +38,9 @@ namespace Poseidon
 
             // Fill table rows
             for (var rowIndex = 1; rowIndex < arrValues.GetLength(0); rowIndex++)
-                for (var colIndex = 0; colIndex < arrValues.GetLength(1); colIndex++)
-                    arrValues[rowIndex, colIndex] = valueSelectors[colIndex]
-                        .Invoke(values[rowIndex - 1]).ToString();
+            for (var colIndex = 0; colIndex < arrValues.GetLength(1); colIndex++)
+                arrValues[rowIndex, colIndex] = valueSelectors[colIndex]
+                    .Invoke(values[rowIndex - 1]).ToString();
 
             return ToStringTable(arrValues);
         }
@@ -78,7 +78,7 @@ namespace Poseidon
         }
 
         /// <summary>
-        /// Calculates the maximum column width
+        ///     Calculates the maximum column width
         /// </summary>
         /// <returns>The max columns width.</returns>
         /// <param name="arrValues">Arr values.</param>
@@ -86,14 +86,14 @@ namespace Poseidon
         {
             var maxColumnsWidth = new int[arrValues.GetLength(1)];
             for (var colIndex = 0; colIndex < arrValues.GetLength(1); colIndex++)
-                for (var rowIndex = 0; rowIndex < arrValues.GetLength(0); rowIndex++)
-                {
-                    var newLength = arrValues[rowIndex, colIndex].Length;
-                    var oldLength = maxColumnsWidth[colIndex];
+            for (var rowIndex = 0; rowIndex < arrValues.GetLength(0); rowIndex++)
+            {
+                var newLength = arrValues[rowIndex, colIndex].Length;
+                var oldLength = maxColumnsWidth[colIndex];
 
-                    if (newLength > oldLength)
-                        maxColumnsWidth[colIndex] = newLength;
-                }
+                if (newLength > oldLength)
+                    maxColumnsWidth[colIndex] = newLength;
+            }
 
             return maxColumnsWidth;
         }

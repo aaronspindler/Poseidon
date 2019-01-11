@@ -28,13 +28,13 @@ using System.Net;
 
 namespace Poseidon
 {
-	/// <summary>
-    /// Utilities.
+    /// <summary>
+    ///     Utilities.
     /// </summary>
     public static class Utilities
-	{
-		/// <summary>
-        /// Exits the program.
+    {
+        /// <summary>
+        ///     Exits the program.
         /// </summary>
         public static void ExitProgram()
         {
@@ -42,8 +42,9 @@ namespace Poseidon
             Console.ReadLine();
             Environment.Exit(-1);
         }
+
         /// <summary>
-        /// Writes to a file.
+        ///     Writes to a file.
         /// </summary>
         /// <param name="text">The text thats written to the file</param>
         public static void WriteToFile(string text)
@@ -52,10 +53,12 @@ namespace Poseidon
             {
                 sw.Write(text);
             }
+
             Logger.WriteLine("File written");
         }
+
         /// <summary>
-        /// Writes to a file.
+        ///     Writes to a file.
         /// </summary>
         /// <param name="fileName">File name of where to write the text</param>
         /// <param name="text">The text thats written toa  file</param>
@@ -65,18 +68,19 @@ namespace Poseidon
             {
                 sw.Write(text);
             }
+
             Logger.WriteLine("File written");
         }
 
         /// <summary>
-        /// Gets the Unix time and puts it to a string.
+        ///     Gets the Unix time and puts it to a string.
         /// </summary>
         /// <returns>The time to string.</returns>
         /// <param name="unix">Unix.</param>
         public static string UnixTimeToString(decimal unix)
         {
             var dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-            dtDateTime = dtDateTime.AddSeconds((double)unix).ToLocalTime();
+            dtDateTime = dtDateTime.AddSeconds((double) unix).ToLocalTime();
             return dtDateTime.ToString();
         }
 
@@ -88,14 +92,14 @@ namespace Poseidon
             try
             {
                 using (var client = new WebClient())
-                using (Stream stream = client.OpenRead("http://www.google.com"))
+                using (var stream = client.OpenRead("http://www.google.com"))
                 {
-					return true;
+                    return true;
                 }
             }
             catch
             {
-				return false;
+                return false;
             }
         }
     }

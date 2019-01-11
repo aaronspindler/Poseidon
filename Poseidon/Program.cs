@@ -23,8 +23,6 @@
 // SOFTWARE.
 
 using System;
-using System.IO;
-using System.Net;
 using System.Threading;
 
 namespace Poseidon
@@ -33,12 +31,16 @@ namespace Poseidon
     {
         // Time to wait inbetween polling for data in milliseconds
         public static int DATA_COLLECTION_RATE = 10000;
+
         // State of the network connection
-        private static bool NETWORK = false;
+        private static bool NETWORK;
+
         // Kraken Object
         private static Kraken kraken;
+
         // Fiat Object
         private static FiatCurrency fiat;
+
         // Crypto Object
         private static CryptoCurrency crypto;
 
@@ -49,7 +51,7 @@ namespace Poseidon
 
 
         /// <summary>
-        /// The entry point of the program, where the program control starts and ends.
+        ///     The entry point of the program, where the program control starts and ends.
         /// </summary>
         private static void Main()
         {
@@ -73,7 +75,7 @@ namespace Poseidon
             kraken = new Kraken();
             Logger.WriteLine(kraken.GetServerTime().result.rfc1123);
             var balances = kraken.GetAccountBalance().balances;
-            Logger.WriteLine(balances.ToStringTable(new[] { "Currency", "Amount" }, a => a.Key, a => a.Value));
+            Logger.WriteLine(balances.ToStringTable(new[] {"Currency", "Amount"}, a => a.Key, a => a.Value));
 
             Database.Initialize();
 
@@ -86,9 +88,10 @@ namespace Poseidon
         }
 
         /// <summary>
-        /// Updates the fiat data.
+        ///     Updates the fiat data.
         /// </summary>
-        private static void UpdateFiatData(){
+        private static void UpdateFiatData()
+        {
             while (true)
             {
                 fiat.GetEcbData();
@@ -97,7 +100,7 @@ namespace Poseidon
         }
 
         /// <summary>
-        /// Gets the kraken.
+        ///     Gets the kraken.
         /// </summary>
         /// <returns>The kraken.</returns>
         public static Kraken GetKraken()
@@ -106,16 +109,16 @@ namespace Poseidon
         }
 
         /// <summary>
-        /// Gets the fiat currency.
+        ///     Gets the fiat currency.
         /// </summary>
         /// <returns>The fiat currency.</returns>
-		public static FiatCurrency GetFiatCurrency()
+        public static FiatCurrency GetFiatCurrency()
         {
             return fiat;
         }
 
         /// <summary>
-        /// Gets the crypto currency.
+        ///     Gets the crypto currency.
         /// </summary>
         /// <returns>The crypto currency.</returns>
         public static CryptoCurrency GetCryptoCurrency()

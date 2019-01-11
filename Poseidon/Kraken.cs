@@ -39,11 +39,11 @@ namespace Poseidon
 {
     public class Kraken
     {
-        private string _key;
         private readonly int _rateLimitMilliseconds;
-        private string _secret;
         private readonly string _url;
         private readonly int _version;
+        private string _key;
+        private string _secret;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="Kraken" /> class.
@@ -51,15 +51,15 @@ namespace Poseidon
         /// <param name="rateLimitMilliseconds">The rate limit in milliseconds.</param>
         public Kraken(int rateLimitMilliseconds = 100)
         {
-			CheckKrakenKeyFile();
-			LoadKrakenKeys();
+            CheckKrakenKeyFile();
+            LoadKrakenKeys();
             _url = "https://api.kraken.com";
             _version = 0;
             _rateLimitMilliseconds = rateLimitMilliseconds;
         }
 
-		/// <summary>
-        /// Checks the key file.
+        /// <summary>
+        ///     Checks the key file.
         /// </summary>
         public void CheckKrakenKeyFile()
         {
@@ -71,6 +71,7 @@ namespace Poseidon
                         sw.WriteLine("KEY=");
                         sw.WriteLine("SIGNATURE=");
                     }
+
                     Logger.WriteLine("Please enter your credentials in KrakenAPI.txt");
 
                     Utilities.ExitProgram();
@@ -82,8 +83,9 @@ namespace Poseidon
                     Utilities.ExitProgram();
                 }
         }
+
         /// <summary>
-        /// Loads the keys.
+        ///     Loads the keys.
         /// </summary>
         public void LoadKrakenKeys()
         {
@@ -406,6 +408,7 @@ namespace Poseidon
                 Logger.WriteLine(ex.Message);
                 throw;
             }
+
             return ret;
         }
 
@@ -447,6 +450,7 @@ namespace Poseidon
                             order.timestamp = (decimal) i;
                         j++;
                     }
+
                     ret.asks.Add(order);
                 }
 
@@ -466,6 +470,7 @@ namespace Poseidon
                             order.timestamp = (decimal) i;
                         j++;
                     }
+
                     ret.bids.Add(order);
                 }
             }

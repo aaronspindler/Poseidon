@@ -26,82 +26,78 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using System.Xml;
-using System.Xml.Linq;
-using MySql.Data.MySqlClient;
 using Poseidon.Models.FiatCurrency;
 
 namespace Poseidon
 {
     public class FiatCurrency
     {
-		List<EuropeanCentralBankResponse> ecbData;
+        private readonly List<EuropeanCentralBankResponse> ecbData;
 
-		/// <summary>
-        /// Initializes a new instance of the <see cref="T:Poseidon.FiatCurrency"/> class.
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="T:Poseidon.FiatCurrency" /> class.
         /// </summary>
         public FiatCurrency()
         {
-			ecbData = new List<EuropeanCentralBankResponse>();
+            ecbData = new List<EuropeanCentralBankResponse>();
         }
 
         /// <summary>
-		/// Gets current data containing exchange rates for fiat currencies from the ECB (European Central Bank)
+        ///     Gets current data containing exchange rates for fiat currencies from the ECB (European Central Bank)
         /// </summary>
         public void GetEcbData()
         {
-			System.IO.Directory.CreateDirectory("Fiat/ECB");
+            Directory.CreateDirectory("Fiat/ECB");
             var now = DateTime.Now.Ticks;
-			var xmlDataFileName = string.Format(@"Fiat/ECB/{0}.txt", now);
+            var xmlDataFileName = string.Format(@"Fiat/ECB/{0}.txt", now);
             try
-			{
-				WebClient client = new WebClient();
-				Stream data = client.OpenRead("http://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml");
-				StreamReader reader = new StreamReader(data);
-				StreamWriter writer = new StreamWriter(xmlDataFileName);
+            {
+                var client = new WebClient();
+                var data = client.OpenRead("http://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml");
+                var reader = new StreamReader(data);
+                var writer = new StreamWriter(xmlDataFileName);
                 //Read the header and ignore it
-				for (int i = 0; i < 7; i++){
-					reader.ReadLine();
-				}
+                for (var i = 0; i < 7; i++) reader.ReadLine();
 
                 ///Write the date
-				writer.WriteLine(reader.ReadLine().Trim());
+                writer.WriteLine(reader.ReadLine().Trim());
 
                 ///Read and write the actual currency data
-				for (int i = 0; i < 32; i++){
-					writer.WriteLine(reader.ReadLine().Trim());
-				}
+                for (var i = 0; i < 32; i++) writer.WriteLine(reader.ReadLine().Trim());
 
-				///Close reader and writers
-				writer.Close();
-				reader.Close();
+                ///Close reader and writers
+                writer.Close();
+                reader.Close();
 
-				reader = new StreamReader(xmlDataFileName);
+                reader = new StreamReader(xmlDataFileName);
 
                 ///Skip over the date line
-				String date = reader.ReadLine();
-                String[] dateSplit = date.Split('\'');
+                var date = reader.ReadLine();
+                var dateSplit = date.Split('\'');
                 date = dateSplit[1];
 
                 //Start the loop
-                EuropeanCentralBankResponse response = new EuropeanCentralBankResponse();
-				string txt = reader.ReadLine();
-				while(txt != null){
-					string[] split = txt.Split('\'');
-					string name = split[1];
-					double rate = Convert.ToDouble(split[3]);
+                var response = new EuropeanCentralBankResponse();
+                var txt = reader.ReadLine();
+                while (txt != null)
+                {
+                    var split = txt.Split('\'');
+                    var name = split[1];
+                    var rate = Convert.ToDouble(split[3]);
 
-					response.currencies.Add(name, rate);
-					txt = reader.ReadLine();
-				}
-				reader.Close();
+                    response.currencies.Add(name, rate);
+                    txt = reader.ReadLine();
+                }
+
+                reader.Close();
                 ecbData.Add(response);
 
                 //Database Data Storage
-                MySqlConnection conn = Database.GetMySqlConnection();
+                var conn = Database.GetMySqlConnection();
                 conn.Open();
-                MySqlCommand cmd = conn.CreateCommand();
-                cmd.CommandText = "INSERT INTO Fiat_ECB(Date, USD, JPY, BGN, CZK, DKK, GBP, HUF, PLN, RON, SEK, CHF, ISK, NOK, HRK, RUB, TRY, AUD, BRL, CAD, CNY, HKD, IDR, ILS, INR, KRW, MXN, MYR, NZD, PHP, SGD, THB, ZAR) VALUES(@Date, @USD, @JPY, @BGN, @CZK, @DKK, @GBP, @HUF, @PLN, @RON, @SEK, @CHF, @ISK, @NOK, @HRK, @RUB, @TRY, @AUD, @BRL, @CAD, @CNY, @HKD, @IDR, @ILS, @INR, @KRW, @MXN, @MYR, @NZD, @PHP, @SGD, @THB, @ZAR)";
+                var cmd = conn.CreateCommand();
+                cmd.CommandText =
+                    "INSERT INTO Fiat_ECB(Date, USD, JPY, BGN, CZK, DKK, GBP, HUF, PLN, RON, SEK, CHF, ISK, NOK, HRK, RUB, TRY, AUD, BRL, CAD, CNY, HKD, IDR, ILS, INR, KRW, MXN, MYR, NZD, PHP, SGD, THB, ZAR) VALUES(@Date, @USD, @JPY, @BGN, @CZK, @DKK, @GBP, @HUF, @PLN, @RON, @SEK, @CHF, @ISK, @NOK, @HRK, @RUB, @TRY, @AUD, @BRL, @CAD, @CNY, @HKD, @IDR, @ILS, @INR, @KRW, @MXN, @MYR, @NZD, @PHP, @SGD, @THB, @ZAR)";
                 cmd.Parameters.Add("@Date", date);
                 cmd.Parameters.Add("@USD", response.currencies["USD"]);
                 cmd.Parameters.Add("@JPY", response.currencies["JPY"]);
@@ -137,8 +133,9 @@ namespace Poseidon
                 cmd.Parameters.Add("@ZAR", response.currencies["ZAR"]);
                 cmd.ExecuteNonQuery();
                 conn.Close();
-
-            }catch(Exception e){
+            }
+            catch (Exception e)
+            {
                 Logger.WriteLine(e.Message);
             }
         }

@@ -111,6 +111,7 @@ namespace Poseidon.Models.Old
         /// <summary>
         ///     Volume executed (base currency unless viqc set in oflags)
         /// </summary>
-        [JsonProperty(PropertyName = "vol_exec")] public decimal VolumeExecuted;
+        [JsonProperty(PropertyName = "vol_exec")]
+        public decimal VolumeExecuted;
     }
 }

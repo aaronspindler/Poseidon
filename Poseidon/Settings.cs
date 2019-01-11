@@ -24,104 +24,103 @@
 
 using System;
 using System.IO;
+using System.Reflection;
 
 namespace Poseidon
 {
     public static class Settings
     {
-        static string version;
-        static string currency;
-        static string DB_host;
-        static string DB_port;
-        static string DB_name;
-        static string DB_username;
-        static string DB_password;
+        private static string version;
+        private static string currency;
+        private static string DB_host;
+        private static string DB_port;
+        private static string DB_name;
+        private static string DB_username;
+        private static string DB_password;
 
         /// <summary>
-        /// Gets the version.
+        ///     Gets the version.
         /// </summary>
         /// <returns>The version.</returns>
-		public static string GetVersion()
+        public static string GetVersion()
         {
             return version;
         }
 
         /// <summary>
-        /// Gets the currency.
+        ///     Gets the currency.
         /// </summary>
         /// <returns>The currency.</returns>
-		public static string GetCurrency()
+        public static string GetCurrency()
         {
             return currency;
         }
 
         /// <summary>
-        /// Gets the Database host.
+        ///     Gets the Database host.
         /// </summary>
         /// <returns>The Database host.</returns>
-		public static string GetDB_Host()
+        public static string GetDB_Host()
         {
             return DB_host;
         }
 
         /// <summary>
-        /// Gets the Database port.
+        ///     Gets the Database port.
         /// </summary>
         /// <returns>The Database port.</returns>
-		public static string GetDB_Port()
+        public static string GetDB_Port()
         {
             return DB_port;
         }
 
         /// <summary>
-        /// Gets the name of the Database.
+        ///     Gets the name of the Database.
         /// </summary>
         /// <returns>The Database name.</returns>
-		public static string GetDB_Name()
+        public static string GetDB_Name()
         {
             return DB_name;
         }
 
         /// <summary>
-        /// Gets the Database username.
+        ///     Gets the Database username.
         /// </summary>
         /// <returns>The Database username.</returns>
-		public static string GetDB_Username()
+        public static string GetDB_Username()
         {
             return DB_username;
         }
 
         /// <summary>
-        /// Gets the Database password.
+        ///     Gets the Database password.
         /// </summary>
         /// <returns>The Database password.</returns>
-		public static string GetDB_Password()
+        public static string GetDB_Password()
         {
             return DB_password;
         }
 
 
         /// <summary>
-        /// Checks the settings file.
+        ///     Checks the settings file.
         /// </summary>
         public static void CheckSettingsFile()
         {
-            if (!File.Exists("settings.txt"))
-            {
-                Settings.CreateDefaultSettingsFile();
-                Logger.WriteLine("Created default settings file");
-            }
+            if (File.Exists("settings.txt")) return;
+            CreateDefaultSettingsFile();
+            Logger.WriteLine("Created default settings file");
         }
 
 
         /// <summary>
-        /// Loads the settings.
+        ///     Loads the settings.
         /// </summary>
         public static void LoadSettings()
         {
-            StreamReader reader = new StreamReader("settings.txt");
+            var reader = new StreamReader("settings.txt");
 
-            string line = reader.ReadLine();
+            var line = reader.ReadLine();
             version = line.Split('=')[1];
 
             line = reader.ReadLine();
@@ -145,7 +144,7 @@ namespace Poseidon
 
 
         /// <summary>
-        /// Creates a default settings file.
+        ///     Creates a default settings file.
         /// </summary>
         private static void CreateDefaultSettingsFile()
         {
@@ -153,7 +152,7 @@ namespace Poseidon
             {
                 using (var sw = File.CreateText("settings.txt"))
                 {
-                    sw.WriteLine("VERSION=" + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version);
+                    sw.WriteLine("VERSION=" + Assembly.GetExecutingAssembly().GetName().Version);
                     sw.WriteLine("CURRENCY=CAD");
                     sw.WriteLine("DB_HOST=localhost");
                     sw.WriteLine("DB_PORT=3306");

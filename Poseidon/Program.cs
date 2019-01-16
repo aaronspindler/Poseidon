@@ -74,8 +74,8 @@ namespace Poseidon
 
             kraken = new Kraken();
             Logger.WriteLine(kraken.GetServerTime().result.rfc1123);
-            var balances = kraken.GetAccountBalance().balances;
-            Logger.WriteLine(balances.ToStringTable(new[] {"Currency", "Amount"}, a => a.Key, a => a.Value));
+            //var balances = kraken.GetAccountBalance().balances;
+            //Logger.WriteLine(balances.ToStringTable(new[] {"Currency", "Amount"}, a => a.Key, a => a.Value));
 
             Database.Initialize();
 

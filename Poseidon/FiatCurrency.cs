@@ -93,7 +93,7 @@ namespace Poseidon
                 ecbData.Add(response);
 
                 //Database Data Storage
-                var conn = Database.GetMySqlConnection();
+                var conn = MySQLDatabase.GetMySqlConnection();
                 conn.Open();
                 var cmd = conn.CreateCommand();
                 cmd.CommandText =

@@ -77,7 +77,7 @@ namespace Poseidon
             var balances = kraken.GetAccountBalance().balances;
             Logger.WriteLine(balances.ToStringTable(new[] {"Currency", "Amount"}, a => a.Key, a => a.Value));
 
-            Database.Initialize();
+            MySQLDatabase.Initialize();
 
             fiat = new FiatCurrency();
             fiatThread = new Thread(UpdateFiatData);

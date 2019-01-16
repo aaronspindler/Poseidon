@@ -28,7 +28,7 @@ using MySql.Data.MySqlClient;
 
 namespace Poseidon
 {
-    public static class Database
+    public static class MySQLDatabase
     {
         private static readonly List<string> tables = new List<string>();
 

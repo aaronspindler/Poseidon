@@ -75,6 +75,7 @@ namespace Poseidon
                 try
                 {
                     cmd.ExecuteNonQuery();
+                    Logger.WriteLine("Initialized a database");
                 }
                 catch (Exception e)
                 {

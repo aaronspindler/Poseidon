@@ -1,4 +1,4 @@
-﻿// --- CryptoCurrency.cs ---
+// --- KrakenCurrencyResponse.cs ---
 //
 // MIT License
 //
@@ -22,19 +22,17 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-
 using System.Collections.Generic;
-using Poseidon.Models.CryptoCurrency;
 
-namespace Poseidon
+namespace Poseidon.Models.CryptoCurrency
 {
-    public class CryptoCurrency
+    public class KrakenCurrencyResponse
     {
-        private readonly List<KrakenCurrencyResponse> krakenData;
+        public Dictionary<string, double> currencies;
 
-        public void GetKrakenData()
+        public KrakenCurrencyResponse()
         {
-            
+            currencies = new Dictionary<string, double>();
         }
     }
 }

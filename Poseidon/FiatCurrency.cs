@@ -26,6 +26,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using MySql.Data.MySqlClient;
 using Poseidon.Models.FiatCurrency;
 
 namespace Poseidon
@@ -133,6 +134,14 @@ namespace Poseidon
                 cmd.Parameters.AddWithValue("@ZAR", response.currencies["ZAR"]);
                 cmd.ExecuteNonQuery();
                 conn.Close();
+                Logger.WriteLine("Added fiat currency rates to database!");
+            }
+            catch (MySqlException ex)
+            {
+                if (ex.Message.Contains("Duplicate entry"))
+                {
+                    Logger.WriteLine("Fiat Currency has already been recorded today.");
+                }
             }
             catch (Exception e)
             {

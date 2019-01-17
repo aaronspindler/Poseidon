@@ -30,7 +30,7 @@ namespace Poseidon
     public class Program
     {
         // Time to wait inbetween polling for data in milliseconds
-        public static int DATA_COLLECTION_RATE = 10000;
+        public static int FIAT_DATA_COLLECTION_RATE = 1000000;
 
         // State of the network connection
         private static bool NETWORK;
@@ -75,7 +75,7 @@ namespace Poseidon
             kraken = new Kraken();
             Logger.WriteLine(kraken.GetServerTime().result.rfc1123);
             var balances = kraken.GetAccountBalance().balances;
-            Logger.WriteLine(balances.ToStringTable(new[] {"Currency", "Amount"}, a => a.Key, a => a.Value));
+            Logger.WriteLineNoDate(balances.ToStringTable(new[] {"Currency", "Amount"}, a => a.Key, a => a.Value));
 
             MySQLDatabase.Initialize();
 
@@ -95,7 +95,7 @@ namespace Poseidon
             while (true)
             {
                 fiat.GetEcbData();
-                Thread.Sleep(DATA_COLLECTION_RATE);
+                Thread.Sleep(FIAT_DATA_COLLECTION_RATE);
             }
         }
 

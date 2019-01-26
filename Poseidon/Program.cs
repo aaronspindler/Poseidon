@@ -31,6 +31,7 @@ namespace Poseidon
     {
         // Time to wait inbetween polling for data in milliseconds
         public static int FIAT_DATA_COLLECTION_RATE = 1000000;
+        public static int CRYPTO_DATA_COLLECTION_RATE = 1000000;
 
         // State of the network connection
         private static bool NETWORK;
@@ -82,6 +83,10 @@ namespace Poseidon
             fiat = new FiatCurrency();
             fiatThread = new Thread(UpdateFiatData);
             fiatThread.Start();
+            
+            crypto = new CryptoCurrency(kraken);
+            cryptoThread = new Thread(UpdateCryptoData);
+            cryptoThread.Start();
 
 
             Console.ReadLine();
@@ -96,6 +101,18 @@ namespace Poseidon
             {
                 fiat.GetEcbData();
                 Thread.Sleep(FIAT_DATA_COLLECTION_RATE);
+            }
+        }
+
+        /// <summary>
+        /// Updates the crypto data.
+        /// </summary>
+        private static void UpdateCryptoData()
+        {
+            while (true)
+            {
+                crypto.GetKrakenData();
+                Thread.Sleep(CRYPTO_DATA_COLLECTION_RATE);
             }
         }
 

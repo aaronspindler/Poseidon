@@ -40,7 +40,7 @@ namespace Poseidon
         private static Kraken kraken;
 
         // Fiat Object
-        private static FiatCurrency fiat;
+        private static FiatCurrencyManager fiat;
 
         // Crypto Object
         private static CryptoCurrency crypto;
@@ -80,10 +80,10 @@ namespace Poseidon
 
             MySQLDatabase.Initialize();
 
-            fiat = new FiatCurrency();
+            fiat = new FiatCurrencyManager();
             fiatThread = new Thread(UpdateFiatData);
             fiatThread.Start();
-            
+
             crypto = new CryptoCurrency(kraken);
             cryptoThread = new Thread(UpdateCryptoData);
             cryptoThread.Start();
@@ -105,7 +105,7 @@ namespace Poseidon
         }
 
         /// <summary>
-        /// Updates the crypto data.
+        ///     Updates the crypto data.
         /// </summary>
         private static void UpdateCryptoData()
         {
@@ -129,7 +129,7 @@ namespace Poseidon
         ///     Gets the fiat currency.
         /// </summary>
         /// <returns>The fiat currency.</returns>
-        public static FiatCurrency GetFiatCurrency()
+        public static FiatCurrencyManager GetFiatCurrency()
         {
             return fiat;
         }

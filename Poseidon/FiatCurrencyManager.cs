@@ -31,14 +31,15 @@ using Poseidon.Models.FiatCurrency;
 
 namespace Poseidon
 {
-    public class FiatCurrency
+    public class FiatCurrencyManager
     {
         private readonly List<EuropeanCentralBankResponse> ecbData;
+        private List<FiatCurrency> rebasedCurrencies;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:Poseidon.FiatCurrency" /> class.
         /// </summary>
-        public FiatCurrency()
+        public FiatCurrencyManager()
         {
             ecbData = new List<EuropeanCentralBankResponse>();
         }
@@ -139,14 +140,19 @@ namespace Poseidon
             catch (MySqlException ex)
             {
                 if (ex.Message.Contains("Duplicate entry"))
-                {
                     Logger.WriteLine("Fiat Currency has already been recorded today.");
-                }
             }
             catch (Exception e)
             {
                 Logger.WriteLine(e.Message);
             }
+        }
+
+        /// <summary>
+        ///     Rebase all currency prices to be in CAD instead of Euro
+        /// </summary>
+        public void RebaseCurrency()
+        {
         }
     }
 }

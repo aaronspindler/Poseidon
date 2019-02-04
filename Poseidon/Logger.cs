@@ -48,24 +48,24 @@ namespace Poseidon
         /// <param name="input">Input.</param>
         public static void WriteLine(string input)
         {
-            string messageText = DateTime.Now + " : " + input;
-            Logger.WriteLineNoDate(messageText);
+            var messageText = DateTime.Now + " : " + input;
+            WriteLineNoDate(messageText);
         }
-        
+
         public static void WriteLineNoDate(string input)
-                {
-                    Console.WriteLine(input);
-        
-                    try
-                    {
-                        writer = new StreamWriter(fileName, true);
-                        writer.WriteLine(input);
-                        writer.Close();
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine("Logger Error: " + e.Message);
-                    }
-                }
+        {
+            Console.WriteLine(input);
+
+            try
+            {
+                writer = new StreamWriter(fileName, true);
+                writer.WriteLine(input);
+                writer.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Logger Error: " + e.Message);
+            }
+        }
     }
 }

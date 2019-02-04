@@ -27,10 +27,13 @@ using System.Threading;
 
 namespace Poseidon
 {
+    /// <summary>
+    ///     The main program class
+    /// </summary>
     public class Program
     {
         // Time to wait inbetween polling for data in milliseconds
-        public static int FIAT_DATA_COLLECTION_RATE = 1000000;
+        public static int FIAT_DATA_COLLECTION_RATE = 1000000000;
         public static int CRYPTO_DATA_COLLECTION_RATE = 1000000;
 
         // State of the network connection
@@ -72,24 +75,28 @@ namespace Poseidon
             Settings.CheckSettingsFile();
             Settings.LoadSettings();
 
-
+            fiat = new FiatCurrencyManager();
             kraken = new Kraken();
+            crypto = new CryptoCurrency(kraken);
+
             Logger.WriteLine(kraken.GetServerTime().result.rfc1123);
             var balances = kraken.GetAccountBalance().balances;
             Logger.WriteLineNoDate(balances.ToStringTable(new[] {"Currency", "Amount"}, a => a.Key, a => a.Value));
 
             MySQLDatabase.Initialize();
 
-            fiat = new FiatCurrencyManager();
+            //Make sure fiat data is populated with at least one entry
+            fiat.GetFiatRates();
+
+
             fiatThread = new Thread(UpdateFiatData);
             fiatThread.Start();
 
-            crypto = new CryptoCurrency(kraken);
+
             cryptoThread = new Thread(UpdateCryptoData);
             cryptoThread.Start();
 
 
-            Console.ReadLine();
         }
 
         /// <summary>
@@ -99,7 +106,7 @@ namespace Poseidon
         {
             while (true)
             {
-                fiat.GetEcbData();
+                fiat.GetFiatRates();
                 Thread.Sleep(FIAT_DATA_COLLECTION_RATE);
             }
         }

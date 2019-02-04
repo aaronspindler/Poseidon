@@ -25,6 +25,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using MySql.Data.MySqlClient;
 using Poseidon.Models.FiatCurrency;
@@ -34,7 +35,7 @@ namespace Poseidon
     public class FiatCurrencyManager
     {
         private readonly List<EuropeanCentralBankResponse> ecbData;
-        private List<FiatCurrency> rebasedCurrencies;
+        private Dictionary<string, double> rebasedCurrencies;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:Poseidon.FiatCurrency" /> class.
@@ -43,11 +44,18 @@ namespace Poseidon
         {
             ecbData = new List<EuropeanCentralBankResponse>();
         }
+        
+        public void GetFiatRates()
+        {
+            GetEcbData();
+            RebaseCurrency();
+            AddtoDatabase();
+        }
 
         /// <summary>
         ///     Gets current data containing exchange rates for fiat currencies from the ECB (European Central Bank)
         /// </summary>
-        public void GetEcbData()
+        private void GetEcbData()
         {
             Directory.CreateDirectory("Fiat/ECB");
             var now = DateTime.Now.Ticks;
@@ -93,46 +101,59 @@ namespace Poseidon
 
                 reader.Close();
                 ecbData.Add(response);
+            }
+            catch (Exception e)
+            {
+                Logger.WriteLine(e.Message);
+            }
+        }
 
-                //Database Data Storage
+        /// <summary>
+        /// Adds current market rates to a personal database
+        /// </summary>
+        private void AddtoDatabase()
+        {
+            try
+            {
                 var conn = MySQLDatabase.GetMySqlConnection();
                 conn.Open();
                 var cmd = conn.CreateCommand();
                 cmd.CommandText =
-                    "INSERT INTO Fiat_ECB(Date, USD, JPY, BGN, CZK, DKK, GBP, HUF, PLN, RON, SEK, CHF, ISK, NOK, HRK, RUB, TRY, AUD, BRL, CAD, CNY, HKD, IDR, ILS, INR, KRW, MXN, MYR, NZD, PHP, SGD, THB, ZAR) VALUES(@Date, @USD, @JPY, @BGN, @CZK, @DKK, @GBP, @HUF, @PLN, @RON, @SEK, @CHF, @ISK, @NOK, @HRK, @RUB, @TRY, @AUD, @BRL, @CAD, @CNY, @HKD, @IDR, @ILS, @INR, @KRW, @MXN, @MYR, @NZD, @PHP, @SGD, @THB, @ZAR)";
-                cmd.Parameters.AddWithValue("@Date", date);
-                cmd.Parameters.AddWithValue("@USD", response.currencies["USD"]);
-                cmd.Parameters.AddWithValue("@JPY", response.currencies["JPY"]);
-                cmd.Parameters.AddWithValue("@BGN", response.currencies["BGN"]);
-                cmd.Parameters.AddWithValue("@CZK", response.currencies["CZK"]);
-                cmd.Parameters.AddWithValue("@DKK", response.currencies["DKK"]);
-                cmd.Parameters.AddWithValue("@GBP", response.currencies["GBP"]);
-                cmd.Parameters.AddWithValue("@HUF", response.currencies["HUF"]);
-                cmd.Parameters.AddWithValue("@PLN", response.currencies["PLN"]);
-                cmd.Parameters.AddWithValue("@RON", response.currencies["RON"]);
-                cmd.Parameters.AddWithValue("@SEK", response.currencies["SEK"]);
-                cmd.Parameters.AddWithValue("@CHF", response.currencies["CHF"]);
-                cmd.Parameters.AddWithValue("@ISK", response.currencies["ISK"]);
-                cmd.Parameters.AddWithValue("@NOK", response.currencies["NOK"]);
-                cmd.Parameters.AddWithValue("@HRK", response.currencies["HRK"]);
-                cmd.Parameters.AddWithValue("@RUB", response.currencies["RUB"]);
-                cmd.Parameters.AddWithValue("@TRY", response.currencies["TRY"]);
-                cmd.Parameters.AddWithValue("@AUD", response.currencies["AUD"]);
-                cmd.Parameters.AddWithValue("@BRL", response.currencies["BRL"]);
-                cmd.Parameters.AddWithValue("@CAD", response.currencies["CAD"]);
-                cmd.Parameters.AddWithValue("@CNY", response.currencies["CNY"]);
-                cmd.Parameters.AddWithValue("@HKD", response.currencies["HKD"]);
-                cmd.Parameters.AddWithValue("@IDR", response.currencies["IDR"]);
-                cmd.Parameters.AddWithValue("@ILS", response.currencies["ILS"]);
-                cmd.Parameters.AddWithValue("@INR", response.currencies["INR"]);
-                cmd.Parameters.AddWithValue("@KRW", response.currencies["KRW"]);
-                cmd.Parameters.AddWithValue("@MXN", response.currencies["MXN"]);
-                cmd.Parameters.AddWithValue("@MYR", response.currencies["MYR"]);
-                cmd.Parameters.AddWithValue("@NZD", response.currencies["NZD"]);
-                cmd.Parameters.AddWithValue("@PHP", response.currencies["PHP"]);
-                cmd.Parameters.AddWithValue("@SGD", response.currencies["SGD"]);
-                cmd.Parameters.AddWithValue("@THB", response.currencies["THB"]);
-                cmd.Parameters.AddWithValue("@ZAR", response.currencies["ZAR"]);
+                    "INSERT INTO Fiat_ECB(Date, EUR, USD, JPY, BGN, CZK, DKK, GBP, HUF, PLN, RON, SEK, CHF, ISK, NOK, HRK, RUB, TRY, AUD, BRL, CAD, CNY, HKD, IDR, ILS, INR, KRW, MXN, MYR, NZD, PHP, SGD, THB, ZAR) VALUES(@Date, @EUR, @USD, @JPY, @BGN, @CZK, @DKK, @GBP, @HUF, @PLN, @RON, @SEK, @CHF, @ISK, @NOK, @HRK, @RUB, @TRY, @AUD, @BRL, @CAD, @CNY, @HKD, @IDR, @ILS, @INR, @KRW, @MXN, @MYR, @NZD, @PHP, @SGD, @THB, @ZAR)";
+                cmd.Parameters.AddWithValue("@Date", DateTime.Now);
+                cmd.Parameters.AddWithValue("@EUR", rebasedCurrencies["EUR"]);
+                cmd.Parameters.AddWithValue("@USD", rebasedCurrencies["USD"]);
+                cmd.Parameters.AddWithValue("@JPY", rebasedCurrencies["JPY"]);
+                cmd.Parameters.AddWithValue("@BGN", rebasedCurrencies["BGN"]);
+                cmd.Parameters.AddWithValue("@CZK", rebasedCurrencies["CZK"]);
+                cmd.Parameters.AddWithValue("@DKK", rebasedCurrencies["DKK"]);
+                cmd.Parameters.AddWithValue("@GBP", rebasedCurrencies["GBP"]);
+                cmd.Parameters.AddWithValue("@HUF", rebasedCurrencies["HUF"]);
+                cmd.Parameters.AddWithValue("@PLN", rebasedCurrencies["PLN"]);
+                cmd.Parameters.AddWithValue("@RON", rebasedCurrencies["RON"]);
+                cmd.Parameters.AddWithValue("@SEK", rebasedCurrencies["SEK"]);
+                cmd.Parameters.AddWithValue("@CHF", rebasedCurrencies["CHF"]);
+                cmd.Parameters.AddWithValue("@ISK", rebasedCurrencies["ISK"]);
+                cmd.Parameters.AddWithValue("@NOK", rebasedCurrencies["NOK"]);
+                cmd.Parameters.AddWithValue("@HRK", rebasedCurrencies["HRK"]);
+                cmd.Parameters.AddWithValue("@RUB", rebasedCurrencies["RUB"]);
+                cmd.Parameters.AddWithValue("@TRY", rebasedCurrencies["TRY"]);
+                cmd.Parameters.AddWithValue("@AUD", rebasedCurrencies["AUD"]);
+                cmd.Parameters.AddWithValue("@BRL", rebasedCurrencies["BRL"]);
+                cmd.Parameters.AddWithValue("@CAD", rebasedCurrencies["CAD"]);
+                cmd.Parameters.AddWithValue("@CNY", rebasedCurrencies["CNY"]);
+                cmd.Parameters.AddWithValue("@HKD", rebasedCurrencies["HKD"]);
+                cmd.Parameters.AddWithValue("@IDR", rebasedCurrencies["IDR"]);
+                cmd.Parameters.AddWithValue("@ILS", rebasedCurrencies["ILS"]);
+                cmd.Parameters.AddWithValue("@INR", rebasedCurrencies["INR"]);
+                cmd.Parameters.AddWithValue("@KRW", rebasedCurrencies["KRW"]);
+                cmd.Parameters.AddWithValue("@MXN", rebasedCurrencies["MXN"]);
+                cmd.Parameters.AddWithValue("@MYR", rebasedCurrencies["MYR"]);
+                cmd.Parameters.AddWithValue("@NZD", rebasedCurrencies["NZD"]);
+                cmd.Parameters.AddWithValue("@PHP", rebasedCurrencies["PHP"]);
+                cmd.Parameters.AddWithValue("@SGD", rebasedCurrencies["SGD"]);
+                cmd.Parameters.AddWithValue("@THB", rebasedCurrencies["THB"]);
+                cmd.Parameters.AddWithValue("@ZAR", rebasedCurrencies["ZAR"]);
                 cmd.ExecuteNonQuery();
                 conn.Close();
                 Logger.WriteLine("Added fiat currency rates to database!");
@@ -144,15 +165,31 @@ namespace Poseidon
             }
             catch (Exception e)
             {
-                Logger.WriteLine(e.Message);
+                Console.WriteLine(e);
+                throw;
             }
         }
+
 
         /// <summary>
         ///     Rebase all currency prices to be in CAD instead of Euro
         /// </summary>
-        public void RebaseCurrency()
+        private void RebaseCurrency()
         {
+            rebasedCurrencies = new Dictionary<string, double>();
+            EuropeanCentralBankResponse lastResponse = ecbData.LastOrDefault();
+            if (lastResponse == null) return;
+            Dictionary<string, double> euroBase = lastResponse.currencies;
+
+
+            rebasedCurrencies.Add("EUR", 1 / euroBase["CAD"]);
+
+            foreach (var currency in euroBase)
+            {
+                string currencyName = currency.Key;
+                double newValue = currency.Value / euroBase["CAD"];
+                rebasedCurrencies.Add(currencyName, newValue);
+            }
         }
     }
 }

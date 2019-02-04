@@ -221,7 +221,7 @@ namespace Poseidon
             }
         }
 
-        
+
         private void AddHeaders(HttpWebRequest webRequest, long nonce, string postData, string path)
         {
             webRequest.Headers.Add("API-Key", _key);

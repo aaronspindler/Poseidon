@@ -30,8 +30,8 @@ namespace Poseidon
 {
     public class CryptoCurrency
     {
-        private Kraken _kraken = new Kraken();
         private readonly List<KrakenCurrencyResponse> krakenData;
+        private Kraken _kraken = new Kraken();
 
         public CryptoCurrency(Kraken kraken)
         {
@@ -40,7 +40,6 @@ namespace Poseidon
 
         public void GetKrakenData()
         {
-            
         }
     }
 }

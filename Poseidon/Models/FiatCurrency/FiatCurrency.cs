@@ -27,7 +27,6 @@ namespace Poseidon.Models.FiatCurrency
     /// <summary>
     ///     A data model for each fiat currency. All currencies will base based on CAD
     /// </summary>
-    /// Todo: Change model to allow rebasing to different currencies
     public class FiatCurrency
     {
         private string _name;

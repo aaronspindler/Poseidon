@@ -69,19 +69,19 @@ namespace Poseidon
                 //Read the header and ignore it
                 for (var i = 0; i < 7; i++) reader.ReadLine();
 
-                ///Write the date
+                //Write the date
                 writer.WriteLine(reader.ReadLine().Trim());
 
-                ///Read and write the actual currency data
+                //Read and write the actual currency data
                 for (var i = 0; i < 32; i++) writer.WriteLine(reader.ReadLine().Trim());
 
-                ///Close reader and writers
+                //Close reader and writers
                 writer.Close();
                 reader.Close();
 
                 reader = new StreamReader(xmlDataFileName);
 
-                ///Skip over the date line
+                //Skip over the date line
                 var date = reader.ReadLine();
                 var dateSplit = date.Split('\'');
                 date = dateSplit[1];

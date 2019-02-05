@@ -266,11 +266,7 @@ namespace Poseidon
         /// <summary>
         ///     Gets the asset information.
         /// </summary>
-        /// <param name="info">The information.</param>
-        /// <param name="aclass">The aclass.</param>
-        /// <param name="asset">The asset.</param>
         /// <returns></returns>
-        /// <exception cref="KrakenException"></exception>
         public AssetInfo GetAssetInfo()
         {
             var res = QueryPublic("Assets");
@@ -417,7 +413,6 @@ namespace Poseidon
         ///     Gets the order book.
         /// </summary>
         /// <param name="pair">The pair.</param>
-        /// <param name="count">The count.</param>
         public OrderBook GetOrderBook(string pair)
         {
             var param = new Dictionary<string, string>();
@@ -523,7 +518,6 @@ namespace Poseidon
         ///     previous set should overwrite all of the previous set's entries at that time.
         /// </summary>
         /// <param name="pair">The pair.</param>
-        /// <param name="since">The since.</param>
         public RecentSpread GetRecentSpread(string pair)
         {
             var param = new Dictionary<string, string>();

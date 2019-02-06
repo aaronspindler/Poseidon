@@ -4,14 +4,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Poseidon", "Poseidon\Poseid
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Poseidon.Test", "Poseidon.Test\Poseidon.Test.csproj", "{F9CDAEC1-8A75-4C7C-A5C3-3736F8169762}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiatCurrency", "FiatCurrency\FiatCurrency.csproj", "{44B861BE-53CD-4C0C-800C-498FCF9ACACD}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoCurrency", "CryptoCurrency\CryptoCurrency.csproj", "{43426904-BA6C-4B8F-B6D2-D8F38B3AFD4B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoCurrency.Test", "CryptoCurrency.Test\CryptoCurrency.Test.csproj", "{1958D474-0EB1-40F8-9C4E-BF62B675608E}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiatCurrency.Test", "FiatCurrency.Test\FiatCurrency.Test.csproj", "{41881B40-1253-45E4-8C4B-14FAB61F8E19}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,21 +19,5 @@ Global
 		{F9CDAEC1-8A75-4C7C-A5C3-3736F8169762}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9CDAEC1-8A75-4C7C-A5C3-3736F8169762}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F9CDAEC1-8A75-4C7C-A5C3-3736F8169762}.Release|Any CPU.Build.0 = Release|Any CPU
-		{44B861BE-53CD-4C0C-800C-498FCF9ACACD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{44B861BE-53CD-4C0C-800C-498FCF9ACACD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{44B861BE-53CD-4C0C-800C-498FCF9ACACD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{44B861BE-53CD-4C0C-800C-498FCF9ACACD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{43426904-BA6C-4B8F-B6D2-D8F38B3AFD4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{43426904-BA6C-4B8F-B6D2-D8F38B3AFD4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{43426904-BA6C-4B8F-B6D2-D8F38B3AFD4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{43426904-BA6C-4B8F-B6D2-D8F38B3AFD4B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1958D474-0EB1-40F8-9C4E-BF62B675608E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1958D474-0EB1-40F8-9C4E-BF62B675608E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1958D474-0EB1-40F8-9C4E-BF62B675608E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1958D474-0EB1-40F8-9C4E-BF62B675608E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{41881B40-1253-45E4-8C4B-14FAB61F8E19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{41881B40-1253-45E4-8C4B-14FAB61F8E19}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{41881B40-1253-45E4-8C4B-14FAB61F8E19}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{41881B40-1253-45E4-8C4B-14FAB61F8E19}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

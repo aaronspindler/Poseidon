@@ -44,7 +44,7 @@ namespace Poseidon
         {
             ecbData = new List<EuropeanCentralBankResponse>();
         }
-        
+
         public void GetFiatRates()
         {
             GetEcbData();

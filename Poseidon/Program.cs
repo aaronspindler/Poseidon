@@ -95,8 +95,6 @@ namespace Poseidon
 
             cryptoThread = new Thread(UpdateCryptoData);
             cryptoThread.Start();
-
-
         }
 
         /// <summary>

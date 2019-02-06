@@ -1,4 +1,6 @@
 # Poseidon
+![](https://img.shields.io/github/license/xNovax/poseidon.svg?colorB=black&logoColor=black&style=for-the-badge)
+
 ![alt text](http://spindlers.ca/wp-content/uploads/sites/10/2019/02/poseidon-100574977-primary.idge_.jpg)
 
 ## Features

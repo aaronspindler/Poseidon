@@ -30,13 +30,15 @@ namespace Poseidon
 {
     public static class Settings
     {
-        private static string version;
-        private static string currency;
-        private static string DB_host;
-        private static string DB_port;
-        private static string DB_name;
-        private static string DB_username;
-        private static string DB_password;
+        private static string _version;
+        private static string _currency;
+        private static string _DB_host;
+        private static string _DB_port;
+        private static string _DB_name;
+        private static string _DB_username;
+        private static string _DB_password;
+        private static string _KRAKEN_KEY;
+        private static string _KRAKEN_SIGNATURE;
 
         /// <summary>
         ///     Gets the version.
@@ -44,7 +46,7 @@ namespace Poseidon
         /// <returns>The version.</returns>
         public static string GetVersion()
         {
-            return version;
+            return _version;
         }
 
         /// <summary>
@@ -53,7 +55,7 @@ namespace Poseidon
         /// <returns>The currency.</returns>
         public static string GetCurrency()
         {
-            return currency;
+            return _currency;
         }
 
         /// <summary>
@@ -62,7 +64,7 @@ namespace Poseidon
         /// <returns>The Database host.</returns>
         public static string GetDB_Host()
         {
-            return DB_host;
+            return _DB_host;
         }
 
         /// <summary>
@@ -71,7 +73,7 @@ namespace Poseidon
         /// <returns>The Database port.</returns>
         public static string GetDB_Port()
         {
-            return DB_port;
+            return _DB_port;
         }
 
         /// <summary>
@@ -80,7 +82,7 @@ namespace Poseidon
         /// <returns>The Database name.</returns>
         public static string GetDB_Name()
         {
-            return DB_name;
+            return _DB_name;
         }
 
         /// <summary>
@@ -89,7 +91,7 @@ namespace Poseidon
         /// <returns>The Database username.</returns>
         public static string GetDB_Username()
         {
-            return DB_username;
+            return _DB_username;
         }
 
         /// <summary>
@@ -98,7 +100,25 @@ namespace Poseidon
         /// <returns>The Database password.</returns>
         public static string GetDB_Password()
         {
-            return DB_password;
+            return _DB_password;
+        }
+
+        /// <summary>
+        /// Gets Kraken Key
+        /// </summary>
+        /// <returns>Kraken Key</returns>
+        public static string GetKraken_Key()
+        {
+            return _KRAKEN_KEY;
+        }
+
+        /// <summary>
+        /// Gets Kraken Signature
+        /// </summary>
+        /// <returns>Kraken Signature</returns>
+        public static string GetKraken_Signature()
+        {
+            return _KRAKEN_SIGNATURE;
         }
 
 
@@ -121,25 +141,33 @@ namespace Poseidon
             var reader = new StreamReader("settings.txt");
 
             var line = reader.ReadLine();
-            version = line.Split('=')[1];
+            _version = line.Split('=')[1];
 
             line = reader.ReadLine();
-            currency = line.Split('=')[1];
+            _currency = line.Split('=')[1];
 
             line = reader.ReadLine();
-            DB_host = line.Split('=')[1];
+            _DB_host = line.Split('=')[1];
 
             line = reader.ReadLine();
-            DB_port = line.Split('=')[1];
+            _DB_port = line.Split('=')[1];
 
             line = reader.ReadLine();
-            DB_name = line.Split('=')[1];
+            _DB_name = line.Split('=')[1];
 
             line = reader.ReadLine();
-            DB_username = line.Split('=')[1];
+            _DB_username = line.Split('=')[1];
 
             line = reader.ReadLine();
-            DB_password = line.Split('=')[1];
+            _DB_password = line.Split('=')[1];
+
+            line = reader.ReadLine();
+            if (line != null && line.Substring(0, 11) == "KRAKEN_KEY=")
+                _KRAKEN_KEY = line.Substring(11);
+
+            line = reader.ReadLine();
+            if (line != null && line.Substring(0, 17) == "KRAKEN_SIGNATURE=")
+                _KRAKEN_SIGNATURE = line.Substring(17);
         }
 
 
@@ -159,6 +187,8 @@ namespace Poseidon
                     sw.WriteLine("DB_NAME=poseidon");
                     sw.WriteLine("DB_USERNAME=xnovax");
                     sw.WriteLine("DB_PASSWORD=temp");
+                    sw.WriteLine("KRAKEN_KEY=default");
+                    sw.WriteLine("KRAKEN_SIGNATURE=default");
 
                     sw.Close();
                 }

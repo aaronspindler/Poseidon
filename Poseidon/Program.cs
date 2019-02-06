@@ -85,16 +85,14 @@ namespace Poseidon
 
             MySQLDatabase.Initialize();
 
-            //Make sure fiat data is populated with at least one entry
-            fiat.GetFiatRates();
-
-
             fiatThread = new Thread(UpdateFiatData);
             fiatThread.Start();
 
-
             cryptoThread = new Thread(UpdateCryptoData);
             cryptoThread.Start();
+            
+            // Sleep main thread for 500 milliseconds to allow data collection threads to get data
+            Thread.Sleep(500);
         }
 
         /// <summary>

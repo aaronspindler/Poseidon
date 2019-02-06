@@ -1,5 +1,17 @@
 # Poseidon
-![alt text](https://upload.wikimedia.org/wikipedia/commons/7/7d/Poseidon_sculpture_Copenhagen_2005.jpg)
+![alt text](http://spindlers.ca/wp-content/uploads/sites/10/2019/02/poseidon-100574977-primary.idge_.jpg)
+
+## Features
+- Realtime cryptocurrency data from Kraken Exchange
+- Daily fiat currency data from the European Central Bank, Bank of Canada, and Fixer.IO
+- Data storage into MySQL Database
+
+## Basic Usage
+###### In progress
+
+## Advanced Usage
+For more information visit [Spindlers.ca](http://spindlers.ca)
+
 
 ## Bug / Issue Reporting
 

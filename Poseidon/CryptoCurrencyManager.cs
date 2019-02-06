@@ -28,12 +28,12 @@ using Poseidon.Models.CryptoCurrency;
 
 namespace Poseidon
 {
-    public class CryptoCurrency
+    public class CryptoCurrencyManager
     {
         private readonly List<KrakenCurrencyResponse> krakenData;
         private Kraken _kraken = new Kraken();
 
-        public CryptoCurrency(Kraken kraken)
+        public CryptoCurrencyManager(Kraken kraken)
         {
             _kraken = kraken;
         }

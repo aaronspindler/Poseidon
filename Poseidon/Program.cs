@@ -33,8 +33,8 @@ namespace Poseidon
     public class Program
     {
         // Time to wait inbetween polling for data in milliseconds
-        public static int FIAT_DATA_COLLECTION_RATE = 1000000000;
-        public static int CRYPTO_DATA_COLLECTION_RATE = 1000000;
+        public static int FIAT_DATA_COLLECTION_RATE = 86400000; // 1 Day
+        public static int CRYPTO_DATA_COLLECTION_RATE = 5;
 
         // State of the network connection
         private static bool NETWORK;
@@ -46,12 +46,13 @@ namespace Poseidon
         private static FiatCurrencyManager fiat;
 
         // Crypto Object
-        private static CryptoCurrency crypto;
+        private static CryptoCurrencyManager crypto;
 
         // Threads
         private static Thread fiatThread;
         private static Thread cryptoThread;
         private static Thread dataThread;
+        private static Thread networkThread;
 
 
         /// <summary>
@@ -77,7 +78,7 @@ namespace Poseidon
 
             fiat = new FiatCurrencyManager();
             kraken = new Kraken();
-            crypto = new CryptoCurrency(kraken);
+            crypto = new CryptoCurrencyManager(kraken);
 
             Logger.WriteLine(kraken.GetServerTime().result.rfc1123);
             var balances = kraken.GetAccountBalance().balances;
@@ -90,6 +91,9 @@ namespace Poseidon
 
             cryptoThread = new Thread(UpdateCryptoData);
             cryptoThread.Start();
+            
+            networkThread= new Thread(UpdateNetworkStatus);
+            networkThread.Start();
             
             // Sleep main thread for 500 milliseconds to allow data collection threads to get data
             Thread.Sleep(500);
@@ -119,6 +123,19 @@ namespace Poseidon
             }
         }
 
+        private static void UpdateNetworkStatus()
+        {
+            while (true)
+            {
+                if (!Utilities.CheckNetworkConnection())
+                {
+                    Logger.WriteLine("Network connection disconnected");
+                    Utilities.ExitProgram();
+                }
+                Thread.Sleep(3000);
+            }
+        }
+
         /// <summary>
         ///     Gets the kraken.
         /// </summary>
@@ -141,7 +158,7 @@ namespace Poseidon
         ///     Gets the crypto currency.
         /// </summary>
         /// <returns>The crypto currency.</returns>
-        public static CryptoCurrency GetCryptoCurrency()
+        public static CryptoCurrencyManager GetCryptoCurrency()
         {
             return crypto;
         }

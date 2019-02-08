@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 #endregion
 
-namespace Poseidon.Models.FiatCurrency
+namespace Poseidon.Models.FiatCurrency.EuropeanCentralBank
 {
     public class EuropeanCentralBankResponse
     {

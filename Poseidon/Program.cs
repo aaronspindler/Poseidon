@@ -19,13 +19,14 @@ namespace Poseidon
         // State of the network connection
         private static bool NETWORK;
 
-        // Kraken Object
-        private static Kraken kraken;
-
-        // Fiat Object
+        // Fiat Currency Objects
+        private static EuropeanCentralBankManager ecbManager;
+        private static BankOfCanadaManager bocManager;
         private static FiatCurrencyManager fiat;
+        
 
-        // Crypto Object
+        // Crypto Currency Objects
+        private static Kraken kraken;
         private static CryptoCurrencyManager crypto;
 
         // Threads
@@ -56,7 +57,11 @@ namespace Poseidon
             Settings.CheckSettingsFile();
             Settings.LoadSettings();
 
+            ecbManager = new EuropeanCentralBankManager();
+            bocManager = new BankOfCanadaManager();
             fiat = new FiatCurrencyManager();
+            
+            
             kraken = new Kraken();
             crypto = new CryptoCurrencyManager(kraken);
 
@@ -74,6 +79,8 @@ namespace Poseidon
 
             networkThread = new Thread(UpdateNetworkStatus);
             networkThread.Start();
+            
+            
 
             // Sleep main thread for 500 milliseconds to allow data collection threads to get data
             Thread.Sleep(500);
@@ -86,7 +93,7 @@ namespace Poseidon
         {
             while (true)
             {
-                fiat.GetFiatRates();
+                ecbManager.GetFiatRates();
                 Thread.Sleep(FIAT_DATA_COLLECTION_RATE);
             }
         }

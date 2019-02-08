@@ -1,4 +1,8 @@
+#region
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+#endregion
 
 namespace Poseidon.Test
 {

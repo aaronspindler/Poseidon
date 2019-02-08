@@ -1,4 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿#region
+
+using Newtonsoft.Json;
+
+#endregion
 
 namespace Poseidon.Models.Old
 {

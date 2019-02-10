@@ -23,7 +23,7 @@ namespace Poseidon
         private static EuropeanCentralBankManager ecbManager;
         private static BankOfCanadaManager bocManager;
         private static FiatCurrencyManager fiat;
-        
+
 
         // Crypto Currency Objects
         private static Kraken kraken;
@@ -61,7 +61,10 @@ namespace Poseidon
             bocManager = new BankOfCanadaManager();
             fiat = new FiatCurrencyManager();
             
-            
+            bocManager.GetBankOfCanadaData(DateTime.Today.Subtract(new TimeSpan(30,0,0,0)), DateTime.Today);
+            Console.WriteLine(bocManager.GetResponse().GetObservations().Count);
+
+
             kraken = new Kraken();
             crypto = new CryptoCurrencyManager(kraken);
 
@@ -79,8 +82,7 @@ namespace Poseidon
 
             networkThread = new Thread(UpdateNetworkStatus);
             networkThread.Start();
-            
-            
+
 
             // Sleep main thread for 500 milliseconds to allow data collection threads to get data
             Thread.Sleep(500);

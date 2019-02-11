@@ -3,7 +3,7 @@
     /// <summary>
     ///     The main manager for all Fiat Currency functions
     /// </summary>
-    public class FiatCurrencyManager
+    public class FiatManager
     {
         private EuropeanCentralBankManager ecbManager;
         private BankOfCanadaManager bocManager;
@@ -15,7 +15,7 @@
         /// <param name="ecbManager">European Central Bank Manager</param>
         /// <param name="bocManager">Bank of Canada Manager</param>
         /// <param name="fixManager">Fixer Manager</param>
-        public FiatCurrencyManager(EuropeanCentralBankManager ecbManager, BankOfCanadaManager bocManager, FixerManager fixManager)
+        public FiatManager(EuropeanCentralBankManager ecbManager, BankOfCanadaManager bocManager, FixerManager fixManager)
         {
             this.ecbManager = ecbManager;
             this.bocManager = bocManager;

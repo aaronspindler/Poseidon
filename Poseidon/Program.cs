@@ -39,7 +39,7 @@ namespace Poseidon
         private static EuropeanCentralBankManager ecbManager;
         private static BankOfCanadaManager bocManager;
         private static FixerManager fixManager;
-        private static FiatCurrencyManager fiat;
+        private static FiatManager fiat;
 
 
         // Crypto Currency Objects
@@ -78,7 +78,7 @@ namespace Poseidon
             ecbManager = new EuropeanCentralBankManager();
             bocManager = new BankOfCanadaManager();
             fixManager = new FixerManager();
-            fiat = new FiatCurrencyManager(ecbManager,bocManager,fixManager);
+            fiat = new FiatManager(ecbManager,bocManager,fixManager);
 
             kraken = new Kraken();
             crypto = new CryptoCurrencyManager(kraken);
@@ -180,10 +180,10 @@ namespace Poseidon
         }
 
         /// <summary>
-        ///     Gets the fiat currency.
+        ///     Gets the fiat manager
         /// </summary>
-        /// <returns>The fiat currency.</returns>
-        public static FiatCurrencyManager GetFiatCurrency()
+        /// <returns>Fiat manager</returns>
+        public static FiatManager GetFiatManager()
         {
             return fiat;
         }

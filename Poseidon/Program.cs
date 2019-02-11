@@ -12,26 +12,6 @@ namespace Poseidon
     /// </summary>
     public class Program
     {
-        /// <summary>
-        ///     Amount of milliseconds in 1 day
-        /// </summary>
-        public static int WAIT_ONE_DAY = 86400000; // 1 Day
-
-        /// <summary>
-        /// Amount of milliseconds in 1 hour
-        /// </summary>
-        public static int WAIT_ONE_HOUR = 1000;
-
-        /// <summary>
-        ///     Sleep time for the crypto data collection thread
-        /// </summary>
-        public static int CRYPTO_DATA_COLLECTION_RATE = 5;
-
-        /// <summary>
-        /// Sleep time for the network polling thread
-        /// </summary>
-        public static int NETWORK_POLL_RATE = 2500;
-
         // State of the network connection
         private static bool NETWORK;
 
@@ -115,7 +95,7 @@ namespace Poseidon
             while (true)
             {
                 ecbManager.GetFiatRates();
-                Thread.Sleep(WAIT_ONE_DAY);
+                Thread.Sleep(Globals.WAIT_ONE_DAY);
             }
         }
 
@@ -127,7 +107,7 @@ namespace Poseidon
             while (true)
             {
                 bocManager.GetFiatRates();
-                Thread.Sleep(WAIT_ONE_DAY);
+                Thread.Sleep(Globals.WAIT_ONE_DAY);
             }
         }
 
@@ -139,7 +119,7 @@ namespace Poseidon
             while (true)
             {
                 fixManager.GetFiatRates();
-                Thread.Sleep(WAIT_ONE_HOUR);
+                Thread.Sleep(Globals.WAIT_ONE_HOUR);
             }
         }
 
@@ -150,7 +130,7 @@ namespace Poseidon
         {
             while (true)
                 //crypto.GetKrakenData();
-                Thread.Sleep(CRYPTO_DATA_COLLECTION_RATE);
+                Thread.Sleep(Globals.CRYPTO_DATA_COLLECTION_RATE);
         }
 
         /// <summary>
@@ -166,7 +146,7 @@ namespace Poseidon
                     Utilities.ExitProgram();
                 }
 
-                Thread.Sleep(NETWORK_POLL_RATE);
+                Thread.Sleep(Globals.NETWORK_POLL_RATE);
             }
         }
 

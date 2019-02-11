@@ -22,6 +22,7 @@ namespace Poseidon
         private static string _DB_password;
         private static string _KRAKEN_KEY;
         private static string _KRAKEN_SIGNATURE;
+        private static string _FIXER_KEY;
 
         /// <summary>
         ///     Gets the version.
@@ -103,6 +104,15 @@ namespace Poseidon
         {
             return _KRAKEN_SIGNATURE;
         }
+        
+        /// <summary>
+        /// Gets the fixer api key
+        /// </summary>
+        /// <returns>Fixer API Key</returns>
+        public static string GetFixer_Key()
+        {
+            return _FIXER_KEY;
+        }
 
 
         /// <summary>
@@ -124,25 +134,25 @@ namespace Poseidon
             var reader = new StreamReader("settings.txt");
 
             var line = reader.ReadLine();
-            _version = line.Split('=')[1];
+            if (line != null) _version = line.Split('=')[1];
 
             line = reader.ReadLine();
-            _currency = line.Split('=')[1];
+            if (line != null) _currency = line.Split('=')[1];
 
             line = reader.ReadLine();
-            _DB_host = line.Split('=')[1];
+            if (line != null) _DB_host = line.Split('=')[1];
 
             line = reader.ReadLine();
-            _DB_port = line.Split('=')[1];
+            if (line != null) _DB_port = line.Split('=')[1];
 
             line = reader.ReadLine();
-            _DB_name = line.Split('=')[1];
+            if (line != null) _DB_name = line.Split('=')[1];
 
             line = reader.ReadLine();
-            _DB_username = line.Split('=')[1];
+            if (line != null) _DB_username = line.Split('=')[1];
 
             line = reader.ReadLine();
-            _DB_password = line.Split('=')[1];
+            if (line != null) _DB_password = line.Split('=')[1];
 
             line = reader.ReadLine();
             if (line != null && line.Substring(0, 11) == "KRAKEN_KEY=")
@@ -151,6 +161,9 @@ namespace Poseidon
             line = reader.ReadLine();
             if (line != null && line.Substring(0, 17) == "KRAKEN_SIGNATURE=")
                 _KRAKEN_SIGNATURE = line.Substring(17);
+
+            line = reader.ReadLine();
+            if (line != null) _FIXER_KEY = line.Substring(10);
         }
 
 
@@ -172,6 +185,7 @@ namespace Poseidon
                     sw.WriteLine("DB_PASSWORD=temp");
                     sw.WriteLine("KRAKEN_KEY=default");
                     sw.WriteLine("KRAKEN_SIGNATURE=default");
+                    sw.WriteLine("FIXER_KEY=default");
 
                     sw.Close();
                 }

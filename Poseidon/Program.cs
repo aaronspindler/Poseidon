@@ -13,14 +13,24 @@ namespace Poseidon
     public class Program
     {
         /// <summary>
-        ///     Sleep time for the fiat data collection thread
+        ///     Amount of milliseconds in 1 day
         /// </summary>
-        public static int FIAT_DATA_COLLECTION_RATE = 86400000; // 1 Day
+        public static int WAIT_ONE_DAY = 86400000; // 1 Day
+
+        /// <summary>
+        /// Amount of milliseconds in 1 hour
+        /// </summary>
+        public static int WAIT_ONE_HOUR = 1000;
 
         /// <summary>
         ///     Sleep time for the crypto data collection thread
         /// </summary>
         public static int CRYPTO_DATA_COLLECTION_RATE = 5;
+
+        /// <summary>
+        /// Sleep time for the network polling thread
+        /// </summary>
+        public static int NETWORK_POLL_RATE = 2500;
 
         // State of the network connection
         private static bool NETWORK;
@@ -28,6 +38,7 @@ namespace Poseidon
         // Fiat Currency Objects
         private static EuropeanCentralBankManager ecbManager;
         private static BankOfCanadaManager bocManager;
+        private static FixerManager fixManager;
         private static FiatCurrencyManager fiat;
 
 
@@ -36,9 +47,10 @@ namespace Poseidon
         private static CryptoCurrencyManager crypto;
 
         // Threads
-        private static Thread fiatThread;
+        private static Thread ecbThread;
+        private static Thread bocThread;
+        private static Thread fixThread;
         private static Thread cryptoThread;
-        private static Thread dataThread;
         private static Thread networkThread;
 
 
@@ -65,7 +77,8 @@ namespace Poseidon
 
             ecbManager = new EuropeanCentralBankManager();
             bocManager = new BankOfCanadaManager();
-            fiat = new FiatCurrencyManager();
+            fixManager = new FixerManager();
+            fiat = new FiatCurrencyManager(ecbManager,bocManager,fixManager);
 
             kraken = new Kraken();
             crypto = new CryptoCurrencyManager(kraken);
@@ -75,9 +88,13 @@ namespace Poseidon
             Logger.WriteLineNoDate(balances.ToStringTable(new[] {"Currency", "Amount"}, a => a.Key, a => a.Value));
 
             MySQLDatabase.Initialize();
-
-            fiatThread = new Thread(UpdateFiatData);
-            fiatThread.Start();
+            
+            ecbThread = new Thread(UpdateECBData);
+            ecbThread.Start();
+            bocThread = new Thread(UpdateBOCData);
+            bocThread.Start();
+            fixThread = new Thread(UpdateFIXData);
+            fixThread.Start();
 
             cryptoThread = new Thread(UpdateCryptoData);
             cryptoThread.Start();
@@ -85,21 +102,44 @@ namespace Poseidon
             networkThread = new Thread(UpdateNetworkStatus);
             networkThread.Start();
 
-
-            // Sleep main thread for 500 milliseconds to allow data collection threads to get data
-            Thread.Sleep(500);
+            // Sleep main thread for 2000 milliseconds to allow data collection threads to get data
+            Thread.Sleep(2000);
+            
         }
 
         /// <summary>
-        ///     Updates the fiat data.
+        /// Updates European Central Bank Data
         /// </summary>
-        private static void UpdateFiatData()
+        private static void UpdateECBData()
         {
             while (true)
             {
                 ecbManager.GetFiatRates();
+                Thread.Sleep(WAIT_ONE_DAY);
+            }
+        }
+
+        /// <summary>
+        /// Updates Bank of Canada Data
+        /// </summary>
+        private static void UpdateBOCData()
+        {
+            while (true)
+            {
                 bocManager.GetFiatRates();
-                Thread.Sleep(FIAT_DATA_COLLECTION_RATE);
+                Thread.Sleep(WAIT_ONE_DAY);
+            }
+        }
+
+        /// <summary>
+        /// Updates FIXER API Data
+        /// </summary>
+        private static void UpdateFIXData()
+        {
+            while (true)
+            {
+                fixManager.GetFiatRates();
+                Thread.Sleep(WAIT_ONE_HOUR);
             }
         }
 
@@ -113,6 +153,9 @@ namespace Poseidon
                 Thread.Sleep(CRYPTO_DATA_COLLECTION_RATE);
         }
 
+        /// <summary>
+        /// Checks the network to see if there is a connection
+        /// </summary>
         private static void UpdateNetworkStatus()
         {
             while (true)
@@ -123,7 +166,7 @@ namespace Poseidon
                     Utilities.ExitProgram();
                 }
 
-                Thread.Sleep(3000);
+                Thread.Sleep(NETWORK_POLL_RATE);
             }
         }
 

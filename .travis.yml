@@ -1,2 +1,5 @@
 language: csharp
 solution: Poseidon.sln
+script:
+  - dotnet restore
+  - dotnet test

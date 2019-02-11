@@ -12,14 +12,13 @@ namespace Poseidon
     /// </summary>
     public class Program
     {
-        
         /// <summary>
-        /// Sleep time for the fiat data collection thread
+        ///     Sleep time for the fiat data collection thread
         /// </summary>
         public static int FIAT_DATA_COLLECTION_RATE = 86400000; // 1 Day
-        
+
         /// <summary>
-        /// Sleep time for the crypto data collection thread
+        ///     Sleep time for the crypto data collection thread
         /// </summary>
         public static int CRYPTO_DATA_COLLECTION_RATE = 5;
 
@@ -110,10 +109,8 @@ namespace Poseidon
         private static void UpdateCryptoData()
         {
             while (true)
-            {
                 //crypto.GetKrakenData();
                 Thread.Sleep(CRYPTO_DATA_COLLECTION_RATE);
-            }
         }
 
         private static void UpdateNetworkStatus()

@@ -19,15 +19,15 @@ using Poseidon.Models.Old;
 namespace Poseidon
 {
     /// <summary>
-    /// Main class for interacting with Kraken.com
+    ///     Main class for interacting with Kraken.com
     /// </summary>
     public class Kraken
     {
+        private readonly string _key;
         private readonly int _rateLimitMilliseconds;
+        private readonly string _secret;
         private readonly string _url;
         private readonly int _version;
-        private readonly string _key;
-        private readonly string _secret;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="Kraken" /> class.

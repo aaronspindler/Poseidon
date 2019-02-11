@@ -8,7 +8,7 @@ using System.IO;
 namespace Poseidon
 {
     /// <summary>
-    /// The class used to log all input and output to the console
+    ///     The class used to log all input and output to the console
     /// </summary>
     public static class Logger
     {
@@ -36,7 +36,7 @@ namespace Poseidon
         }
 
         /// <summary>
-        /// Writes the input to the console and to a file
+        ///     Writes the input to the console and to a file
         /// </summary>
         /// <param name="input"></param>
         public static void WriteLineNoDate(string input)

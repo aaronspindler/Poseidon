@@ -1,18 +1,22 @@
+#region
+
 using System;
 using System.Collections.Generic;
+
+#endregion
 
 namespace Poseidon.Models.FiatCurrency.BankOfCanada
 {
     /// <summary>
-    /// Stores the observation for a currency from Bank of Canada
+    ///     Stores the observation for a currency from Bank of Canada
     /// </summary>
     public class Observation
     {
-        private DateTime _date;
-        private Dictionary<string, double> _valuations;
+        private readonly DateTime _date;
+        private readonly Dictionary<string, double> _valuations;
 
         /// <summary>
-        /// Constructor for a observation
+        ///     Constructor for a observation
         /// </summary>
         /// <param name="d">The DateTime that the observation was made</param>
         public Observation(DateTime d)
@@ -22,7 +26,7 @@ namespace Poseidon.Models.FiatCurrency.BankOfCanada
         }
 
         /// <summary>
-        /// Returns the value of the keypair for a specific observation
+        ///     Returns the value of the keypair for a specific observation
         /// </summary>
         /// <param name="key">The key pair for the valuation of that pair</param>
         /// <returns></returns>
@@ -41,7 +45,7 @@ namespace Poseidon.Models.FiatCurrency.BankOfCanada
 
 
         /// <summary>
-        /// Adds a currency pair with value to the dictionary
+        ///     Adds a currency pair with value to the dictionary
         /// </summary>
         /// <param name="k">Key for the currency pair</param>
         /// <param name="v">Value for a currency pair</param>
@@ -51,7 +55,7 @@ namespace Poseidon.Models.FiatCurrency.BankOfCanada
         }
 
         /// <summary>
-        /// Returns the date of an observation
+        ///     Returns the date of an observation
         /// </summary>
         /// <returns>Date of Observation</returns>
         public DateTime GetDate()

@@ -2,9 +2,9 @@ namespace Poseidon.Models.FiatCurrency.BankOfCanada
 {
     public class Series
     {
-        private string _id;
-        private string _label;
-        private string _description;
+        private readonly string _description;
+        private readonly string _id;
+        private readonly string _label;
 
         public Series(string id, string label, string description)
         {

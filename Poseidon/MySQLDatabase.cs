@@ -9,12 +9,12 @@ using MySql.Data.MySqlClient;
 namespace Poseidon
 {
     /// <summary>
-    /// Main class for interacting with MySQL Database
+    ///     Main class for interacting with MySQL Database
     /// </summary>
     public static class MySQLDatabase
     {
         /// <summary>
-        /// Holds a list of the table creation sql commands
+        ///     Holds a list of the table creation sql commands
         /// </summary>
         private static readonly List<string> tables = new List<string>();
 

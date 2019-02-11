@@ -1,19 +1,22 @@
+#region
+
 using System;
 using System.Collections.Generic;
+
+#endregion
 
 namespace Poseidon.Models.FiatCurrency.BankOfCanada
 {
     /// <summary>
-    /// The object that holds the data for a response from the Bank Of Canada API
+    ///     The object that holds the data for a response from the Bank Of Canada API
     /// </summary>
     public class BankOfCanadaResponse
     {
-        private Uri _termsLink;
+        private readonly List<Observation> _observations;
         private List<Series> _series;
-        private List<Observation> _observations;
+        private Uri _termsLink;
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="termsLink">Link to the terms and conditions</param>
         /// <param name="series">List of the different currency pairs</param>
@@ -26,7 +29,7 @@ namespace Poseidon.Models.FiatCurrency.BankOfCanada
         }
 
         /// <summary>
-        /// Returns the list of observations
+        ///     Returns the list of observations
         /// </summary>
         /// <returns>List of observations</returns>
         public List<Observation> GetObservations()

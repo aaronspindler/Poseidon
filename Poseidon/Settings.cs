@@ -9,7 +9,7 @@ using System.Reflection;
 namespace Poseidon
 {
     /// <summary>
-    /// Stores, Parses, and Utilizes settings.txt
+    ///     Stores, Parses, and Utilizes settings.txt
     /// </summary>
     public static class Settings
     {

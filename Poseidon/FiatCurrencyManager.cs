@@ -1,11 +1,7 @@
-﻿#region
-
-#endregion
-
-namespace Poseidon
+﻿namespace Poseidon
 {
     /// <summary>
-    /// The main manager for all Fiat Currency functions
+    ///     The main manager for all Fiat Currency functions
     /// </summary>
     public class FiatCurrencyManager
     {

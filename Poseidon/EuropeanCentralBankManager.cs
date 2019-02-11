@@ -1,3 +1,5 @@
+#region
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,26 +8,28 @@ using System.Net;
 using MySql.Data.MySqlClient;
 using Poseidon.Models.FiatCurrency.EuropeanCentralBank;
 
+#endregion
+
 namespace Poseidon
 {
     /// <summary>
-    /// The manager for interacting with the European Central Bank
+    ///     The manager for interacting with the European Central Bank
     /// </summary>
     public class EuropeanCentralBankManager
     {
+        private readonly List<EuropeanCentralBankResponse> ecbData;
+        private Dictionary<string, double> rebasedCurrencies;
+
         /// <summary>
-        /// Constructor for the EuropeanCentralBankManager
+        ///     Constructor for the EuropeanCentralBankManager
         /// </summary>
         public EuropeanCentralBankManager()
         {
             ecbData = new List<EuropeanCentralBankResponse>();
         }
 
-        private readonly List<EuropeanCentralBankResponse> ecbData;
-        private Dictionary<string, double> rebasedCurrencies;
-
         /// <summary>
-        /// The main public method for getting and storing data from the European central bank
+        ///     The main public method for getting and storing data from the European central bank
         /// </summary>
         public void GetFiatRates()
         {

@@ -8,6 +8,9 @@ using System.Reflection;
 
 namespace Poseidon
 {
+    /// <summary>
+    /// Stores, Parses, and Utilizes settings.txt
+    /// </summary>
     public static class Settings
     {
         private static string _version;

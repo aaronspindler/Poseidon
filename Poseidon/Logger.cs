@@ -7,10 +7,13 @@ using System.IO;
 
 namespace Poseidon
 {
+    /// <summary>
+    /// The class used to log all input and output to the console
+    /// </summary>
     public static class Logger
     {
-        private static StreamWriter writer;
-        private static string fileName;
+        private static StreamWriter _writer;
+        private static string _fileName;
 
         /// <summary>
         ///     Initialize this instance.
@@ -19,11 +22,11 @@ namespace Poseidon
         {
             Directory.CreateDirectory("Logs");
             var now = DateTime.Now.Ticks;
-            fileName = string.Format(@"Logs/{0}.txt", now);
+            _fileName = string.Format(@"Logs/{0}.txt", now);
         }
 
         /// <summary>
-        ///     Writes the input to the console and to a file
+        ///     Writes the date + input to the console and to a file
         /// </summary>
         /// <param name="input">Input.</param>
         public static void WriteLine(string input)
@@ -32,15 +35,19 @@ namespace Poseidon
             WriteLineNoDate(messageText);
         }
 
+        /// <summary>
+        /// Writes the input to the console and to a file
+        /// </summary>
+        /// <param name="input"></param>
         public static void WriteLineNoDate(string input)
         {
             Console.WriteLine(input);
 
             try
             {
-                writer = new StreamWriter(fileName, true);
-                writer.WriteLine(input);
-                writer.Close();
+                _writer = new StreamWriter(_fileName, true);
+                _writer.WriteLine(input);
+                _writer.Close();
             }
             catch (Exception e)
             {

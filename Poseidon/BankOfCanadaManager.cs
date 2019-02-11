@@ -6,10 +6,24 @@ using Poseidon.Models.FiatCurrency.BankOfCanada;
 
 namespace Poseidon
 {
+    /// <summary>
+    /// Manages data and interactions with Bank of Canada
+    /// </summary>
     public class BankOfCanadaManager
     {
+        /// <summary>
+        /// Variable for storing and retrieving the actual response from the bank of canada
+        /// </summary>
         private BankOfCanadaResponse _response;
-        public void GetBankOfCanadaData(DateTime start, DateTime end)
+        
+        
+        /// <summary>
+        /// Gets currency price data from The Bank of Canada between two dates
+        /// All currencies are in CAD base
+        /// </summary>
+        /// <param name="start">The data to get data from</param>
+        /// <param name="end">The date to get data to</param>
+        public void GetFiatRates(DateTime start, DateTime end)
         {
             string startFormatted = start.ToString("yyyy-MM-dd");
             string endFormatted = end.ToString("yyyy-MM-dd");
@@ -84,6 +98,7 @@ namespace Poseidon
                 
                 //Create the response
                 _response = new BankOfCanadaResponse(termsURI, series, observations);
+                Logger.WriteLine("Updated Fiat Rates from Bank Of Canada");
             }
             catch (Exception e)
             {
@@ -92,6 +107,18 @@ namespace Poseidon
             }
         }
 
+        /// <summary>
+        /// Gets currency price data from The Bank Of Canada for the current day
+        /// </summary>
+        public void GetFiatRates()
+        {
+            GetFiatRates(DateTime.Today, DateTime.Today);
+        }
+
+        /// <summary>
+        /// Returns the Bank of Canada response
+        /// </summary>
+        /// <returns>BankOfCanadaResponse</returns>
         public BankOfCanadaResponse GetResponse()
         {
             return _response;

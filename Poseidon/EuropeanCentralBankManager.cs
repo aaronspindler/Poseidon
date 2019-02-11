@@ -8,8 +8,14 @@ using Poseidon.Models.FiatCurrency.EuropeanCentralBank;
 
 namespace Poseidon
 {
+    /// <summary>
+    /// The manager for interacting with the European Central Bank
+    /// </summary>
     public class EuropeanCentralBankManager
     {
+        /// <summary>
+        /// Constructor for the EuropeanCentralBankManager
+        /// </summary>
         public EuropeanCentralBankManager()
         {
             ecbData = new List<EuropeanCentralBankResponse>();
@@ -18,6 +24,9 @@ namespace Poseidon
         private readonly List<EuropeanCentralBankResponse> ecbData;
         private Dictionary<string, double> rebasedCurrencies;
 
+        /// <summary>
+        /// The main public method for getting and storing data from the European central bank
+        /// </summary>
         public void GetFiatRates()
         {
             GetData();
@@ -74,6 +83,7 @@ namespace Poseidon
 
                 reader.Close();
                 ecbData.Add(response);
+                Logger.WriteLine("Updated Fiat Rates from European Central Bank");
             }
             catch (Exception e)
             {
@@ -126,7 +136,7 @@ namespace Poseidon
                 cmd.Parameters.AddWithValue("@ZAR", rebasedCurrencies["ZAR"]);
                 cmd.ExecuteNonQuery();
                 conn.Close();
-                Logger.WriteLine("Added fiat currency rates to database!");
+                Logger.WriteLine("Added Fiat rates to database from European Central Bank");
             }
             catch (MySqlException ex)
             {

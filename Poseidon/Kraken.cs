@@ -18,6 +18,9 @@ using Poseidon.Models.Old;
 
 namespace Poseidon
 {
+    /// <summary>
+    /// Main class for interacting with Kraken.com
+    /// </summary>
     public class Kraken
     {
         private readonly int _rateLimitMilliseconds;

@@ -12,8 +12,15 @@ namespace Poseidon
     /// </summary>
     public class Program
     {
-        // Time to wait inbetween polling for data in milliseconds
+        
+        /// <summary>
+        /// Sleep time for the fiat data collection thread
+        /// </summary>
         public static int FIAT_DATA_COLLECTION_RATE = 86400000; // 1 Day
+        
+        /// <summary>
+        /// Sleep time for the crypto data collection thread
+        /// </summary>
         public static int CRYPTO_DATA_COLLECTION_RATE = 5;
 
         // State of the network connection
@@ -60,10 +67,6 @@ namespace Poseidon
             ecbManager = new EuropeanCentralBankManager();
             bocManager = new BankOfCanadaManager();
             fiat = new FiatCurrencyManager();
-            
-            bocManager.GetBankOfCanadaData(DateTime.Today.Subtract(new TimeSpan(30,0,0,0)), DateTime.Today);
-            Console.WriteLine(bocManager.GetResponse().GetObservations().Count);
-
 
             kraken = new Kraken();
             crypto = new CryptoCurrencyManager(kraken);
@@ -96,6 +99,7 @@ namespace Poseidon
             while (true)
             {
                 ecbManager.GetFiatRates();
+                bocManager.GetFiatRates();
                 Thread.Sleep(FIAT_DATA_COLLECTION_RATE);
             }
         }
@@ -107,7 +111,7 @@ namespace Poseidon
         {
             while (true)
             {
-                crypto.GetKrakenData();
+                //crypto.GetKrakenData();
                 Thread.Sleep(CRYPTO_DATA_COLLECTION_RATE);
             }
         }

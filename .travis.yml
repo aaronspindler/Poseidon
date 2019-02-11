@@ -1,5 +1,7 @@
 language: csharp
 solution: Poseidon.sln
-script:
+
+install:
   - dotnet restore
-  - dotnet test
+script:
+  - dotnet test Poseidon.Test/Poseidon.Test.csproj

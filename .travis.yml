@@ -1,5 +1,7 @@
 language: csharp
 solution: Poseidon.sln
+mono: none
+dotnet: 2.1.0
 
 install:
   - dotnet restore

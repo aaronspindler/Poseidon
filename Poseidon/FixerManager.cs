@@ -20,7 +20,6 @@ namespace Poseidon
                 string address = "http://data.fixer.io/api/latest?access_key=" + Settings.GetFixer_Key();
                 var data = client.OpenRead(address);
                 var reader = new StreamReader(data);
-                Console.WriteLine(reader.ReadToEnd());
             }
             catch (Exception e)
             {

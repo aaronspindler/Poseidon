@@ -19,6 +19,14 @@ namespace Poseidon
     /// </summary>
     public static class TableParser
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="values"></param>
+        /// <param name="columnHeaders"></param>
+        /// <param name="valueSelectors"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         public static string ToStringTable<T>(
             this IEnumerable<T> values,
             string[] columnHeaders,
@@ -27,6 +35,14 @@ namespace Poseidon
             return ToStringTable(values.ToArray(), columnHeaders, valueSelectors);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="values"></param>
+        /// <param name="columnHeaders"></param>
+        /// <param name="valueSelectors"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         public static string ToStringTable<T>(
             this T[] values,
             string[] columnHeaders,
@@ -49,6 +65,11 @@ namespace Poseidon
             return ToStringTable(arrValues);
         }
 
+        /// <summary>
+        /// Makes the actual string table
+        /// </summary>
+        /// <param name="arrValues">Array values</param>
+        /// <returns>String Table</returns>
         public static string ToStringTable(this string[,] arrValues)
         {
             var maxColumnsWidth = GetMaxColumnsWidth(arrValues);

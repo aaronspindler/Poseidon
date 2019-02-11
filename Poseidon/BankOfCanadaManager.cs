@@ -46,7 +46,8 @@ namespace Poseidon
         /// </summary>
         public void GetHistoricalData()
         {
-            GetFiatRates(new DateTime(2017,1,2), DateTime.Today);
+            GetFiatRates(new DateTime(2015,1,1), DateTime.Today);
+            Logger.WriteLine("Historical Data Retrieved and Processed");
         }
 
 

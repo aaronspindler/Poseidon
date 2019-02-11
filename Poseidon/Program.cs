@@ -84,7 +84,6 @@ namespace Poseidon
 
             // Sleep main thread for 2000 milliseconds to allow data collection threads to get data
             Thread.Sleep(2000);
-            
         }
 
         /// <summary>

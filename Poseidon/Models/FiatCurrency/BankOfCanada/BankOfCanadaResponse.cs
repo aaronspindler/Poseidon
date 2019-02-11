@@ -14,16 +14,14 @@ namespace Poseidon.Models.FiatCurrency.BankOfCanada
     {
         private readonly List<Observation> _observations;
         private List<Series> _series;
-        private Uri _termsLink;
 
         /// <summary>
         /// </summary>
         /// <param name="termsLink">Link to the terms and conditions</param>
         /// <param name="series">List of the different currency pairs</param>
         /// <param name="observations">List of all observations for those currency pairs</param>
-        public BankOfCanadaResponse(Uri termsLink, List<Series> series, List<Observation> observations)
+        public BankOfCanadaResponse(List<Series> series, List<Observation> observations)
         {
-            _termsLink = termsLink ?? throw new ArgumentNullException(nameof(termsLink));
             _series = series ?? throw new ArgumentNullException(nameof(series));
             _observations = observations ?? throw new ArgumentNullException(nameof(observations));
         }

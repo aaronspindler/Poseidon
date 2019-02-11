@@ -60,7 +60,7 @@ namespace Poseidon
                 try
                 {
                     cmd.ExecuteNonQuery();
-                    Logger.WriteLine("Initialized a database");
+                    Logger.WriteLine("Initialized a table");
                 }
                 catch (Exception e)
                 {
@@ -78,6 +78,7 @@ namespace Poseidon
         {
             var tablesToDrop = new List<string>();
             tablesToDrop.Add("Fiat_ECB");
+            tablesToDrop.Add("Fiat_BOC");
             var conn = GetMySqlConnection();
             conn.Open();
             foreach (var table in tablesToDrop)

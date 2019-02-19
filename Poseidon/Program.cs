@@ -36,6 +36,16 @@ namespace Poseidon
         /// </summary>
         private static void Main()
         {
+            StartUp();
+            Body();
+            Testing();
+        }
+
+        /// <summary>
+        /// Code that is ran on startup to initialize everything
+        /// </summary>
+        private static void StartUp()
+        {
             Console.Title = "Poseidon";
 
             Logger.Initialize();
@@ -60,10 +70,6 @@ namespace Poseidon
             kraken = new Kraken();
             crypto = new CryptoCurrencyManager(kraken);
 
-            Logger.WriteLine(kraken.GetServerTime().result.rfc1123);
-            var balances = kraken.GetAccountBalance().balances;
-            Logger.WriteLineNoDate(balances.ToStringTable(new[] {"Currency", "Amount"}, a => a.Key, a => a.Value));
-
             MySQLDatabase.Initialize();
 
             cryptoThread = new Thread(UpdateCryptoData);
@@ -76,6 +82,33 @@ namespace Poseidon
 
             // Sleep main thread for 2000 milliseconds to allow data collection threads to get data
             Thread.Sleep(2000);
+        }
+
+        /// <summary>
+        /// Main working body of the program
+        /// </summary>
+        public static void Body()
+        {
+            Logger.WriteLine(kraken.GetServerTime().result.rfc1123);
+            var balances = kraken.GetAccountBalance().balances;
+            Logger.WriteLineNoDate(balances.ToStringTable(new[] {"Currency", "Amount"}, a => a.Key, a => a.Value));
+        }
+
+        
+        /// <summary>
+        /// Code that is being tested / implemented
+        /// Will be moved to body upon complete testing
+        /// </summary>
+        public static void Testing()
+        {
+            try
+            {
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
 
@@ -104,33 +137,6 @@ namespace Poseidon
 
                 Thread.Sleep(Globals.NETWORK_POLL_RATE);
             }
-        }
-
-        /// <summary>
-        ///     Gets the kraken.
-        /// </summary>
-        /// <returns>The kraken.</returns>
-        public static Kraken GetKraken()
-        {
-            return kraken;
-        }
-
-        /// <summary>
-        ///     Gets the fiat manager
-        /// </summary>
-        /// <returns>Fiat manager</returns>
-        public static FiatManager GetFiatManager()
-        {
-            return fiat;
-        }
-
-        /// <summary>
-        ///     Gets the crypto currency.
-        /// </summary>
-        /// <returns>The crypto currency.</returns>
-        public static CryptoCurrencyManager GetCryptoCurrency()
-        {
-            return crypto;
         }
     }
 }

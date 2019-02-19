@@ -27,9 +27,6 @@ namespace Poseidon
         private static CryptoCurrencyManager crypto;
 
         // Threads
-        private static Thread ecbThread;
-        private static Thread bocThread;
-        private static Thread fixThread;
         private static Thread cryptoThread;
         private static Thread networkThread;
 
@@ -68,59 +65,19 @@ namespace Poseidon
             Logger.WriteLineNoDate(balances.ToStringTable(new[] {"Currency", "Amount"}, a => a.Key, a => a.Value));
 
             MySQLDatabase.Initialize();
-            
-            ecbThread = new Thread(UpdateECBData);
-            ecbThread.Start();
-            bocThread = new Thread(UpdateBOCData);
-            bocThread.Start();
-            fixThread = new Thread(UpdateFIXData);
-            fixThread.Start();
 
             cryptoThread = new Thread(UpdateCryptoData);
             cryptoThread.Start();
 
             networkThread = new Thread(UpdateNetworkStatus);
             networkThread.Start();
+            
+            fiat.StartThreads();
 
             // Sleep main thread for 2000 milliseconds to allow data collection threads to get data
             Thread.Sleep(2000);
         }
 
-        /// <summary>
-        /// Updates European Central Bank Data
-        /// </summary>
-        private static void UpdateECBData()
-        {
-            while (true)
-            {
-                ecbManager.GetFiatRates();
-                Thread.Sleep(Globals.WAIT_ONE_DAY);
-            }
-        }
-
-        /// <summary>
-        /// Updates Bank of Canada Data
-        /// </summary>
-        private static void UpdateBOCData()
-        {
-            while (true)
-            {
-                bocManager.GetFiatRates();
-                Thread.Sleep(Globals.WAIT_ONE_DAY);
-            }
-        }
-
-        /// <summary>
-        /// Updates FIXER API Data
-        /// </summary>
-        private static void UpdateFIXData()
-        {
-            while (true)
-            {
-                fixManager.GetFiatRates();
-                Thread.Sleep(Globals.WAIT_ONE_HOUR);
-            }
-        }
 
         /// <summary>
         ///     Updates the crypto data.

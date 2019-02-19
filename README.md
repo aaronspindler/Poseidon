@@ -9,6 +9,9 @@
 - Daily fiat currency data from the European Central Bank, Bank of Canada, and Fixer.IO
 - Data storage into MySQL Database
 
+## Installation
+###### In progress
+
 ## Basic Usage
 ###### In progress
 

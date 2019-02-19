@@ -104,9 +104,9 @@ namespace Poseidon
         {
             return _KRAKEN_SIGNATURE;
         }
-        
+
         /// <summary>
-        /// Gets the fixer api key
+        ///     Gets the fixer api key
         /// </summary>
         /// <returns>Fixer API Key</returns>
         public static string GetFixer_Key()

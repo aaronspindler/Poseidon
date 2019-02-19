@@ -55,7 +55,7 @@ namespace Poseidon
             ecbManager = new EuropeanCentralBankManager();
             bocManager = new BankOfCanadaManager();
             fixManager = new FixerManager();
-            fiat = new FiatManager(ecbManager,bocManager,fixManager);
+            fiat = new FiatManager(ecbManager, bocManager, fixManager);
 
             kraken = new Kraken();
             crypto = new CryptoCurrencyManager(kraken);
@@ -71,7 +71,7 @@ namespace Poseidon
 
             networkThread = new Thread(UpdateNetworkStatus);
             networkThread.Start();
-            
+
             fiat.StartThreads();
 
             // Sleep main thread for 2000 milliseconds to allow data collection threads to get data
@@ -90,7 +90,7 @@ namespace Poseidon
         }
 
         /// <summary>
-        /// Checks the network to see if there is a connection
+        ///     Checks the network to see if there is a connection
         /// </summary>
         private static void UpdateNetworkStatus()
         {

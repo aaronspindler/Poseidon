@@ -22,7 +22,7 @@ namespace Poseidon
         private BankOfCanadaResponse _response;
 
         /// <summary>
-        /// Public method for using BankOfCanadaManager no overloads
+        ///     Public method for using BankOfCanadaManager no overloads
         /// </summary>
         public void GetFiatRates()
         {
@@ -31,22 +31,22 @@ namespace Poseidon
         }
 
         /// <summary>
-        /// Public method for using BankOfCanadaManager with overloads
+        ///     Public method for using BankOfCanadaManager with overloads
         /// </summary>
         /// <param name="start">Start datetime</param>
         /// <param name="end">End datetime</param>
         public void GetFiatRates(DateTime start, DateTime end)
         {
-            GetData(start,end);
+            GetData(start, end);
             AddToDatabase();
         }
 
         /// <summary>
-        /// Gets data from the furthest back Bank of Canada provides records for until Today then stores in database
+        ///     Gets data from the furthest back Bank of Canada provides records for until Today then stores in database
         /// </summary>
         public void GetHistoricalData()
         {
-            GetFiatRates(new DateTime(2015,1,1), DateTime.Today);
+            GetFiatRates(new DateTime(2015, 1, 1), DateTime.Today);
             Logger.WriteLine("Historical Data Retrieved and Processed");
         }
 
@@ -59,7 +59,7 @@ namespace Poseidon
         /// <param name="end">The date to get data to</param>
         private void GetData(DateTime start, DateTime end)
         {
-            var startFormatted = start.Subtract(new TimeSpan(1,0,0,0)).ToString("yyyy-MM-dd");
+            var startFormatted = start.Subtract(new TimeSpan(1, 0, 0, 0)).ToString("yyyy-MM-dd");
             var endFormatted = end.ToString("yyyy-MM-dd");
 
 
@@ -109,12 +109,10 @@ namespace Poseidon
                 //Get line with all currency pairs
                 var columnNames = reader.ReadLine();
                 //Split the line into its respective pair names
-                string[] currencyNames = columnNames.Split(",");
-                List<string> currencyNamesCleaned = new List<string>();
-                for (int i = 1; i < currencyNames.Length; i++)
-                {
-                    currencyNamesCleaned.Add(currencyNames[i].Substring(2,3));
-                }
+                var currencyNames = columnNames.Split(",");
+                var currencyNamesCleaned = new List<string>();
+                for (var i = 1; i < currencyNames.Length; i++)
+                    currencyNamesCleaned.Add(currencyNames[i].Substring(2, 3));
 
                 var observations = new List<Observation>();
                 var observationsLine = reader.ReadLine();
@@ -127,9 +125,7 @@ namespace Poseidon
                     var observationLineSplit = observationsLine.Split(",");
                     var obs = new Observation(Convert.ToDateTime(observationLineSplit[0]));
                     for (var i = 1; i < observationLineSplit.Length; i++)
-                    {
-                        obs.AddValue(currencyNamesCleaned[i-1], Convert.ToDouble(observationLineSplit[i]));
-                    }
+                        obs.AddValue(currencyNamesCleaned[i - 1], Convert.ToDouble(observationLineSplit[i]));
 
                     observations.Add(obs);
                     observationsLine = reader.ReadLine();
@@ -155,20 +151,21 @@ namespace Poseidon
         }
 
         /// <summary>
-        /// Adds responses from Bank of Canada to database
+        ///     Adds responses from Bank of Canada to database
         /// </summary>
         private void AddToDatabase()
         {
-            BankOfCanadaResponse responseToAdd = _response;
-            List<Observation> observations = responseToAdd.GetObservations();
+            var responseToAdd = _response;
+            var observations = responseToAdd.GetObservations();
             try
             {
                 var conn = MySQLDatabase.GetMySqlConnection();
                 conn.Open();
-                for (int i = 0; i < observations.Count; i++)
+                for (var i = 0; i < observations.Count; i++)
                 {
                     var cmd = conn.CreateCommand();
-                    cmd.CommandText = "INSERT into Fiat_BOC(Date, AUD, BRL, CHF, CNY, EUR, GBP, HKD, IDR, INR, JPY, KRW, MXN, MYR, NOK, NZD, PEN, RUB, SAR, SEK, SGD, THB, TRY, TWD, USD, VND, ZAR) VALUES(@Date, @AUD, @BRL, @CHF, @CNY, @EUR, @GBP, @HKD, @IDR, @INR, @JPY, @KRW, @MXN, @MYR, @NOK, @NZD, @PEN, @RUB, @SAR, @SEK, @SGD, @THB, @TRY, @TWD, @USD, @VND, @ZAR)";
+                    cmd.CommandText =
+                        "INSERT into Fiat_BOC(Date, AUD, BRL, CHF, CNY, EUR, GBP, HKD, IDR, INR, JPY, KRW, MXN, MYR, NOK, NZD, PEN, RUB, SAR, SEK, SGD, THB, TRY, TWD, USD, VND, ZAR) VALUES(@Date, @AUD, @BRL, @CHF, @CNY, @EUR, @GBP, @HKD, @IDR, @INR, @JPY, @KRW, @MXN, @MYR, @NOK, @NZD, @PEN, @RUB, @SAR, @SEK, @SGD, @THB, @TRY, @TWD, @USD, @VND, @ZAR)";
                     cmd.Parameters.AddWithValue("@Date", observations[i].GetDate());
                     cmd.Parameters.AddWithValue("@AUD", observations[i].GetValue("AUD"));
                     cmd.Parameters.AddWithValue("@BRL", observations[i].GetValue("BRL"));
@@ -210,16 +207,15 @@ namespace Poseidon
                         Logger.WriteLine(e.Message);
                     }
                 }
+
                 conn.Close();
                 Logger.WriteLine("Added fiat rates to database from Bank of Canada");
-                
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
                 throw;
             }
-            
         }
 
         /// <summary>

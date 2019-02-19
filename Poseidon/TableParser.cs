@@ -20,7 +20,6 @@ namespace Poseidon
     public static class TableParser
     {
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="values"></param>
         /// <param name="columnHeaders"></param>
@@ -36,7 +35,6 @@ namespace Poseidon
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="values"></param>
         /// <param name="columnHeaders"></param>
@@ -66,7 +64,7 @@ namespace Poseidon
         }
 
         /// <summary>
-        /// Makes the actual string table
+        ///     Makes the actual string table
         /// </summary>
         /// <param name="arrValues">Array values</param>
         /// <returns>String Table</returns>

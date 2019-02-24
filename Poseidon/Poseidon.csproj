@@ -15,6 +15,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="LiteDB.Core" Version="2.0.4" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.2.2" />
         <PackageReference Include="MySql.Data" Version="8.0.13" />
         <PackageReference Include="MySql.Data.Entity" Version="6.10.8" />

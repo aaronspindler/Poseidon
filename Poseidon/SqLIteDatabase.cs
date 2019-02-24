@@ -7,14 +7,14 @@ namespace Poseidon
     /// <summary>
     /// Database Class
     /// </summary>
-    public static class Database
+    public static class SqLiteDatabase
     {
         private static SqliteConnection dbConnection;
 
         /// <summary>
         /// Database Constructor
         /// </summary>
-        static Database()
+        static SqLiteDatabase()
         {
             Create();
             dbConnection = new SqliteConnection("Data Source=Database.sqlite;");

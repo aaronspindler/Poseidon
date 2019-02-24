@@ -30,7 +30,6 @@ namespace Poseidon
         private static Thread cryptoThread;
         private static Thread networkThread;
 
-
         /// <summary>
         ///     The entry point of the program, where the program control starts and ends.
         /// </summary>
@@ -103,6 +102,7 @@ namespace Poseidon
         {
             try
             {
+                Database.Create();
             }
             catch (Exception e)
             {

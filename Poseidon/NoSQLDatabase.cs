@@ -1,10 +1,11 @@
+
+
 namespace Poseidon
 {
     public static class NoSQLDatabase
     {
-        static NoSQLDatabase()
+        public static void Create()
         {
-            
         }
         
     }

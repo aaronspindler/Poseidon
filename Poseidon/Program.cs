@@ -103,6 +103,7 @@ namespace Poseidon
             try
             {
                 SqLiteDatabase.Create();
+                NoSQLDatabase.Create();
             }
             catch (Exception e)
             {

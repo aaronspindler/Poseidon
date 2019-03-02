@@ -1,4 +1,4 @@
-namespace Poseidon
+namespace Poseidon.Misc
 {
     /// <summary>
     ///     Class for storing globals used throught the program

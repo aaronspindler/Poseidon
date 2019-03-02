@@ -1,6 +1,7 @@
 ﻿#region
 
 using System.Collections.Generic;
+using Poseidon.Crypto;
 using Poseidon.Models.CryptoCurrency;
 
 #endregion

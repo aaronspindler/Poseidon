@@ -6,11 +6,13 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using MySql.Data.MySqlClient;
+using Poseidon.Database;
+using Poseidon.Misc;
 using Poseidon.Models.FiatCurrency.EuropeanCentralBank;
 
 #endregion
 
-namespace Poseidon
+namespace Poseidon.Fiat
 {
     /// <summary>
     ///     The manager for interacting with the European Central Bank

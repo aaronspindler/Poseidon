@@ -3,10 +3,11 @@
 using System;
 using System.Collections.Generic;
 using MySql.Data.MySqlClient;
+using Poseidon.Misc;
 
 #endregion
 
-namespace Poseidon
+namespace Poseidon.Database
 {
     /// <summary>
     ///     Main class for interacting with MySQL Database

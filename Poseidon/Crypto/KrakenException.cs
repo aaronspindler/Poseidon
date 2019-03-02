@@ -6,7 +6,7 @@ using Poseidon.Models.Old;
 
 #endregion
 
-namespace Poseidon
+namespace Poseidon.Crypto
 {
     [Serializable]
     public class KrakenException : Exception

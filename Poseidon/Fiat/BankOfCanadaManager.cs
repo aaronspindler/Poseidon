@@ -5,11 +5,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using MySql.Data.MySqlClient;
+using Poseidon.Database;
+using Poseidon.Misc;
 using Poseidon.Models.FiatCurrency.BankOfCanada;
 
 #endregion
 
-namespace Poseidon
+namespace Poseidon.Fiat
 {
     /// <summary>
     ///     Manages data and interactions with Bank of Canada

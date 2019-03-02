@@ -6,7 +6,7 @@ using System.Net;
 
 #endregion
 
-namespace Poseidon
+namespace Poseidon.Misc
 {
     /// <summary>
     ///     Utilities.

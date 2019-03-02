@@ -11,12 +11,13 @@ using System.Text;
 using System.Threading;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Poseidon.Misc;
 using Poseidon.Models.Kraken;
 using Poseidon.Models.Old;
 
 #endregion
 
-namespace Poseidon
+namespace Poseidon.Crypto
 {
     /// <summary>
     ///     Main class for interacting with Kraken.com

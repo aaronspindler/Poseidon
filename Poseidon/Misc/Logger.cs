@@ -5,7 +5,7 @@ using System.IO;
 
 #endregion
 
-namespace Poseidon
+namespace Poseidon.Misc
 {
     /// <summary>
     ///     The class used to log all input and output to the console

@@ -2,6 +2,10 @@
 
 using System;
 using System.Threading;
+using Poseidon.Crypto;
+using Poseidon.Database;
+using Poseidon.Fiat;
+using Poseidon.Misc;
 
 #endregion
 
@@ -41,7 +45,7 @@ namespace Poseidon
         }
 
         /// <summary>
-        /// Code that is ran on startup to initialize everything
+        ///     Code that is ran on startup to initialize everything
         /// </summary>
         private static void StartUp()
         {
@@ -84,7 +88,7 @@ namespace Poseidon
         }
 
         /// <summary>
-        /// Main working body of the program
+        ///     Main working body of the program
         /// </summary>
         public static void Body()
         {
@@ -93,10 +97,10 @@ namespace Poseidon
             Logger.WriteLineNoDate(balances.ToStringTable(new[] {"Currency", "Amount"}, a => a.Key, a => a.Value));
         }
 
-        
+
         /// <summary>
-        /// Code that is being tested / implemented
-        /// Will be moved to body upon complete testing
+        ///     Code that is being tested / implemented
+        ///     Will be moved to body upon complete testing
         /// </summary>
         public static void Testing()
         {

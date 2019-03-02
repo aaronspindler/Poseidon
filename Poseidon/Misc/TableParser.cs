@@ -8,7 +8,7 @@ using System.Text;
 
 #endregion
 
-namespace Poseidon
+namespace Poseidon.Misc
 {
     /*
      * From https://stackoverflow.com/a/19353995

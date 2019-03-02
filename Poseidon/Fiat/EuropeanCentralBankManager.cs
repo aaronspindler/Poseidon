@@ -45,46 +45,33 @@ namespace Poseidon.Fiat
         /// </summary>
         private void GetData()
         {
-            Directory.CreateDirectory("Fiat/ECB");
-            var now = DateTime.Now.Ticks;
-            var xmlDataFileName = string.Format(@"Fiat/ECB/{0}.txt", now);
             try
             {
                 var client = new WebClient();
                 var data = client.OpenRead("http://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml");
                 var reader = new StreamReader(data);
-                var writer = new StreamWriter(xmlDataFileName);
+
                 //Read the header and ignore it
                 for (var i = 0; i < 7; i++) reader.ReadLine();
 
-                //Write the date
-                writer.WriteLine(reader.ReadLine().Trim());
+
+                //Read the date and ignore it
+                var date = reader.ReadLine().Trim().Split('\'')[1];
 
                 //Read and write the actual currency data
-                for (var i = 0; i < 32; i++) writer.WriteLine(reader.ReadLine().Trim());
+                var lines = new List<string>();
+                for (var i = 0; i < 32; i++) lines.Add(reader.ReadLine().Trim());
 
-                //Close reader and writers
-                writer.Close();
-                reader.Close();
-
-                reader = new StreamReader(xmlDataFileName);
-
-                //Skip over the date line
-                var date = reader.ReadLine();
-                var dateSplit = date.Split('\'');
-                date = dateSplit[1];
 
                 //Start the loop
                 var response = new EuropeanCentralBankResponse();
-                var txt = reader.ReadLine();
-                while (txt != null)
+                foreach (var x in lines)
                 {
-                    var split = txt.Split('\'');
+                    var split = x.Split('\'');
                     var name = split[1];
                     var rate = Convert.ToDouble(split[3]);
 
                     response.currencies.Add(name, rate);
-                    txt = reader.ReadLine();
                 }
 
                 reader.Close();

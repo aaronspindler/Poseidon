@@ -21,10 +21,6 @@ namespace Poseidon.Database
             InitializeTables();
         }
 
-        private static void Insert()
-        {
-        }
-
         /// <summary>
         ///     Create the database
         /// </summary>

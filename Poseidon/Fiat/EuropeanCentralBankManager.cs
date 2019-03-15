@@ -5,8 +5,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
-using MySql.Data.MySqlClient;
-using Poseidon.Database;
 using Poseidon.Misc;
 using Poseidon.Models.FiatCurrency.EuropeanCentralBank;
 
@@ -86,7 +84,7 @@ namespace Poseidon.Fiat
 
         private void AddtoDatabase()
         {
-            try
+/*            try
             {
                 var conn = MySQLDatabase.GetMySqlConnection();
                 conn.Open();
@@ -140,7 +138,7 @@ namespace Poseidon.Fiat
             {
                 Console.WriteLine(e);
                 throw;
-            }
+            }*/
         }
 
 

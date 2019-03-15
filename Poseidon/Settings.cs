@@ -1,6 +1,7 @@
 ﻿#region
 
 using System;
+using System.Data.SqlTypes;
 using System.IO;
 using System.Reflection;
 using Poseidon.Misc;
@@ -16,14 +17,11 @@ namespace Poseidon
     {
         private static string _version;
         private static string _currency;
-        private static string _DB_host;
-        private static string _DB_port;
-        private static string _DB_name;
-        private static string _DB_username;
-        private static string _DB_password;
         private static string _KRAKEN_KEY;
         private static string _KRAKEN_SIGNATURE;
         private static string _FIXER_KEY;
+        private static string _AWS_ACCESS_KEY;
+        private static string _AWS_SECRET_KEY;
 
         /// <summary>
         ///     Gets the version.
@@ -41,51 +39,6 @@ namespace Poseidon
         public static string GetCurrency()
         {
             return _currency;
-        }
-
-        /// <summary>
-        ///     Gets the Database host.
-        /// </summary>
-        /// <returns>The Database host.</returns>
-        public static string GetDB_Host()
-        {
-            return _DB_host;
-        }
-
-        /// <summary>
-        ///     Gets the Database port.
-        /// </summary>
-        /// <returns>The Database port.</returns>
-        public static string GetDB_Port()
-        {
-            return _DB_port;
-        }
-
-        /// <summary>
-        ///     Gets the name of the Database.
-        /// </summary>
-        /// <returns>The Database name.</returns>
-        public static string GetDB_Name()
-        {
-            return _DB_name;
-        }
-
-        /// <summary>
-        ///     Gets the Database username.
-        /// </summary>
-        /// <returns>The Database username.</returns>
-        public static string GetDB_Username()
-        {
-            return _DB_username;
-        }
-
-        /// <summary>
-        ///     Gets the Database password.
-        /// </summary>
-        /// <returns>The Database password.</returns>
-        public static string GetDB_Password()
-        {
-            return _DB_password;
         }
 
         /// <summary>
@@ -115,6 +68,24 @@ namespace Poseidon
             return _FIXER_KEY;
         }
 
+        /// <summary>
+        /// Gets the AWS Access Key
+        /// </summary>
+        /// <returns>AWS Access Key</returns>
+        public static string GetAWS_Access_Key()
+        {
+            return _AWS_ACCESS_KEY;
+        }
+
+        /// <summary>
+        /// Gets the AWS Secret Key
+        /// </summary>
+        /// <returns>AWS Secret Key</returns>
+        public static string GetAWS_Secret_Key()
+        {
+            return _AWS_SECRET_KEY;
+        }
+
 
         /// <summary>
         ///     Checks the settings file.
@@ -135,25 +106,12 @@ namespace Poseidon
             var reader = new StreamReader("settings.txt");
 
             var line = reader.ReadLine();
-            if (line != null) _version = line.Split('=')[1];
+            if (line != null && line.Substring(0, 8) == "VERSION=")
+                _version = line.Substring(8);
 
             line = reader.ReadLine();
-            if (line != null) _currency = line.Split('=')[1];
-
-            line = reader.ReadLine();
-            if (line != null) _DB_host = line.Split('=')[1];
-
-            line = reader.ReadLine();
-            if (line != null) _DB_port = line.Split('=')[1];
-
-            line = reader.ReadLine();
-            if (line != null) _DB_name = line.Split('=')[1];
-
-            line = reader.ReadLine();
-            if (line != null) _DB_username = line.Split('=')[1];
-
-            line = reader.ReadLine();
-            if (line != null) _DB_password = line.Split('=')[1];
+            if (line != null && line.Substring(0, 9) == "CURRENCY=")
+                _currency = line.Substring(9);
 
             line = reader.ReadLine();
             if (line != null && line.Substring(0, 11) == "KRAKEN_KEY=")
@@ -164,7 +122,17 @@ namespace Poseidon
                 _KRAKEN_SIGNATURE = line.Substring(17);
 
             line = reader.ReadLine();
-            if (line != null) _FIXER_KEY = line.Substring(10);
+            if (line != null && line.Substring(0, 10) == "FIXER_KEY=")
+                _FIXER_KEY = line.Substring(10);
+
+            line = reader.ReadLine();
+            if (line != null && line.Substring(0, 15) == "AWS_ACCESS_KEY=")
+                _AWS_ACCESS_KEY = line.Substring(15);
+
+            line = reader.ReadLine();
+            if (line != null && line.Substring(0, 15) == "AWS_SECRET_KEY=")
+                _AWS_SECRET_KEY = line.Substring(15);
+            
         }
 
 
@@ -179,14 +147,11 @@ namespace Poseidon
                 {
                     sw.WriteLine("VERSION=" + Assembly.GetExecutingAssembly().GetName().Version);
                     sw.WriteLine("CURRENCY=CAD");
-                    sw.WriteLine("DB_HOST=localhost");
-                    sw.WriteLine("DB_PORT=3306");
-                    sw.WriteLine("DB_NAME=poseidon");
-                    sw.WriteLine("DB_USERNAME=xnovax");
-                    sw.WriteLine("DB_PASSWORD=temp");
                     sw.WriteLine("KRAKEN_KEY=default");
                     sw.WriteLine("KRAKEN_SIGNATURE=default");
                     sw.WriteLine("FIXER_KEY=default");
+                    sw.WriteLine("AWS_ACCESS_KEY=default");
+                    sw.WriteLine("AWS_SECRET_KEY=default");
 
                     sw.Close();
                 }

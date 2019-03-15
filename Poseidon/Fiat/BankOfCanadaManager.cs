@@ -4,8 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using MySql.Data.MySqlClient;
-using Poseidon.Database;
 using Poseidon.Misc;
 using Poseidon.Models.FiatCurrency.BankOfCanada;
 
@@ -157,7 +155,7 @@ namespace Poseidon.Fiat
         /// </summary>
         private void AddToDatabase()
         {
-            var responseToAdd = _response;
+/*            var responseToAdd = _response;
             var observations = responseToAdd.GetObservations();
             try
             {
@@ -217,7 +215,7 @@ namespace Poseidon.Fiat
             {
                 Console.WriteLine(e);
                 throw;
-            }
+            }*/
         }
 
         /// <summary>

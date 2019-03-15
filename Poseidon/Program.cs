@@ -3,7 +3,6 @@
 using System;
 using System.Threading;
 using Poseidon.Crypto;
-using Poseidon.Database;
 using Poseidon.Fiat;
 using Poseidon.Misc;
 
@@ -64,6 +63,8 @@ namespace Poseidon
 
             Settings.CheckSettingsFile();
             Settings.LoadSettings();
+            
+            Database.Initialize();
 
             ecbManager = new EuropeanCentralBankManager();
             bocManager = new BankOfCanadaManager();
@@ -72,8 +73,8 @@ namespace Poseidon
 
             kraken = new Kraken();
             crypto = new CryptoCurrencyManager(kraken);
-
-            MySQLDatabase.Initialize();
+            
+            
 
             cryptoThread = new Thread(UpdateCryptoData);
             cryptoThread.Start();

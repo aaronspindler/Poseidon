@@ -19,6 +19,7 @@ namespace Poseidon
     {
         private static BasicAWSCredentials _credentials;
         private static AmazonDynamoDBClient _client;
+
         public static void Initialize()
         {
             //Load the credentials and make a client
@@ -28,21 +29,26 @@ namespace Poseidon
 
             CreateTables();
         }
+
         private static void CreateTables()
         {
-            CreateTable("ECB_Data");
-            CreateTable("BOC_Data");
+            CreateTable("ECB_Data", "EntryID");
+            CreateTable("BOC_Data", "EntryID");
         }
 
-        private static async Task CreateTable(string tableName)
+        /// <summary>
+        /// Creates a table in AWS DynamoDB using your TableName
+        /// </summary>
+        /// <param name="tableName">Table Name for the Table in DynamoDB</param>
+        /// <returns></returns>
+        private static void CreateTable(string tableName, string hashKey)
         {
-            var hashKey = "UserID";
-            var tableResponse = await _client.ListTablesAsync();
-            if (!tableResponse.TableNames.Contains(tableName))
+            var tableResponse = _client.ListTablesAsync();
+            if (!tableResponse.Result.TableNames.Contains(tableName))
             {
                 Logger.WriteLine("Table: " + tableName + " not found, creating now!");
-                
-                await _client.CreateTableAsync(new CreateTableRequest
+
+                _client.CreateTableAsync(new CreateTableRequest
                 {
                     TableName = tableName,
                     ProvisionedThroughput = new ProvisionedThroughput
@@ -68,12 +74,28 @@ namespace Poseidon
                 while (!isTableAvailable)
                 {
                     Thread.Sleep(300);
-                    var tableStatus = await _client.DescribeTableAsync(tableName);
-                    isTableAvailable = tableStatus.Table.TableStatus == "ACTIVE";
+                    var tableStatus = _client.DescribeTableAsync(tableName);
+                    isTableAvailable = tableStatus.Result.Table.TableStatus == "ACTIVE";
                 }
-                
+
                 Logger.WriteLine(tableName + " now active!");
             }
+        }
+        
+
+        /// <summary>
+        /// Delete a table
+        /// </summary>
+        /// <param name="tableName">Name of table you want to delete</param>
+        private static void DeleteTable(string tableName)
+        {
+            var request = new DeleteTableRequest
+            {
+                TableName = tableName
+            };
+
+            var response = _client.DeleteTableAsync(request);
+            Logger.WriteLine("Attempted to Delete Table: " +  tableName);
         }
 
         //ECB

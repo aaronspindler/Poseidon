@@ -1,38 +1,24 @@
-#region
-
-using System;
 using System.Collections.Generic;
-
-#endregion
 
 namespace Poseidon.Models.FiatCurrency.BankOfCanada
 {
-    /// <summary>
-    ///     The object that holds the data for a response from the Bank Of Canada API
-    /// </summary>
     public class BankOfCanadaResponse
     {
-        private readonly List<Observation> _observations;
-        private List<Series> _series;
+        private List<BankOfCanadaEntry> _entries { get; set; }
 
-        /// <summary>
-        /// </summary>
-        /// <param name="termsLink">Link to the terms and conditions</param>
-        /// <param name="series">List of the different currency pairs</param>
-        /// <param name="observations">List of all observations for those currency pairs</param>
-        public BankOfCanadaResponse(List<Series> series, List<Observation> observations)
+        public BankOfCanadaResponse()
         {
-            _series = series ?? throw new ArgumentNullException(nameof(series));
-            _observations = observations ?? throw new ArgumentNullException(nameof(observations));
+            _entries = new List<BankOfCanadaEntry>();
         }
 
-        /// <summary>
-        ///     Returns the list of observations
-        /// </summary>
-        /// <returns>List of observations</returns>
-        public List<Observation> GetObservations()
+        public List<BankOfCanadaEntry> GetEntries()
         {
-            return _observations;
+            return _entries;
+        }
+
+        public void AddEntry(BankOfCanadaEntry entry)
+        {
+            _entries.Add(entry);
         }
     }
 }

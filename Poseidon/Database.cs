@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 using Amazon;
 using Amazon.Runtime;
 using Amazon.DynamoDBv2;
+using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.Model;
 using Poseidon.Misc;
+using Poseidon.Models.FiatCurrency.BankOfCanada;
 
 namespace Poseidon
 {
@@ -116,8 +118,10 @@ namespace Poseidon
         }
 
         //BOC
-        public static void CreateBOCEntry()
+        public static async void CreateBOCEntry(BankOfCanadaEntry entry)
         {
+             var context = new DynamoDBContext(_client);
+             await context.SaveAsync(entry);
         }
 
         public static void ReadBOCEntry()

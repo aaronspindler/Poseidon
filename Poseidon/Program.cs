@@ -36,8 +36,11 @@ namespace Poseidon
         /// <summary>
         ///     The entry point of the program, where the program control starts and ends.
         /// </summary>
-        private static void Main()
+        /// <param name="args">Startup arguments</param>
+        //TODO: Add settings integration through args
+        private static void Main(string[] args)
         {
+            SettingArguments(args);
             StartUp();
             Body();
             Testing();
@@ -113,6 +116,16 @@ namespace Poseidon
                 Console.WriteLine(e);
                 throw;
             }
+        }
+
+        /// <summary>
+        /// Takes in the arguments, parses them, and then sets them in the settings.
+        /// </summary>
+        /// <param name="args"></param>
+        //TODO: Intergrate into application flow and integrate full usage
+        public static void SettingArguments(string[] args)
+        {
+            
         }
 
 

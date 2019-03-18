@@ -23,6 +23,10 @@ namespace Poseidon
         private static BasicAWSCredentials _credentials;
         private static AmazonDynamoDBClient _client;
 
+        /// <summary>
+        /// Initialize the database using credentials from the settings file
+        /// </summary>
+        //TODO: Check if the credentials from settings are valid
         public static void Startup()
         {
             //Load the credentials and make a client

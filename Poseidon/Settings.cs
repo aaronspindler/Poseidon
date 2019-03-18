@@ -24,13 +24,12 @@ namespace Poseidon
         private static string _AWS_SECRET_KEY;
 
         /// <summary>
-        /// Decides which method to load settings from
+        /// Initialize the settings
         /// </summary>
-        /// <param name="args">Arguments provided by command line</param>
         public static void Startup()
         {
-            CheckSettingsFile();
-            ParseFromFile();
+            CheckSettingsFile("settings.txt");
+            ParseFromFile("settings.txt");
         }
 
         /// <summary>
@@ -100,22 +99,32 @@ namespace Poseidon
         /// <summary>
         ///     Checks the settings file.
         /// </summary>
-        private static void CheckSettingsFile()
+        private static void CheckSettingsFile(string fileName)
         {
-            if (File.Exists("settings.txt")) return;
-            CreateDefaultSettingsFile();
+            if (File.Exists(fileName)) return;
+            CreateDefaultSettingsFile(fileName);
             Logger.WriteLineNoDate("Created default settings file -> settings.txt");
             Logger.WriteLineNoDate("Please fill out the settings and restart the program");
             Utilities.ExitProgram(false);
+        }
+
+        /// <summary>
+        /// Deletes a settings file
+        /// Used for testing
+        /// </summary>
+        /// <param name="fileName">The location of the settings file you want to delete</param>
+        private static void DeleteSettingsFile(string fileName)
+        {
+            File.Delete(fileName);
         }
 
 
         /// <summary>
         ///     Loads the settings.
         /// </summary>
-        private static void ParseFromFile()
+        private static void ParseFromFile(string fileName)
         {
-            var reader = new StreamReader("settings.txt");
+            var reader = new StreamReader(fileName);
 
             var line = reader.ReadLine();
             if (line != null && line.Substring(0, 8) == "VERSION=")
@@ -150,11 +159,11 @@ namespace Poseidon
         /// <summary>
         ///     Creates a default settings file.
         /// </summary>
-        private static void CreateDefaultSettingsFile()
+        private static void CreateDefaultSettingsFile(string fileName)
         {
             try
             {
-                using (var sw = File.CreateText("settings.txt"))
+                using (var sw = File.CreateText(fileName))
                 {
                     sw.WriteLine("VERSION=" + Assembly.GetExecutingAssembly().GetName().Version);
                     sw.WriteLine("CURRENCY=CAD");

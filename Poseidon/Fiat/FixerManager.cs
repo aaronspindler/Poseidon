@@ -10,6 +10,7 @@ namespace Poseidon.Fiat
 {
     public class FixerManager
     {
+        //TODO: Implement data collection from fixer
         public void GetFiatRates()
         {
             var client = new WebClient();
@@ -19,6 +20,7 @@ namespace Poseidon.Fiat
                 var address = "http://data.fixer.io/api/latest?access_key=" + Settings.GetFixer_Key();
                 var data = client.OpenRead(address);
                 var reader = new StreamReader(data);
+                
             }
             catch (Exception e)
             {

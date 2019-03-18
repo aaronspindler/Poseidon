@@ -52,8 +52,6 @@ namespace Poseidon.Fiat
             Logger.WriteLine("Historical Data Retrieved and Processed");
         }
 
-
-        //TODO: need to rewrite
         /// <summary>
         ///     Gets currency price data from The Bank of Canada between two dates
         ///     All currencies are in CAD base

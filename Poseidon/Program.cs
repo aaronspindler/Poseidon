@@ -38,7 +38,6 @@ namespace Poseidon
         ///     The entry point of the program, where the program control starts and ends.
         /// </summary>
         /// <param name="args">Startup arguments</param>
-        //TODO: Add settings integration through args
         private static void Main(string[] args)
         {
             StartUp(args);
@@ -143,6 +142,7 @@ namespace Poseidon
             {
                 Logger.WriteLineNoDate("=================================================================");
                 Logger.WriteLineNoDate("Poseidon Help");
+                Logger.WriteLineNoDate("Settings file must be fully filled out for the program to function");
                 Logger.WriteLineNoDate("=================================================================");
                 
                 Utilities.ExitProgram(false);

@@ -39,6 +39,7 @@ namespace Poseidon.Crypto
             _url = "https://api.kraken.com";
             _version = 0;
             _rateLimitMilliseconds = rateLimitMilliseconds;
+            //TODO: Check if credentials are valid
             _key = Settings.GetKraken_Key();
             _secret = Settings.GetKraken_Signature();
         }

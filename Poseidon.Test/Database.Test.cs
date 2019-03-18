@@ -1,13 +1,9 @@
-#region
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-#endregion
 
 namespace Poseidon.Test
 {
     [TestClass]
-    public class UnitTest1
+    public class Database_Test
     {
         [TestMethod]
         public void TestMethod1()

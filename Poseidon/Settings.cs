@@ -15,8 +15,8 @@ namespace Poseidon
     /// </summary>
     public static class Settings
     {
-        private static string _version;
-        private static string _currency;
+        private static string _VERSION;
+        private static string _CURRENCY;
         private static string _KRAKEN_KEY;
         private static string _KRAKEN_SIGNATURE;
         private static string _FIXER_KEY;
@@ -24,12 +24,29 @@ namespace Poseidon
         private static string _AWS_SECRET_KEY;
 
         /// <summary>
+        /// Decides which method to load settings from
+        /// </summary>
+        /// <param name="args">Arguments provided by command line</param>
+        public static void Startup(string[] args)
+        {
+            if (args.Length == 0)
+            {
+                CheckSettingsFile();
+                ParseFromFile();
+            }
+            else
+            {
+                ParseFromArgs(args);
+            }
+        }
+
+        /// <summary>
         ///     Gets the version.
         /// </summary>
         /// <returns>The version.</returns>
         public static string GetVersion()
         {
-            return _version;
+            return _VERSION;
         }
 
         /// <summary>
@@ -38,7 +55,7 @@ namespace Poseidon
         /// <returns>The currency.</returns>
         public static string GetCurrency()
         {
-            return _currency;
+            return _CURRENCY;
         }
 
         /// <summary>
@@ -90,28 +107,30 @@ namespace Poseidon
         /// <summary>
         ///     Checks the settings file.
         /// </summary>
-        public static void CheckSettingsFile()
+        private static void CheckSettingsFile()
         {
             if (File.Exists("settings.txt")) return;
             CreateDefaultSettingsFile();
-            Logger.WriteLine("Created default settings file");
+            Logger.WriteLine("Created default settings file -> settings.txt");
+            Logger.WriteLine("Please fill out the settings and restart the program");
+            Utilities.ExitProgram();
         }
 
 
         /// <summary>
         ///     Loads the settings.
         /// </summary>
-        public static void LoadSettings()
+        private static void ParseFromFile()
         {
             var reader = new StreamReader("settings.txt");
 
             var line = reader.ReadLine();
             if (line != null && line.Substring(0, 8) == "VERSION=")
-                _version = line.Substring(8);
+                _VERSION = line.Substring(8);
 
             line = reader.ReadLine();
             if (line != null && line.Substring(0, 9) == "CURRENCY=")
-                _currency = line.Substring(9);
+                _CURRENCY = line.Substring(9);
 
             line = reader.ReadLine();
             if (line != null && line.Substring(0, 11) == "KRAKEN_KEY=")
@@ -132,7 +151,18 @@ namespace Poseidon
             line = reader.ReadLine();
             if (line != null && line.Substring(0, 15) == "AWS_SECRET_KEY=")
                 _AWS_SECRET_KEY = line.Substring(15);
-            
+        }
+
+        /// <summary>
+        /// Parses the settings provided by the command line
+        /// </summary>
+        /// <param name="args">Arguments provided from the command line</param>
+        private static void ParseFromArgs(string[] args)
+        {
+            for (int i = 0; i < args.Length; i++)
+            {
+                Console.WriteLine(args[i]);
+            }
         }
 
 

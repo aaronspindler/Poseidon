@@ -40,8 +40,7 @@ namespace Poseidon
         //TODO: Add settings integration through args
         private static void Main(string[] args)
         {
-            SettingArguments(args);
-            StartUp();
+            StartUp(args);
             Body();
             Testing();
         }
@@ -49,11 +48,12 @@ namespace Poseidon
         /// <summary>
         ///     Code that is ran on startup to initialize everything
         /// </summary>
-        private static void StartUp()
+        /// <param name="args"></param>
+        private static void StartUp(string[] args)
         {
             Console.Title = "Poseidon";
 
-            Logger.Initialize();
+            Logger.Startup();
 
             Logger.WriteLine("Welcome to Poseidon!");
 
@@ -64,10 +64,8 @@ namespace Poseidon
                 Utilities.ExitProgram();
             }
 
-            Settings.CheckSettingsFile();
-            Settings.LoadSettings();
-            
-            Database.Initialize();
+            Settings.Startup(args);
+            Database.Startup();
 
             ecbManager = new EuropeanCentralBankManager();
             bocManager = new BankOfCanadaManager();
@@ -116,16 +114,6 @@ namespace Poseidon
                 Console.WriteLine(e);
                 throw;
             }
-        }
-
-        /// <summary>
-        /// Takes in the arguments, parses them, and then sets them in the settings.
-        /// </summary>
-        /// <param name="args"></param>
-        //TODO: Intergrate into application flow and integrate full usage
-        public static void SettingArguments(string[] args)
-        {
-            
         }
 
 

@@ -18,7 +18,7 @@ namespace Poseidon.Misc
         /// <summary>
         ///     Initialize this instance.
         /// </summary>
-        public static void Initialize()
+        public static void Startup()
         {
             Directory.CreateDirectory("Logs");
             var now = DateTime.Now.Ticks;

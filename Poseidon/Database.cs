@@ -22,7 +22,7 @@ namespace Poseidon
         private static BasicAWSCredentials _credentials;
         private static AmazonDynamoDBClient _client;
 
-        public static void Initialize()
+        public static void Startup()
         {
             //Load the credentials and make a client
             _credentials = new BasicAWSCredentials(Settings.GetAWS_Access_Key(), Settings.GetAWS_Secret_Key());

@@ -17,7 +17,7 @@ namespace Poseidon.Fiat
     /// </summary>
     public class EuropeanCentralBankManager
     {
-        private readonly List<EuropeanCentralBankResponse> ecbData;
+        private EuropeanCentralBankEntry entry;
         private Dictionary<string, double> rebasedCurrencies;
 
         /// <summary>
@@ -25,7 +25,7 @@ namespace Poseidon.Fiat
         /// </summary>
         public EuropeanCentralBankManager()
         {
-            ecbData = new List<EuropeanCentralBankResponse>();
+            entry = new EuropeanCentralBankEntry();
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace Poseidon.Fiat
         {
             GetData();
             RebaseCurrency();
-            AddtoDatabase();
+            AddToDatabase();
         }
 
         /// <summary>
@@ -62,18 +62,18 @@ namespace Poseidon.Fiat
 
 
                 //Start the loop
-                var response = new EuropeanCentralBankResponse();
+                entry = new EuropeanCentralBankEntry();
+                entry.SetDate(date);
                 foreach (var x in lines)
                 {
                     var split = x.Split('\'');
                     var name = split[1];
                     var rate = Convert.ToDouble(split[3]);
 
-                    response.currencies.Add(name, rate);
+                    entry.AddValuation(name, rate);
                 }
 
                 reader.Close();
-                ecbData.Add(response);
                 Logger.WriteLine("Updated Fiat Rates from European Central Bank");
             }
             catch (Exception e)
@@ -82,63 +82,12 @@ namespace Poseidon.Fiat
             }
         }
 
-        private void AddtoDatabase()
+        /// <summary>
+        /// Adds data retrieved from European Central Bank to DynamoDB
+        /// </summary>
+        private void AddToDatabase()
         {
-/*            try
-            {
-                var conn = MySQLDatabase.GetMySqlConnection();
-                conn.Open();
-                var cmd = conn.CreateCommand();
-                cmd.CommandText =
-                    "INSERT INTO Fiat_ECB(Date, EUR, USD, JPY, BGN, CZK, DKK, GBP, HUF, PLN, RON, SEK, CHF, ISK, NOK, HRK, RUB, TRY, AUD, BRL, CAD, CNY, HKD, IDR, ILS, INR, KRW, MXN, MYR, NZD, PHP, SGD, THB, ZAR) VALUES(@Date, @EUR, @USD, @JPY, @BGN, @CZK, @DKK, @GBP, @HUF, @PLN, @RON, @SEK, @CHF, @ISK, @NOK, @HRK, @RUB, @TRY, @AUD, @BRL, @CAD, @CNY, @HKD, @IDR, @ILS, @INR, @KRW, @MXN, @MYR, @NZD, @PHP, @SGD, @THB, @ZAR)";
-                cmd.Parameters.AddWithValue("@Date", DateTime.Now);
-                cmd.Parameters.AddWithValue("@EUR", rebasedCurrencies["EUR"]);
-                cmd.Parameters.AddWithValue("@USD", rebasedCurrencies["USD"]);
-                cmd.Parameters.AddWithValue("@JPY", rebasedCurrencies["JPY"]);
-                cmd.Parameters.AddWithValue("@BGN", rebasedCurrencies["BGN"]);
-                cmd.Parameters.AddWithValue("@CZK", rebasedCurrencies["CZK"]);
-                cmd.Parameters.AddWithValue("@DKK", rebasedCurrencies["DKK"]);
-                cmd.Parameters.AddWithValue("@GBP", rebasedCurrencies["GBP"]);
-                cmd.Parameters.AddWithValue("@HUF", rebasedCurrencies["HUF"]);
-                cmd.Parameters.AddWithValue("@PLN", rebasedCurrencies["PLN"]);
-                cmd.Parameters.AddWithValue("@RON", rebasedCurrencies["RON"]);
-                cmd.Parameters.AddWithValue("@SEK", rebasedCurrencies["SEK"]);
-                cmd.Parameters.AddWithValue("@CHF", rebasedCurrencies["CHF"]);
-                cmd.Parameters.AddWithValue("@ISK", rebasedCurrencies["ISK"]);
-                cmd.Parameters.AddWithValue("@NOK", rebasedCurrencies["NOK"]);
-                cmd.Parameters.AddWithValue("@HRK", rebasedCurrencies["HRK"]);
-                cmd.Parameters.AddWithValue("@RUB", rebasedCurrencies["RUB"]);
-                cmd.Parameters.AddWithValue("@TRY", rebasedCurrencies["TRY"]);
-                cmd.Parameters.AddWithValue("@AUD", rebasedCurrencies["AUD"]);
-                cmd.Parameters.AddWithValue("@BRL", rebasedCurrencies["BRL"]);
-                cmd.Parameters.AddWithValue("@CAD", rebasedCurrencies["CAD"]);
-                cmd.Parameters.AddWithValue("@CNY", rebasedCurrencies["CNY"]);
-                cmd.Parameters.AddWithValue("@HKD", rebasedCurrencies["HKD"]);
-                cmd.Parameters.AddWithValue("@IDR", rebasedCurrencies["IDR"]);
-                cmd.Parameters.AddWithValue("@ILS", rebasedCurrencies["ILS"]);
-                cmd.Parameters.AddWithValue("@INR", rebasedCurrencies["INR"]);
-                cmd.Parameters.AddWithValue("@KRW", rebasedCurrencies["KRW"]);
-                cmd.Parameters.AddWithValue("@MXN", rebasedCurrencies["MXN"]);
-                cmd.Parameters.AddWithValue("@MYR", rebasedCurrencies["MYR"]);
-                cmd.Parameters.AddWithValue("@NZD", rebasedCurrencies["NZD"]);
-                cmd.Parameters.AddWithValue("@PHP", rebasedCurrencies["PHP"]);
-                cmd.Parameters.AddWithValue("@SGD", rebasedCurrencies["SGD"]);
-                cmd.Parameters.AddWithValue("@THB", rebasedCurrencies["THB"]);
-                cmd.Parameters.AddWithValue("@ZAR", rebasedCurrencies["ZAR"]);
-                cmd.ExecuteNonQuery();
-                conn.Close();
-                Logger.WriteLine("Added Fiat rates to database from European Central Bank");
-            }
-            catch (MySqlException ex)
-            {
-                if (ex.Message.Contains("Duplicate entry"))
-                    Logger.WriteLine("Fiat Currency has already been recorded today.");
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }*/
+            Database.CreateECBEntry(entry);
         }
 
 
@@ -148,9 +97,9 @@ namespace Poseidon.Fiat
         private void RebaseCurrency()
         {
             rebasedCurrencies = new Dictionary<string, double>();
-            var lastResponse = ecbData.LastOrDefault();
-            if (lastResponse == null) return;
-            var euroBase = lastResponse.currencies;
+            var mostRecentEntry = entry;
+            if (mostRecentEntry == null) return;
+            var euroBase = mostRecentEntry.GetValuations();
 
 
             rebasedCurrencies.Add("EUR", 1 / euroBase["CAD"]);
@@ -161,6 +110,8 @@ namespace Poseidon.Fiat
                 var newValue = currency.Value / euroBase["CAD"];
                 rebasedCurrencies.Add(currencyName, newValue);
             }
+            
+            entry.SetValuations(rebasedCurrencies);
         }
     }
 }

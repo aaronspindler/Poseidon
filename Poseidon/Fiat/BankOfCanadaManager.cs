@@ -162,7 +162,6 @@ namespace Poseidon.Fiat
         /// </summary>
         private void AddToDatabase()
         {
-            var responseToAdd = _response;
             foreach (var entry in _response.GetEntries())
             {
                 Database.CreateBOCEntry(entry);

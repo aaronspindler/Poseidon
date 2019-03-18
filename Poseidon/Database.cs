@@ -9,6 +9,7 @@ using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.Model;
 using Poseidon.Misc;
 using Poseidon.Models.FiatCurrency.BankOfCanada;
+using Poseidon.Models.FiatCurrency.EuropeanCentralBank;
 
 namespace Poseidon
 {
@@ -101,8 +102,10 @@ namespace Poseidon
         }
 
         //ECB
-        public static void CreateECBEntry()
+        public static async void CreateECBEntry(EuropeanCentralBankEntry entry)
         {
+            var context = new DynamoDBContext(_client);
+            await context.SaveAsync(entry);
         }
 
         public static void ReadECBEntry()

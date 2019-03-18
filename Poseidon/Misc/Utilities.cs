@@ -16,12 +16,16 @@ namespace Poseidon.Misc
         /// <summary>
         ///     Exits the program.
         /// </summary>
-        public static void ExitProgram()
+        public static void ExitProgram(bool notify)
         {
-            Logger.WriteLine("Press enter to close application");
-            Console.ReadLine();
+            if (notify)
+            {
+                Logger.WriteLine("Press enter to close application");
+                Console.ReadLine();
+            }
             Environment.Exit(-1);
         }
+        
 
         /// <summary>
         ///     Writes to a file.

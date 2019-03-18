@@ -27,17 +27,10 @@ namespace Poseidon
         /// Decides which method to load settings from
         /// </summary>
         /// <param name="args">Arguments provided by command line</param>
-        public static void Startup(string[] args)
+        public static void Startup()
         {
-            if (args.Length == 0)
-            {
-                CheckSettingsFile();
-                ParseFromFile();
-            }
-            else
-            {
-                ParseFromArgs(args);
-            }
+            CheckSettingsFile();
+            ParseFromFile();
         }
 
         /// <summary>
@@ -111,9 +104,9 @@ namespace Poseidon
         {
             if (File.Exists("settings.txt")) return;
             CreateDefaultSettingsFile();
-            Logger.WriteLine("Created default settings file -> settings.txt");
-            Logger.WriteLine("Please fill out the settings and restart the program");
-            Utilities.ExitProgram();
+            Logger.WriteLineNoDate("Created default settings file -> settings.txt");
+            Logger.WriteLineNoDate("Please fill out the settings and restart the program");
+            Utilities.ExitProgram(false);
         }
 
 
@@ -153,18 +146,6 @@ namespace Poseidon
                 _AWS_SECRET_KEY = line.Substring(15);
         }
 
-        /// <summary>
-        /// Parses the settings provided by the command line
-        /// </summary>
-        /// <param name="args">Arguments provided from the command line</param>
-        private static void ParseFromArgs(string[] args)
-        {
-            for (int i = 0; i < args.Length; i++)
-            {
-                Console.WriteLine(args[i]);
-            }
-        }
-
 
         /// <summary>
         ///     Creates a default settings file.
@@ -190,7 +171,7 @@ namespace Poseidon
             {
                 Logger.WriteLine(exception.Message);
 
-                Utilities.ExitProgram();
+                Utilities.ExitProgram(false);
             }
         }
     }

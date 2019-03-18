@@ -1,6 +1,7 @@
 ﻿#region
 
 using System;
+using System.Linq;
 using System.Threading;
 using Poseidon.Crypto;
 using Poseidon.Fiat;
@@ -54,6 +55,8 @@ namespace Poseidon
             Console.Title = "Poseidon";
 
             Logger.Startup();
+            
+            CheckArgs(args);
 
             Logger.WriteLine("Welcome to Poseidon!");
 
@@ -61,10 +64,10 @@ namespace Poseidon
             if (!NETWORK)
             {
                 Logger.WriteLine("No network connection!");
-                Utilities.ExitProgram();
+                Utilities.ExitProgram(true);
             }
 
-            Settings.Startup(args);
+            Settings.Startup();
             Database.Startup();
 
             ecbManager = new EuropeanCentralBankManager();
@@ -127,6 +130,25 @@ namespace Poseidon
                 Thread.Sleep(Globals.CRYPTO_DATA_COLLECTION_RATE);
         }
 
+        
+        //TODO: Fully implement a full spread of special cases
+        /// <summary>
+        /// Checks for special cases in the arguments
+        /// help - display the help information for the program
+        /// </summary>
+        /// <param name="args">Arguments passed by the command line</param>
+        private static void CheckArgs(string[] args)
+        {
+            if (args.Contains("help"))
+            {
+                Logger.WriteLineNoDate("=================================================================");
+                Logger.WriteLineNoDate("Poseidon Help");
+                Logger.WriteLineNoDate("=================================================================");
+                
+                Utilities.ExitProgram(false);
+            }
+        }
+
         /// <summary>
         ///     Checks the network to see if there is a connection
         /// </summary>
@@ -137,7 +159,7 @@ namespace Poseidon
                 if (!Utilities.CheckNetworkConnection())
                 {
                     Logger.WriteLine("Network connection disconnected");
-                    Utilities.ExitProgram();
+                    Utilities.ExitProgram(true);
                 }
 
                 Thread.Sleep(Globals.NETWORK_POLL_RATE);

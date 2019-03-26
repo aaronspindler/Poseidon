@@ -18,6 +18,7 @@ namespace Poseidon.Crypto
             _signature = Settings.GetKraken_Signature();
             _url = "https://api.kraken.com";
             _version = 0;
+            
         }
     }
 }

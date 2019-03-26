@@ -5,18 +5,28 @@
 ![alt text](http://spindlers.ca/wp-content/uploads/sites/10/2019/02/poseidon-100574977-primary.idge_.jpg)
 
 ## Features
-- Realtime cryptocurrency data from Kraken Exchange
-- Daily fiat currency data from the European Central Bank, Bank of Canada, and Fixer.IO
-- Data storage into MySQL Database
+- [x]Collects data from Kraken Exchange, Bank of Canada, and European Central Bank
+- [x]Stores data in DynamoDB
+- [ ]Analyzes data
+- [ ]Summarizes data
+- [ ]User inputted orders
+- [ ]System operated trading
+- [ ]Machine Learning Predictions
+
+## Technologies Used
+- C# .Net Core
+- WebAPI
+- WebSocket
+- DynamoDB
+- JSON
+- Threads
+- ASync
 
 ## Installation
 ###### In progress
 
 ## Basic Usage
 ###### In progress
-
-## Advanced Usage
-For more information visit [Spindlers.ca](http://spindlers.ca)
 
 
 ## Bug / Issue Reporting

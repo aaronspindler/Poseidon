@@ -1,6 +1,6 @@
 # Poseidon
 [![Build Status](https://travis-ci.com/xNovax/Poseidon.svg?branch=master)](https://travis-ci.com/xNovax/Poseidon)
-![](https://codebuild.us-west-2.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoiazZpbldFSkFYclpFSHdmUjhsc3BBd0owSjdBeXlyc2NPa3ByaE42NktCNkJCSGxCSnNUamlCMVJFbzlqNDdMeXZsUXFRS0NiRU9HU1JDNC9MNllraXBFPSIsIml2UGFyYW1ldGVyU3BlYyI6IjdNalBmSDdjS3NLVEk1U0QiLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=master)
+![](https://codebuild.us-west-2.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoiVUgvRHZnUVEyMXBMbWdGaU9WWGRZTHBOQ3hXRGFkTFcwdXVpbXVwWkgxUEhpd2JBMmhzOXY1aVV0YkVKYWZPREpjbUZMSlpuNmZGcW5JTGN1ZmJKdjdvPSIsIml2UGFyYW1ldGVyU3BlYyI6IkFJWUZ4MUtHL2NSV29IVmkiLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=master)
 ![](https://img.shields.io/github/license/xNovax/poseidon.svg?colorB=black&logoColor=black)
 
 ![alt text](http://spindlers.ca/wp-content/uploads/sites/10/2019/02/poseidon-100574977-primary.idge_.jpg)

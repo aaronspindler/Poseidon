@@ -1,0 +1,20 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo Nothing to do in the install phase...
+  pre_build:
+    commands:
+      - echo Cleanup Directory
+      - dotnet clean Poseidon/Poseidon.csproj
+  build:
+    commands:
+      - echo Build started on `date`
+      - dotnet build Poseidon/Poseidon.csproj
+  post_build:
+    commands:
+      - echo Build completed on `date`
+artifacts:
+  files:
+    - target/messageUtil-1.0.jar

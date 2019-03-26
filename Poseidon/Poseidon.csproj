@@ -22,6 +22,7 @@
 
     <ItemGroup>
       <Folder Include="Logs" />
+      <Folder Include="Models\CryptoCurrency\Kraken" />
       <Folder Include="Models\FiatCurrency\Fixer" />
     </ItemGroup>
 

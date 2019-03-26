@@ -26,7 +26,6 @@ namespace Poseidon
         /// <summary>
         /// Initialize the database using credentials from the settings file
         /// </summary>
-        //TODO: Check if the credentials from settings are valid
         public static void Startup()
         {
             //Load the credentials and make a client
@@ -41,6 +40,7 @@ namespace Poseidon
         {
             CreateTable("ECB_Data", "EntryID");
             CreateTable("BOC_Data", "EntryID");
+            CreateTable("Kraken_Data", "EntryID");
         }
 
         /// <summary>
@@ -141,6 +141,27 @@ namespace Poseidon
 
         public static void DeleteBOCEntry()
         {
+        }
+        
+        //Kraken
+        public static async void CreateKrakenEntry()
+        {
+            
+        }
+
+        public static void ReadKrakenEntry()
+        {
+            
+        }
+
+        public static void UpdateKrakenEntry()
+        {
+            
+        }
+
+        public static void DeleteKrakenEntry()
+        {
+            
         }
     }
 }

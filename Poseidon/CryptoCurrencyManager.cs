@@ -2,7 +2,6 @@
 
 using System.Collections.Generic;
 using Poseidon.Crypto;
-using Poseidon.Models.CryptoCurrency;
 
 #endregion
 
@@ -13,11 +12,6 @@ namespace Poseidon
     /// </summary>
     public class CryptoCurrencyManager
     {
-        /// <summary>
-        ///     Stores Kraken responses
-        /// </summary>
-        private readonly List<KrakenCurrencyResponse> krakenData;
-
         /// <summary>
         ///     Controller for Kraken
         /// </summary>

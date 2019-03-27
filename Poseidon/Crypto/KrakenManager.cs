@@ -18,7 +18,111 @@ namespace Poseidon.Crypto
             _signature = Settings.GetKraken_Signature();
             _url = "https://api.kraken.com";
             _version = 0;
+        }
+
+        public void GetServerTime()
+        {
+
+        }
+
+        public void GetAssetInfo()
+        {
+
+        }
+
+        public void GetTradableAssetPairs()
+        {
+
+        }
+
+        public void GetTickerInfo()
+        {
+
+        }
+
+        public void GetOHLC()
+        {
+
+        }
+
+        public void GetOrderBook()
+        {
+
+        }
+
+        public void GetRecentTrades()
+        {
+
+        }
+
+        public void GetRecentSpread()
+        {
+
+        }
+
+        public void GetAccountBalance()
+        {
+
+        }
+
+        public void GetTradeBalance()
+        {
+
+        }
+
+        public void GetOpenOrders()
+        {
+
+        }
+
+        public void GetClosedOrders()
+        {
+
+        }
+
+        public void QueryOrdersInfo()
+        {
+
+        }
+
+        public void GetTradesHistory()
+        {
+
+        }
+
+        public void QueryTradesInfo()
+        {
+
+        }
+
+        public void GetOpenPositions()
+        {
+
+        }
+
+        public void GetLedgersInfo()
+        {
             
         }
-    }
+
+        public void QueryLedgers()
+        {
+            
+        }
+
+        public void GetTradeVolume()
+        {
+            
+        }
+
+        public void AddStandardOrder()
+        {
+            
+        }
+
+        public void CancelOpenOrder()
+        {
+            
+        }
+}
 }

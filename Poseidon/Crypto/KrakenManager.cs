@@ -15,7 +15,7 @@ namespace Poseidon.Crypto
         public KrakenManager(int rateLimitMilliseconds = 100)
         {
             _key = Settings.GetKraken_Key();
-            _signature = Settings.GetKraken_Signature();
+            _signature = Settings.GetKraken_Private_Key();
             _url = "https://api.kraken.com";
             _version = 0;
         }

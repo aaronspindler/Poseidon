@@ -18,7 +18,7 @@ namespace Poseidon
         private static string _VERSION;
         private static string _CURRENCY;
         private static string _KRAKEN_KEY;
-        private static string _KRAKEN_SIGNATURE;
+        private static string _KRAKEN_PRIVATE_KEY;
         private static string _FIXER_KEY;
         private static string _AWS_ACCESS_KEY;
         private static string _AWS_SECRET_KEY;
@@ -63,9 +63,9 @@ namespace Poseidon
         ///     Gets Kraken Signature
         /// </summary>
         /// <returns>Kraken Signature</returns>
-        public static string GetKraken_Signature()
+        public static string GetKraken_Private_Key()
         {
-            return _KRAKEN_SIGNATURE;
+            return _KRAKEN_PRIVATE_KEY;
         }
 
         /// <summary>
@@ -139,8 +139,8 @@ namespace Poseidon
                 _KRAKEN_KEY = line.Substring(11);
 
             line = reader.ReadLine();
-            if (line != null && line.Substring(0, 17) == "KRAKEN_SIGNATURE=")
-                _KRAKEN_SIGNATURE = line.Substring(17);
+            if (line != null && line.Substring(0, 19) == "KRAKEN_PRIVATE_KEY=")
+                _KRAKEN_PRIVATE_KEY = line.Substring(19);
 
             line = reader.ReadLine();
             if (line != null && line.Substring(0, 10) == "FIXER_KEY=")
@@ -168,7 +168,7 @@ namespace Poseidon
                     sw.WriteLine("VERSION=" + Assembly.GetExecutingAssembly().GetName().Version);
                     sw.WriteLine("CURRENCY=CAD");
                     sw.WriteLine("KRAKEN_KEY=default");
-                    sw.WriteLine("KRAKEN_SIGNATURE=default");
+                    sw.WriteLine("KRAKEN_PRIVATE_KEY=default");
                     sw.WriteLine("FIXER_KEY=default");
                     sw.WriteLine("AWS_ACCESS_KEY=default");
                     sw.WriteLine("AWS_SECRET_KEY=default");

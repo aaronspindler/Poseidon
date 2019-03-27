@@ -41,7 +41,7 @@ namespace Poseidon.Crypto
             _rateLimitMilliseconds = rateLimitMilliseconds;
             //TODO: Check if credentials are valid
             _key = Settings.GetKraken_Key();
-            _secret = Settings.GetKraken_Signature();
+            _secret = Settings.GetKraken_Private_Key();
         }
 
 

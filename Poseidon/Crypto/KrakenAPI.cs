@@ -22,7 +22,7 @@ namespace Poseidon.Crypto
     /// <summary>
     ///     Main class for interacting with Kraken.com
     /// </summary>
-    public class Kraken
+    public class KrakenAPI
     {
         private readonly string _key;
         private readonly int _rateLimitMilliseconds;
@@ -31,10 +31,10 @@ namespace Poseidon.Crypto
         private readonly int _version;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="Kraken" /> class.
+        ///     Initializes a new instance of the <see cref="KrakenAPI" /> class.
         /// </summary>
         /// <param name="rateLimitMilliseconds">The rate limit in milliseconds.</param>
-        public Kraken(int rateLimitMilliseconds = 100)
+        public KrakenAPI(int rateLimitMilliseconds = 100)
         {
             _url = "https://api.kraken.com";
             _version = 0;

@@ -27,8 +27,7 @@ namespace Poseidon
 
 
         // Crypto Currency Objects
-        private static Kraken kraken;
-        private static CryptoCurrencyManager crypto;
+        private static KrakenManager krakenManager;
 
         // Threads
         private static Thread cryptoThread;
@@ -54,7 +53,7 @@ namespace Poseidon
             Console.Title = "Poseidon";
 
             Logger.Startup();
-            
+
             CheckArgs(args);
 
             Logger.WriteLine("Welcome to Poseidon!");
@@ -74,10 +73,8 @@ namespace Poseidon
             fixManager = new FixerManager();
             fiat = new FiatManager(ecbManager, bocManager, fixManager);
 
-            kraken = new Kraken();
-            crypto = new CryptoCurrencyManager(kraken);
-            
-            
+
+            krakenManager = new KrakenManager();
 
             cryptoThread = new Thread(UpdateCryptoData);
             cryptoThread.Start();
@@ -96,8 +93,8 @@ namespace Poseidon
         /// </summary>
         public static void Body()
         {
-            Logger.WriteLine(kraken.GetServerTime().result.rfc1123);
-            var balances = kraken.GetAccountBalance().balances;
+            Logger.WriteLine(krakenManager.GetServerTimeFormatted());
+            var balances = krakenManager.GetAccountBalance();
             Logger.WriteLineNoDate(balances.ToStringTable(new[] {"Currency", "Amount"}, a => a.Key, a => a.Value));
         }
 
@@ -110,6 +107,7 @@ namespace Poseidon
         {
             try
             {
+                krakenManager.GetTradableAssetPairs();
             }
             catch (Exception e)
             {
@@ -129,11 +127,11 @@ namespace Poseidon
                 Thread.Sleep(Globals.CRYPTO_DATA_COLLECTION_RATE);
         }
 
-        
+
         //TODO: Fully implement a full spread of special cases
         /// <summary>
-        /// Checks for special cases in the arguments
-        /// help - display the help information for the program
+        ///     Checks for special cases in the arguments
+        ///     help - display the help information for the program
         /// </summary>
         /// <param name="args">Arguments passed by the command line</param>
         private static void CheckArgs(string[] args)
@@ -144,7 +142,7 @@ namespace Poseidon
                 Logger.WriteLineNoDate("Poseidon Help");
                 Logger.WriteLineNoDate("Settings file must be fully filled out for the program to function");
                 Logger.WriteLineNoDate("=================================================================");
-                
+
                 Utilities.ExitProgram(false);
             }
         }

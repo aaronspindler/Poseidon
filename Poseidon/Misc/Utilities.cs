@@ -23,9 +23,10 @@ namespace Poseidon.Misc
                 Logger.WriteLine("Press enter to close application");
                 Console.ReadLine();
             }
+
             Environment.Exit(-1);
         }
-        
+
 
         /// <summary>
         ///     Writes to a file.
@@ -66,6 +67,11 @@ namespace Poseidon.Misc
             var dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
             dtDateTime = dtDateTime.AddSeconds((double) unix).ToLocalTime();
             return dtDateTime.ToString();
+        }
+
+        public static int GetUNIXTime()
+        {
+            return (int) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
         }
 
         /// <summary>

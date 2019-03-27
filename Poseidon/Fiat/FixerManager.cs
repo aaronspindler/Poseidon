@@ -28,5 +28,12 @@ namespace Poseidon.Fiat
                 throw;
             }
         }
+
+        
+        //TODO: Implement rebasing for fixer data
+        public void Rebase()
+        {
+            
+        }
     }
 }

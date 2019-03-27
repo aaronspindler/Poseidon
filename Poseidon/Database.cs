@@ -10,6 +10,7 @@ using Amazon.DynamoDBv2.Model;
 using Poseidon.Misc;
 using Poseidon.Models.FiatCurrency.BankOfCanada;
 using Poseidon.Models.FiatCurrency.EuropeanCentralBank;
+using Poseidon.Models.FiatCurrency.Fixer;
 
 namespace Poseidon
 {
@@ -40,7 +41,8 @@ namespace Poseidon
         {
             CreateTable("Poseidon.ECB_Data", "EntryID");
             CreateTable("Poseidon.BOC_Data", "EntryID");
-            CreateTable("Poseidon.Kraken_Data", "EntryID");
+            CreateTable("Poseidon.FIXER_Data", "EntryID");
+            CreateTable("Poseidon.KRAKEN_Data", "EntryID");
         }
 
         /// <summary>
@@ -140,6 +142,25 @@ namespace Poseidon
         }
 
         public static void DeleteBOCEntry()
+        {
+        }
+        
+        //FIXER
+        public static async void CreateFixerEntry(FixerEntry entry)
+        {
+            var context = new DynamoDBContext(_client);
+            await context.SaveAsync(entry);
+        }
+
+        public static void ReadFixerEntry()
+        {
+        }
+
+        public static void UpdateFixerEntry()
+        {
+        }
+
+        public static void DeleteFixerEntry()
         {
         }
         

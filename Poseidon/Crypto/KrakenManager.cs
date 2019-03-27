@@ -29,6 +29,7 @@ namespace Poseidon.Crypto
         {
         }
 
+        //TODO: Implement asset pair parsing for new json format
         public void GetTradableAssetPairs()
         {
             var pairs = _kraken.GetAssetPairs().Result;

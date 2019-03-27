@@ -4,7 +4,7 @@ using Amazon.DynamoDBv2.DataModel;
 
 namespace Poseidon.Models.FiatCurrency.EuropeanCentralBank
 {
-    [DynamoDBTable("ECB_Data")]
+    [DynamoDBTable("Poseidon.ECB_Data")]
     public class EuropeanCentralBankEntry
     {
         [DynamoDBHashKey] private string EntryID { get; set; }

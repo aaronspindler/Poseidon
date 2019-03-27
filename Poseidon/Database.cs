@@ -38,9 +38,9 @@ namespace Poseidon
 
         private static void CreateTables()
         {
-            CreateTable("ECB_Data", "EntryID");
-            CreateTable("BOC_Data", "EntryID");
-            CreateTable("Kraken_Data", "EntryID");
+            CreateTable("Poseidon.ECB_Data", "EntryID");
+            CreateTable("Poseidon.BOC_Data", "EntryID");
+            CreateTable("Poseidon.Kraken_Data", "EntryID");
         }
 
         /// <summary>

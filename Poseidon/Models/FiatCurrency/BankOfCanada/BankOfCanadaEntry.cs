@@ -11,7 +11,7 @@ namespace Poseidon.Models.FiatCurrency.BankOfCanada
     /// <summary>
     ///     The object that holds the data for a response from the Bank Of Canada API
     /// </summary>
-    [DynamoDBTable("BOC_Data")]
+    [DynamoDBTable("Poseidon.BOC_Data")]
     public class BankOfCanadaEntry
     {
         [DynamoDBHashKey] private string EntryID { get; set; }

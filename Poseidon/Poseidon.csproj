@@ -21,6 +21,8 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Crypto\Kraken" />
+      <Folder Include="Crypto\KrakenWebSocket" />
       <Folder Include="Logs" />
       <Folder Include="Models\CryptoCurrency\Kraken" />
       <Folder Include="Models\FiatCurrency\Fixer" />

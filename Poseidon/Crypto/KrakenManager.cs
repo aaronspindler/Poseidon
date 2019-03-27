@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Poseidon.Models.Kraken;
 
 namespace Poseidon.Crypto
 {
@@ -28,23 +29,25 @@ namespace Poseidon.Crypto
         public void GetAssetInfo()
         {
         }
-
-        //TODO: Implement asset pair parsing for new json format
-        public void GetTradableAssetPairs()
+        
+        public List<string> GetTradableAssetPairs()
         {
-            var pairs = _kraken.GetAssetPairs().Result;
+            var pairsRaw = _kraken.GetAssetPairs().Result;
 
-            foreach (var pair in pairs)
+            List<string> pairs = new List<string>();
+            foreach (var pair in pairsRaw)
             {
+                pairs.Add(pair.Key);
                 Console.WriteLine(pair.Key);
-                Console.WriteLine(pair.Value.Altname);
             }
 
-            //Console.WriteLine(pairs.Values);
+            return pairs;
         }
 
-        public void GetTickerInfo()
+        public Ticker GetTickerInfo(string pair)
         {
+            var tickerInfo = _kraken.GetTicker(pair);
+            return tickerInfo;
         }
 
         public void GetOHLC()

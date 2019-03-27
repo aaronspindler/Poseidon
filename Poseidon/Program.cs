@@ -107,7 +107,7 @@ namespace Poseidon
         {
             try
             {
-                krakenManager.GetTradableAssetPairs();
+
             }
             catch (Exception e)
             {

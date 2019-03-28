@@ -13,7 +13,7 @@ namespace Poseidon.Misc
         /// <summary>
         ///     Amount of milliseconds in 1 hour
         /// </summary>
-        public static int WAIT_ONE_HOUR = 1000;
+        public static int WAIT_ONE_HOUR = 3600000;
 
         /// <summary>
         ///     Sleep time for the crypto data collection thread

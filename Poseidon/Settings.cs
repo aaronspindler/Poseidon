@@ -1,7 +1,6 @@
 ﻿#region
 
 using System;
-using System.Data.SqlTypes;
 using System.IO;
 using System.Reflection;
 using Poseidon.Misc;
@@ -24,12 +23,19 @@ namespace Poseidon
         private static string _AWS_SECRET_KEY;
 
         /// <summary>
-        /// Initialize the settings
+        ///     Initialize the settings
         /// </summary>
-        public static void Startup()
+        public static void Startup(string[] args)
         {
-            CheckSettingsFile("settings.txt");
-            ParseFromFile("settings.txt");
+            if (args.Length > 0)
+            {
+                ParseFromArgs(args);
+            }
+            else
+            {
+                CheckSettingsFile("settings.txt");
+                ParseFromFile("settings.txt");
+            }
         }
 
         /// <summary>
@@ -78,7 +84,7 @@ namespace Poseidon
         }
 
         /// <summary>
-        /// Gets the AWS Access Key
+        ///     Gets the AWS Access Key
         /// </summary>
         /// <returns>AWS Access Key</returns>
         public static string GetAWS_Access_Key()
@@ -87,7 +93,7 @@ namespace Poseidon
         }
 
         /// <summary>
-        /// Gets the AWS Secret Key
+        ///     Gets the AWS Secret Key
         /// </summary>
         /// <returns>AWS Secret Key</returns>
         public static string GetAWS_Secret_Key()
@@ -109,8 +115,8 @@ namespace Poseidon
         }
 
         /// <summary>
-        /// Deletes a settings file
-        /// Used for testing
+        ///     Deletes a settings file
+        ///     Used for testing
         /// </summary>
         /// <param name="fileName">The location of the settings file you want to delete</param>
         private static void DeleteSettingsFile(string fileName)
@@ -118,10 +124,10 @@ namespace Poseidon
             File.Delete(fileName);
         }
 
-
         /// <summary>
-        ///     Loads the settings.
+        ///     Loads settings from settings file
         /// </summary>
+        /// <param name="fileName">Filename for settings file</param>
         private static void ParseFromFile(string fileName)
         {
             var reader = new StreamReader(fileName);
@@ -157,29 +163,51 @@ namespace Poseidon
 
 
         /// <summary>
-        ///     Creates a default settings file.
+        ///     Parses command line arguments to settings
         /// </summary>
+        /// <param name="args">Command line arguments</param>
+        private static void ParseFromArgs(string[] args)
+        {
+        }
+
+        /// <summary>
+        ///     Creates a default settings file
+        /// </summary>
+        /// <param name="fileName">filename for settings file</param>
         private static void CreateDefaultSettingsFile(string fileName)
+        {
+            CreateSettingsFile(fileName, "CAD", "default", "default", "default", "default", "default");
+        }
+
+        /// <summary>
+        ///     Creates a settings file from variables
+        /// </summary>
+        /// <param name="currency"></param>
+        /// <param name="krakenKey"></param>
+        /// <param name="krakenPrivateKey"></param>
+        /// <param name="fixerKey"></param>
+        /// <param name="awsKey"></param>
+        /// <param name="awsSecretKey"></param>
+        private static void CreateSettingsFile(string fileName, string currency, string krakenKey,
+            string krakenPrivateKey, string fixerKey, string awsKey, string awsSecretKey)
         {
             try
             {
                 using (var sw = File.CreateText(fileName))
                 {
                     sw.WriteLine("VERSION=" + Assembly.GetExecutingAssembly().GetName().Version);
-                    sw.WriteLine("CURRENCY=CAD");
-                    sw.WriteLine("KRAKEN_KEY=default");
-                    sw.WriteLine("KRAKEN_PRIVATE_KEY=default");
-                    sw.WriteLine("FIXER_KEY=default");
-                    sw.WriteLine("AWS_ACCESS_KEY=default");
-                    sw.WriteLine("AWS_SECRET_KEY=default");
-
+                    sw.WriteLine("CURRENCY=" + currency);
+                    sw.WriteLine("KRAKEN_KEY=" + krakenKey);
+                    sw.WriteLine("KRAKEN_PRIVATE_KEY=" + krakenPrivateKey);
+                    sw.WriteLine("FIXER_KEY=" + fixerKey);
+                    sw.WriteLine("AWS_ACCESS_KEY=" + awsKey);
+                    sw.WriteLine("AWS_SECRET_KEY=" + awsSecretKey);
                     sw.Close();
                 }
             }
-            catch (Exception exception)
+            catch (Exception e)
             {
-                Logger.WriteLine(exception.Message);
-
+                Logger.WriteLine(e.Message);
                 Utilities.ExitProgram(false);
             }
         }

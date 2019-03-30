@@ -65,7 +65,7 @@ namespace Poseidon
                 Utilities.ExitProgram(true);
             }
 
-            Settings.Startup();
+            Settings.Startup(args);
             Database.Startup();
 
             ecbManager = new EuropeanCentralBankManager();
@@ -107,7 +107,6 @@ namespace Poseidon
         {
             try
             {
-
             }
             catch (Exception e)
             {

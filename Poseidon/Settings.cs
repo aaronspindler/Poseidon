@@ -174,10 +174,6 @@ namespace Poseidon
         /// <param name="args">Command line arguments</param>
         private static void ParseFromArgs(string[] args)
         {
-            for (int i = 0; i < args.Length; i++)
-            {
-                Console.WriteLine(args[i]);
-            }
             _CURRENCY = args[0];
             _KRAKEN_KEY = args[1];
             _KRAKEN_PRIVATE_KEY = args[2];

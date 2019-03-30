@@ -4,12 +4,12 @@ namespace Poseidon.Models.FiatCurrency.BankOfCanada
 {
     public class BankOfCanadaResponse
     {
-        private List<BankOfCanadaEntry> _entries { get; set; }
-
         public BankOfCanadaResponse()
         {
             _entries = new List<BankOfCanadaEntry>();
         }
+
+        private List<BankOfCanadaEntry> _entries { get; }
 
         public List<BankOfCanadaEntry> GetEntries()
         {

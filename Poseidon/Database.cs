@@ -1,12 +1,10 @@
-using System;
 using System.Collections.Generic;
 using System.Threading;
-using System.Threading.Tasks;
 using Amazon;
-using Amazon.Runtime;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.Model;
+using Amazon.Runtime;
 using Poseidon.Misc;
 using Poseidon.Models.FiatCurrency.BankOfCanada;
 using Poseidon.Models.FiatCurrency.EuropeanCentralBank;
@@ -16,8 +14,8 @@ namespace Poseidon
 {
     //TODO : Change all DB operations to use a DynamoDB instance
     /// <summary>
-    /// Main database class, used for all database operations
-    /// Uses DynamoDB
+    ///     Main database class, used for all database operations
+    ///     Uses DynamoDB
     /// </summary>
     public static class Database
     {
@@ -25,7 +23,7 @@ namespace Poseidon
         private static AmazonDynamoDBClient _client;
 
         /// <summary>
-        /// Initialize the database using credentials from the settings file
+        ///     Initialize the database using credentials from the settings file
         /// </summary>
         public static void Startup()
         {
@@ -46,7 +44,7 @@ namespace Poseidon
         }
 
         /// <summary>
-        /// Creates a table in AWS DynamoDB using your TableName
+        ///     Creates a table in AWS DynamoDB using your TableName
         /// </summary>
         /// <param name="tableName">Table Name for the Table in DynamoDB</param>
         /// <returns></returns>
@@ -90,10 +88,10 @@ namespace Poseidon
                 Logger.WriteLine(tableName + " now active!");
             }
         }
-        
+
 
         /// <summary>
-        /// Delete a table
+        ///     Delete a table
         /// </summary>
         /// <param name="tableName">Name of table you want to delete</param>
         private static void DeleteTable(string tableName)
@@ -104,7 +102,7 @@ namespace Poseidon
             };
 
             var response = _client.DeleteTableAsync(request);
-            Logger.WriteLine("Attempted to Delete Table: " +  tableName);
+            Logger.WriteLine("Attempted to Delete Table: " + tableName);
         }
 
         //ECB
@@ -129,8 +127,8 @@ namespace Poseidon
         //BOC
         public static async void CreateBOCEntry(BankOfCanadaEntry entry)
         {
-             var context = new DynamoDBContext(_client);
-             await context.SaveAsync(entry);
+            var context = new DynamoDBContext(_client);
+            await context.SaveAsync(entry);
         }
 
         public static void ReadBOCEntry()
@@ -144,7 +142,7 @@ namespace Poseidon
         public static void DeleteBOCEntry()
         {
         }
-        
+
         //FIXER
         public static async void CreateFixerEntry(FixerEntry entry)
         {
@@ -163,26 +161,22 @@ namespace Poseidon
         public static void DeleteFixerEntry()
         {
         }
-        
+
         //Kraken
         public static async void CreateKrakenEntry()
         {
-            
         }
 
         public static void ReadKrakenEntry()
         {
-            
         }
 
         public static void UpdateKrakenEntry()
         {
-            
         }
 
         public static void DeleteKrakenEntry()
         {
-            
         }
     }
 }

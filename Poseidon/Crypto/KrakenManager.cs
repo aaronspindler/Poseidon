@@ -29,12 +29,12 @@ namespace Poseidon.Crypto
         public void GetAssetInfo()
         {
         }
-        
+
         public List<string> GetTradableAssetPairs()
         {
             var pairsRaw = _kraken.GetAssetPairs().Result;
 
-            List<string> pairs = new List<string>();
+            var pairs = new List<string>();
             foreach (var pair in pairsRaw)
             {
                 pairs.Add(pair.Key);

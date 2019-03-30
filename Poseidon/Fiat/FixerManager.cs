@@ -15,13 +15,13 @@ namespace Poseidon.Fiat
     {
         private FixerResponse _response;
         private bool fail;
-        
+
         public void GetFiatRates()
         {
             GetData();
-            
+
             if (fail) return;
-            
+
             Rebase();
             AddToDatabase();
         }

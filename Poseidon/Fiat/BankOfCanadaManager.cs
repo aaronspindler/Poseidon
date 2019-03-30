@@ -4,10 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using System.Security;
 using Poseidon.Misc;
 using Poseidon.Models.FiatCurrency.BankOfCanada;
-using Poseidon.Models.FiatCurrency.EuropeanCentralBank;
 
 #endregion
 
@@ -60,7 +58,7 @@ namespace Poseidon.Fiat
         /// <param name="end">The date to get data to</param>
         private void GetData(DateTime start, DateTime end)
         {
-            BankOfCanadaResponse response = new BankOfCanadaResponse();
+            var response = new BankOfCanadaResponse();
             var startFormatted = start.Subtract(new TimeSpan(1, 0, 0, 0)).ToString("yyyy-MM-dd");
             var endFormatted = end.ToString("yyyy-MM-dd");
 
@@ -76,7 +74,7 @@ namespace Poseidon.Fiat
 
                 //Skip over line that just reads "TERMS AND CONDITIONS"
                 reader.ReadLine();
-                
+
                 //Skip over line that just reads "https://www.bankofcanada.ca/terms/
                 reader.ReadLine();
 
@@ -90,7 +88,7 @@ namespace Poseidon.Fiat
                 reader.ReadLine();
 
                 //Create a dictionary to put the series
-                Dictionary<string, string> series = new Dictionary<string, string>();
+                var series = new Dictionary<string, string>();
 
 
                 //Loop through, parse, and add all series to list
@@ -113,25 +111,20 @@ namespace Poseidon.Fiat
                 var currencyNames = columnNames.Split(",");
                 var currencyNamesCleaned = new List<string>();
                 for (var i = 1; i < currencyNames.Length; i++)
-                {
                     currencyNamesCleaned.Add(currencyNames[i].Substring(2, 3));
-                }
 
                 //Read first observation line
                 var observationsLine = reader.ReadLine();
                 do
                 {
-                    
                     //Some date ranges will result in 0 observations. Such as on a 1 day range on a weekend where there is no data (Bank is closed)
                     if (observationsLine == "") break;
                     var observationLineSplit = observationsLine.Split(",");
-                    BankOfCanadaEntry entry = new BankOfCanadaEntry();
+                    var entry = new BankOfCanadaEntry();
                     entry.SetDate(observationLineSplit[0]);
                     //var obs = new Observation(Convert.ToDateTime(observationLineSplit[0]));
                     for (var i = 1; i < observationLineSplit.Length; i++)
-                    {
                         entry.AddValuation(currencyNamesCleaned[i - 1], Convert.ToDouble(observationLineSplit[i]));
-                    }
 
                     response.AddEntry(entry);
                     observationsLine = reader.ReadLine();
@@ -160,10 +153,7 @@ namespace Poseidon.Fiat
         /// </summary>
         private void AddToDatabase()
         {
-            foreach (var entry in _response.GetEntries())
-            {
-                Database.CreateBOCEntry(entry);
-            }
+            foreach (var entry in _response.GetEntries()) Database.CreateBOCEntry(entry);
         }
 
         /// <summary>

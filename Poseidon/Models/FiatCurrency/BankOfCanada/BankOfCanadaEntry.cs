@@ -14,10 +14,6 @@ namespace Poseidon.Models.FiatCurrency.BankOfCanada
     [DynamoDBTable("Poseidon.BOC_Data")]
     public class BankOfCanadaEntry
     {
-        [DynamoDBHashKey] private string EntryID { get; set; }
-        [DynamoDBProperty] private string _date { get; set; }
-        [DynamoDBProperty] private Dictionary<string, double> _valuations { get; set; }
-
         public BankOfCanadaEntry()
         {
             EntryID = Guid.NewGuid().ToString("N");
@@ -31,6 +27,10 @@ namespace Poseidon.Models.FiatCurrency.BankOfCanada
             _valuations = new Dictionary<string, double>();
         }
 
+        [DynamoDBHashKey] private string EntryID { get; }
+        [DynamoDBProperty] private string _date { get; set; }
+        [DynamoDBProperty] private Dictionary<string, double> _valuations { get; }
+
         public void SetDate(string date)
         {
             _date = date;
@@ -38,7 +38,7 @@ namespace Poseidon.Models.FiatCurrency.BankOfCanada
 
         public void AddValuation(string pair, double value)
         {
-            _valuations.Add(pair,value);
+            _valuations.Add(pair, value);
         }
     }
 }

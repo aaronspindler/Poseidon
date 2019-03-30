@@ -248,7 +248,7 @@ namespace Poseidon.Crypto
                 throw;
             }
         }
-        
+
         //TODO: Implement ticker
         /// <summary>
         ///     Gets the ticker info.

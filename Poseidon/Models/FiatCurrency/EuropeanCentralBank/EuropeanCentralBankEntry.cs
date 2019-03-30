@@ -7,10 +7,6 @@ namespace Poseidon.Models.FiatCurrency.EuropeanCentralBank
     [DynamoDBTable("Poseidon.ECB_Data")]
     public class EuropeanCentralBankEntry
     {
-        [DynamoDBHashKey] private string EntryID { get; set; }
-        [DynamoDBProperty] private string _date { get; set; }
-        [DynamoDBProperty] private Dictionary<string, double> _valuations { get; set; }
-
         public EuropeanCentralBankEntry()
         {
             EntryID = Guid.NewGuid().ToString("N");
@@ -24,6 +20,10 @@ namespace Poseidon.Models.FiatCurrency.EuropeanCentralBank
             _valuations = new Dictionary<string, double>();
         }
 
+        [DynamoDBHashKey] private string EntryID { get; }
+        [DynamoDBProperty] private string _date { get; set; }
+        [DynamoDBProperty] private Dictionary<string, double> _valuations { get; set; }
+
         public Dictionary<string, double> GetValuations()
         {
             return _valuations;
@@ -36,7 +36,7 @@ namespace Poseidon.Models.FiatCurrency.EuropeanCentralBank
 
         public void AddValuation(string pair, double value)
         {
-            _valuations.Add(pair,value);
+            _valuations.Add(pair, value);
         }
 
         public void SetValuations(Dictionary<string, double> currencies)

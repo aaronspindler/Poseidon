@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using Poseidon.Misc;
 using Poseidon.Models.FiatCurrency.EuropeanCentralBank;
@@ -83,7 +82,7 @@ namespace Poseidon.Fiat
         }
 
         /// <summary>
-        /// Adds data retrieved from European Central Bank to DynamoDB
+        ///     Adds data retrieved from European Central Bank to DynamoDB
         /// </summary>
         private void AddToDatabase()
         {
@@ -110,7 +109,7 @@ namespace Poseidon.Fiat
                 var newValue = currency.Value / euroBase["CAD"];
                 rebasedCurrencies.Add(currencyName, newValue);
             }
-            
+
             entry.SetValuations(rebasedCurrencies);
         }
     }

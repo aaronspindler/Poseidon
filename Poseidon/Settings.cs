@@ -29,6 +29,12 @@ namespace Poseidon
         {
             if (args.Length > 0)
             {
+                if (args.Length != 6)
+                {
+                    Logger.WriteLine("Please double check your command line arguments");
+                    Logger.WriteLine("Example: ./Poseidon.dll {base_currency} {kraken_key} {kraken_private_key} {fixer_key} {aws_key} {aws_secret_key}");
+                    Utilities.ExitProgram(false);
+                }
                 ParseFromArgs(args);
             }
             else
@@ -168,6 +174,16 @@ namespace Poseidon
         /// <param name="args">Command line arguments</param>
         private static void ParseFromArgs(string[] args)
         {
+            for (int i = 0; i < args.Length; i++)
+            {
+                Console.WriteLine(args[i]);
+            }
+            _CURRENCY = args[0];
+            _KRAKEN_KEY = args[1];
+            _KRAKEN_PRIVATE_KEY = args[2];
+            _FIXER_KEY = args[3];
+            _AWS_ACCESS_KEY = args[4];
+            _AWS_SECRET_KEY = args[5];
         }
 
         /// <summary>

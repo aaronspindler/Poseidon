@@ -54,7 +54,7 @@ namespace Poseidon
 
             Logger.Startup();
 
-            CheckArgs(args);
+            PrintCommandLineInfo(args);
 
             Logger.WriteLine("Welcome to Poseidon!");
 
@@ -126,14 +126,12 @@ namespace Poseidon
                 Thread.Sleep(Globals.CRYPTO_DATA_COLLECTION_RATE);
         }
 
-
-        //TODO: Fully implement a full spread of special cases
         /// <summary>
-        ///     Checks for special cases in the arguments
+        ///     Prints command line information based on input
         ///     help - display the help information for the program
         /// </summary>
         /// <param name="args">Arguments passed by the command line</param>
-        private static void CheckArgs(string[] args)
+        private static void PrintCommandLineInfo(string[] args)
         {
             if (args.Contains("help"))
             {

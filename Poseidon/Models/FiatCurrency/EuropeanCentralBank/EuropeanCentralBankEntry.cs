@@ -20,7 +20,7 @@ namespace Poseidon.Models.FiatCurrency.EuropeanCentralBank
             _valuations = new Dictionary<string, double>();
         }
 
-        [DynamoDBHashKey] private string EntryID { get; }
+        [DynamoDBHashKey] private string EntryID { get; set; }
         [DynamoDBProperty] private string _date { get; set; }
         [DynamoDBProperty] private Dictionary<string, double> _valuations { get; set; }
 

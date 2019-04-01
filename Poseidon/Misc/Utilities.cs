@@ -92,5 +92,14 @@ namespace Poseidon.Misc
                 return false;
             }
         }
+
+        /// <summary>
+        /// Generates a unique identifier
+        /// </summary>
+        /// <returns>Unique ID</returns>
+        public static string GenerateGUID()
+        {
+            return Guid.NewGuid().ToString("N");
+        }
     }
 }

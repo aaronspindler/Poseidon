@@ -168,6 +168,7 @@ namespace Poseidon
         }
 
 
+        //TODO: Make this safe
         /// <summary>
         ///     Parses command line arguments to settings
         /// </summary>

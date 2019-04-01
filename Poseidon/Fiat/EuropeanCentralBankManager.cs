@@ -95,18 +95,19 @@ namespace Poseidon.Fiat
         /// </summary>
         private void RebaseCurrency()
         {
+            string baseCurrencyCode = Settings.GetCurrency();
             rebasedCurrencies = new Dictionary<string, double>();
             var mostRecentEntry = entry;
             if (mostRecentEntry == null) return;
             var euroBase = mostRecentEntry.GetValuations();
 
 
-            rebasedCurrencies.Add("EUR", 1 / euroBase["CAD"]);
+            rebasedCurrencies.Add("EUR", 1 / euroBase[baseCurrencyCode]);
 
             foreach (var currency in euroBase)
             {
                 var currencyName = currency.Key;
-                var newValue = currency.Value / euroBase["CAD"];
+                var newValue = currency.Value / euroBase[baseCurrencyCode];
                 rebasedCurrencies.Add(currencyName, newValue);
             }
 

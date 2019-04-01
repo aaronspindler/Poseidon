@@ -20,7 +20,7 @@ namespace Poseidon.Models.FiatCurrency.BankOfCanada
             _valuations = new Dictionary<string, double>();
         }
 
-        public BankOfCanadaEntry(string date, Dictionary<string, double> valuations)
+        public BankOfCanadaEntry(string date)
         {
             EntryID = Guid.NewGuid().ToString("N");
             _date = date;
@@ -36,9 +36,9 @@ namespace Poseidon.Models.FiatCurrency.BankOfCanada
             _date = date;
         }
 
-        public void AddValuation(string pair, double value)
+        public void AddValuation(string key, double value)
         {
-            _valuations.Add(pair, value);
+            _valuations.Add(key, value);
         }
     }
 }

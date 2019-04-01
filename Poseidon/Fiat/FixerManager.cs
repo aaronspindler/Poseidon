@@ -31,8 +31,8 @@ namespace Poseidon.Fiat
             GetData();
 
             if (fail) return;
-            Rebase();
-            MakeEntry();
+            _response.rebasedRates = Rebase(_response.rates, Settings.GetCurrency());
+            _entry = MakeEntry();
             AddToDatabase();
         }
 
@@ -69,7 +69,7 @@ namespace Poseidon.Fiat
         /// <summary>
         /// Creates an entry from the Fixer API response
         /// </summary>
-        private void MakeEntry()
+        private FixerEntry MakeEntry()
         {
             FixerResponse response = _response;
             FixerEntry entry = new FixerEntry();
@@ -79,7 +79,7 @@ namespace Poseidon.Fiat
                 entry.AddValuation(valuation.Key, valuation.Value);
             }
 
-            _entry = entry;
+            return entry;
         }
 
         /// <summary>
@@ -94,18 +94,18 @@ namespace Poseidon.Fiat
         /// <summary>
         /// Rebases the currency to the base currency defined in settings
         /// </summary>
-        private void Rebase()
+        private Dictionary<string, double> Rebase(Dictionary<string, double> original, string conversionCurrency)
         {
-            string baseCurrencyCode = Settings.GetCurrency();
-            Dictionary<string, double> baseCurrency = _response.rates;
-            _response.rebasedRates = new Dictionary<string, double>();
+            Dictionary<string, double> rebasedRates = new Dictionary<string, double>();
 
-            foreach (var valuation in baseCurrency)
+            foreach (var valuation in original)
             {
                 var currencyName = valuation.Key;
-                var newValue = valuation.Value / baseCurrency[baseCurrencyCode];
-                _response.rebasedRates.Add(currencyName, newValue);
+                var newValue = valuation.Value / original[conversionCurrency];
+                rebasedRates.Add(currencyName, newValue);
             }
+
+            return rebasedRates;
         }
     }
 }

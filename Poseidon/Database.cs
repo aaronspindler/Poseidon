@@ -121,7 +121,7 @@ namespace Poseidon
         {
         }
 
-        public static void DeleteECBEntry(string date)
+        public static async void DeleteECBEntry(string date)
         {
             if (date.Length != 10)
             {
@@ -130,7 +130,7 @@ namespace Poseidon
             }
 
             var context = new DynamoDBContext(_client);
-            context.DeleteAsync<EuropeanCentralBankEntry>(date);
+            await context.DeleteAsync<EuropeanCentralBankEntry>(date);
             Logger.WriteLine("Deleted ECB Data for date: " + date);
         }
 
@@ -149,7 +149,7 @@ namespace Poseidon
         {
         }
 
-        public static void DeleteBOCEntry(string date)
+        public static async void DeleteBOCEntry(string date)
         {
             if (date.Length != 10)
             {
@@ -158,7 +158,7 @@ namespace Poseidon
             }
 
             var context = new DynamoDBContext(_client);
-            context.DeleteAsync<BankOfCanadaEntry>(date);
+            await context.DeleteAsync<BankOfCanadaEntry>(date);
             Logger.WriteLine("Deleted BOC Data for date: " + date);
         }
 
@@ -177,7 +177,7 @@ namespace Poseidon
         {
         }
 
-        public static void DeleteFixerEntry(string date)
+        public static async void DeleteFixerEntry(string date)
         {
             if (date.Length != 10)
             {
@@ -186,7 +186,7 @@ namespace Poseidon
             }
 
             var context = new DynamoDBContext(_client);
-            context.DeleteAsync<FixerEntry>(date);
+            await context.DeleteAsync<FixerEntry>(date);
             Logger.WriteLine("Deleted Fixer Data for date: " + date);
         }
 

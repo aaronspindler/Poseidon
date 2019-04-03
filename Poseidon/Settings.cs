@@ -167,8 +167,6 @@ namespace Poseidon
                 _AWS_SECRET_KEY = line.Substring(15);
         }
 
-
-        //TODO: Make this safe
         /// <summary>
         ///     Parses command line arguments to settings
         /// </summary>

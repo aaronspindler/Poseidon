@@ -16,24 +16,21 @@ namespace Poseidon.Models.FiatCurrency.BankOfCanada
     {
         public BankOfCanadaEntry()
         {
-            EntryID = Guid.NewGuid().ToString("N");
             _valuations = new Dictionary<string, double>();
         }
 
         public BankOfCanadaEntry(string date)
         {
-            EntryID = Guid.NewGuid().ToString("N");
-            _date = date;
+            Date = date;
             _valuations = new Dictionary<string, double>();
         }
 
-        [DynamoDBHashKey] private string EntryID { get; set; }
-        [DynamoDBProperty] private string _date { get; set; }
+        [DynamoDBHashKey] private string Date { get; set; }
         [DynamoDBProperty] private Dictionary<string, double> _valuations { get; }
 
         public void SetDate(string date)
         {
-            _date = date;
+            Date = date;
         }
 
         public void AddValuation(string key, double value)

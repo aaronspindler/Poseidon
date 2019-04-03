@@ -22,7 +22,7 @@ namespace Poseidon.Fiat
         private FixerEntry _entry;
         private bool fail;
 
-        
+
         /// <summary>
         /// Public function for getting data from Fixer, manipulating it, and storing it
         /// </summary>
@@ -52,12 +52,13 @@ namespace Poseidon.Fiat
                 var jsonText = reader.ReadToEnd();
 
                 _response = JsonConvert.DeserializeObject<FixerResponse>(jsonText);
-    
+
                 if (_response.success == false)
                 {
                     Logger.WriteLine("Fixer Error " + _response.error.code + " : " + _response.error.info);
                     fail = true;
                 }
+
                 Logger.WriteLine("Updated Fiat Rates from Fixer");
             }
             catch (Exception e)

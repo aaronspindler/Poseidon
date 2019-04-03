@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using Amazon;
@@ -37,10 +38,10 @@ namespace Poseidon
 
         private static void CreateTables()
         {
-            CreateTable("Poseidon.ECB_Data", "EntryID");
-            CreateTable("Poseidon.BOC_Data", "EntryID");
-            CreateTable("Poseidon.FIXER_Data", "EntryID");
-            CreateTable("Poseidon.KRAKEN_Data", "EntryID");
+            CreateTable("Poseidon.ECB_Data", "Date");
+            CreateTable("Poseidon.BOC_Data", "Date");
+            CreateTable("Poseidon.FIXER_Data", "Date");
+            CreateTable("Poseidon.KRAKEN_Data", "Date");
         }
 
         /// <summary>
@@ -80,7 +81,7 @@ namespace Poseidon
                 var isTableAvailable = false;
                 while (!isTableAvailable)
                 {
-                    Thread.Sleep(300);
+                    Thread.Sleep(10);
                     var tableStatus = _client.DescribeTableAsync(tableName);
                     isTableAvailable = tableStatus.Result.Table.TableStatus == "ACTIVE";
                 }
@@ -120,8 +121,16 @@ namespace Poseidon
         {
         }
 
-        public static void DeleteECBEntry()
+        public static void DeleteECBEntry(string date)
         {
+            if (date.Length != 10)
+            {
+                Logger.WriteLine("Format for \"date\"deleting ECB Entry not correct. Please use format YYYY/MM/DD");
+                return;
+            }
+            var context = new DynamoDBContext(_client);
+            context.DeleteAsync<EuropeanCentralBankEntry>(date);
+            Logger.WriteLine("Deleted ECB Data for date: " + date);
         }
 
         //BOC

@@ -128,6 +128,7 @@ namespace Poseidon
                 Logger.WriteLine("Format for \"date\"deleting ECB Entry not correct. Please use format YYYY/MM/DD");
                 return;
             }
+
             var context = new DynamoDBContext(_client);
             context.DeleteAsync<EuropeanCentralBankEntry>(date);
             Logger.WriteLine("Deleted ECB Data for date: " + date);
@@ -148,8 +149,17 @@ namespace Poseidon
         {
         }
 
-        public static void DeleteBOCEntry()
+        public static void DeleteBOCEntry(string date)
         {
+            if (date.Length != 10)
+            {
+                Logger.WriteLine("Format for \"date\"deleting BOC Entry not correct. Please use format YYYY/MM/DD");
+                return;
+            }
+
+            var context = new DynamoDBContext(_client);
+            context.DeleteAsync<BankOfCanadaEntry>(date);
+            Logger.WriteLine("Deleted BOC Data for date: " + date);
         }
 
         //FIXER
@@ -167,8 +177,17 @@ namespace Poseidon
         {
         }
 
-        public static void DeleteFixerEntry()
+        public static void DeleteFixerEntry(string date)
         {
+            if (date.Length != 10)
+            {
+                Logger.WriteLine("Format for \"date\"deleting Fixer Entry not correct. Please use format YYYY/MM/DD");
+                return;
+            }
+
+            var context = new DynamoDBContext(_client);
+            context.DeleteAsync<FixerEntry>(date);
+            Logger.WriteLine("Deleted Fixer Data for date: " + date);
         }
 
         //Kraken

@@ -15,13 +15,6 @@ namespace Poseidon.Test
         }
 
         [TestMethod]
-        public void CheckUnixTimeToString()
-        {
-            //My birthday :)
-            Assert.AreEqual("11/04/1997 12:00:00", Utilities.UnixTimeToString(878601600));
-        }
-
-        [TestMethod]
         public void CheckGenerateGuid()
         {
             int num = 10000;

@@ -30,8 +30,7 @@ namespace Poseidon
         {
             //Load the credentials and make a client
             _credentials = new BasicAWSCredentials(Settings.GetAWS_Access_Key(), Settings.GetAWS_Secret_Key());
-            //TODO: Make the region endpoint be able to be changed by a client
-            _client = new AmazonDynamoDBClient(_credentials, RegionEndpoint.USWest2);
+            _client = new AmazonDynamoDBClient(_credentials, RegionEndpoint.GetBySystemName(Settings.GetAWS_Region_Endpoint()));
 
             CreateTables();
         }

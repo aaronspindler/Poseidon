@@ -21,6 +21,7 @@ namespace Poseidon
         private static string _FIXER_KEY;
         private static string _AWS_ACCESS_KEY;
         private static string _AWS_SECRET_KEY;
+        private static string _AWS_REGION_ENDPOINT;
 
         /// <summary>
         ///     Initialize the settings
@@ -29,7 +30,7 @@ namespace Poseidon
         {
             if (args.Length > 0)
             {
-                if (args.Length != 6)
+                if (args.Length != 7)
                 {
                     Logger.WriteLine("Please double check your command line arguments");
                     Logger.WriteLine("Example: ./Poseidon.dll {base_currency} {kraken_key} {kraken_private_key} {fixer_key} {aws_key} {aws_secret_key}");
@@ -107,6 +108,11 @@ namespace Poseidon
             return _AWS_SECRET_KEY;
         }
 
+        public static string GetAWS_Region_Endpoint()
+        {
+            return _AWS_REGION_ENDPOINT;
+        }
+
 
         /// <summary>
         ///     Checks the settings file.
@@ -165,6 +171,10 @@ namespace Poseidon
             line = reader.ReadLine();
             if (line != null && line.Substring(0, 15) == "AWS_SECRET_KEY=")
                 _AWS_SECRET_KEY = line.Substring(15);
+            
+            line = reader.ReadLine();
+            if (line != null && line.Substring(0, 20) == "AWS_REGION_ENDPOINT=")
+                _AWS_REGION_ENDPOINT = line.Substring(20);
         }
 
         /// <summary>
@@ -179,6 +189,7 @@ namespace Poseidon
             _FIXER_KEY = args[3];
             _AWS_ACCESS_KEY = args[4];
             _AWS_SECRET_KEY = args[5];
+            _AWS_REGION_ENDPOINT = args[6];
         }
 
         /// <summary>
@@ -187,7 +198,7 @@ namespace Poseidon
         /// <param name="fileName">filename for settings file</param>
         private static void CreateDefaultSettingsFile(string fileName)
         {
-            CreateSettingsFile(fileName, "CAD", "default", "default", "default", "default", "default");
+            CreateSettingsFile(fileName, "CAD", "default", "default", "default", "default", "default", "us-west-2");
         }
 
         /// <summary>
@@ -200,7 +211,7 @@ namespace Poseidon
         /// <param name="awsKey"></param>
         /// <param name="awsSecretKey"></param>
         private static void CreateSettingsFile(string fileName, string currency, string krakenKey,
-            string krakenPrivateKey, string fixerKey, string awsKey, string awsSecretKey)
+            string krakenPrivateKey, string fixerKey, string awsKey, string awsSecretKey, string awsRegionEndpoint)
         {
             try
             {
@@ -213,6 +224,7 @@ namespace Poseidon
                     sw.WriteLine("FIXER_KEY=" + fixerKey);
                     sw.WriteLine("AWS_ACCESS_KEY=" + awsKey);
                     sw.WriteLine("AWS_SECRET_KEY=" + awsSecretKey);
+                    sw.WriteLine("AWS_REGION_ENDPOINT=" + awsRegionEndpoint);
                     sw.Close();
                 }
             }

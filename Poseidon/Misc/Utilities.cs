@@ -65,7 +65,7 @@ namespace Poseidon.Misc
         public static string UnixTimeToString(decimal unix)
         {
             var dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-            dtDateTime = dtDateTime.AddSeconds((double) unix).ToLocalTime();
+            dtDateTime = dtDateTime.AddSeconds((double) unix).ToUniversalTime();
             return dtDateTime.ToString();
         }
 

@@ -117,10 +117,6 @@ namespace Poseidon
         {
         }
 
-        public static void UpdateECBEntry()
-        {
-        }
-
         public static async void DeleteECBEntry(string date)
         {
             if (date.Length != 10)
@@ -142,10 +138,6 @@ namespace Poseidon
         }
 
         public static void ReadBOCEntry()
-        {
-        }
-
-        public static void UpdateBOCEntry()
         {
         }
 
@@ -173,10 +165,6 @@ namespace Poseidon
         {
         }
 
-        public static void UpdateFixerEntry()
-        {
-        }
-
         public static async void DeleteFixerEntry(string date)
         {
             if (date.Length != 10)
@@ -196,10 +184,6 @@ namespace Poseidon
         }
 
         public static void ReadKrakenEntry()
-        {
-        }
-
-        public static void UpdateKrakenEntry()
         {
         }
 

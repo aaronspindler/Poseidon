@@ -113,8 +113,11 @@ namespace Poseidon
             await context.SaveAsync(entry);
         }
 
-        public static void ReadECBEntry()
+        public static EuropeanCentralBankEntry ReadECBEntry(string date)
         {
+            var context = new DynamoDBContext(_client);
+                        var entryRetrieved = context.LoadAsync<EuropeanCentralBankEntry>(date);
+                        return entryRetrieved.Result;
         }
 
         public static async void DeleteECBEntry(string date)
@@ -137,8 +140,11 @@ namespace Poseidon
             await context.SaveAsync(entry);
         }
 
-        public static void ReadBOCEntry()
+        public static BankOfCanadaEntry ReadBOCEntry(string date)
         {
+            var context = new DynamoDBContext(_client);
+            var entryRetrieved = context.LoadAsync<BankOfCanadaEntry>(date);
+            return entryRetrieved.Result;
         }
 
         public static async void DeleteBOCEntry(string date)
@@ -161,8 +167,11 @@ namespace Poseidon
             await context.SaveAsync(entry);
         }
 
-        public static void ReadFixerEntry()
+        public static FixerEntry ReadFixerEntry(string date)
         {
+            var context = new DynamoDBContext(_client);
+            var entryRetrieved = context.LoadAsync<FixerEntry>(date);
+            return entryRetrieved.Result;
         }
 
         public static async void DeleteFixerEntry(string date)

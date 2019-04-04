@@ -1,0 +1,3 @@
+//TODO Implement a String to Unix Time converter
+//TODO Change all time based functions to use unix time
+//TODO Make sure all unix time functions are working in sync

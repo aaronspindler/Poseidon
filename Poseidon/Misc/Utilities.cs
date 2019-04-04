@@ -74,6 +74,12 @@ namespace Poseidon.Misc
             return (int) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
         }
 
+        //TODO: Implement
+        public static int StringToUnixTime(string time)
+        {
+            return 0;
+        }
+
         /// <summary>
         ///     Checks for an available internet connection by pinging google.com
         /// </summary>

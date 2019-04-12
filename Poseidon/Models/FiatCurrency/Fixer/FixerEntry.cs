@@ -8,7 +8,7 @@ namespace Poseidon.Models.FiatCurrency.Fixer
     [DynamoDBTable("Poseidon.FIXER_Data")]
     public class FixerEntry
     {
-        [DynamoDBHashKey]string Date { get; set; }
+        [DynamoDBHashKey]private string TimeStamp { get; set; }
         [DynamoDBProperty] private Dictionary<string, double> _valuations { get; set; }
 
         public FixerEntry()
@@ -16,9 +16,9 @@ namespace Poseidon.Models.FiatCurrency.Fixer
             _valuations = new Dictionary<string, double>();
         }
 
-        public void SetDate(string date)
+        public void SetTimeStamp(string timeStamp)
         {
-            Date = date;
+            this.TimeStamp = timeStamp;
         }
 
         public void AddValuation(string key, double value)
@@ -29,7 +29,7 @@ namespace Poseidon.Models.FiatCurrency.Fixer
         public override string ToString()
         {
             StringBuilder text = new StringBuilder();
-            text.Append(Date);
+            text.Append(TimeStamp);
             foreach (var valuation in _valuations)
             {
                 text.Append(" " + valuation.Key + " : " + valuation.Value);

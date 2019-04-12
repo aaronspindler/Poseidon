@@ -56,28 +56,51 @@ namespace Poseidon.Misc
 
             Logger.WriteLine("File written");
         }
+        
+        
+        /// <summary>
+        /// Returns a DateTime provided a unixtime
+        /// </summary>
+        /// <param name="unixTime"></param>
+        /// <returns></returns>
+        public static DateTime UnixTimestampToDateTime(double unixTime)
+        {
+            DateTime unixStart = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+            long unixTimeStampInTicks = (long) (unixTime * TimeSpan.TicksPerSecond);
+            return new DateTime(unixStart.Ticks + unixTimeStampInTicks, System.DateTimeKind.Utc);
+        }
+        
+        /// <summary>
+        /// Returns the current UnixTime from a provided DateTime
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public static double DateTimeToUnixTimestamp(DateTime dateTime)
+        {
+            DateTime unixStart = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+            long unixTimeStampInTicks = (dateTime.ToUniversalTime() - unixStart).Ticks;
+            return (double) unixTimeStampInTicks / TimeSpan.TicksPerSecond;
+        }
 
         /// <summary>
-        ///     Gets the Unix time and puts it to a string.
+        /// Returns a accurate string representation of a UNIX time
         /// </summary>
-        /// <returns>The time to string.</returns>
-        /// <param name="unix">Unix.</param>
-        public static string UnixTimeToString(decimal unix)
+        /// <param name="unixTime"></param>
+        /// <returns></returns>
+        public static string UnixTimestampToString(double unixTime)
         {
-            var dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-            dtDateTime = dtDateTime.AddSeconds((double) unix).ToUniversalTime();
-            return dtDateTime.ToString();
+            return UnixTimestampToDateTime(unixTime).ToString("MM/dd/yyyy HH:mm:ss");
         }
-
-        public static int GetUNIXTime()
+        
+        /// <summary>
+        /// Returns current UnixTime
+        /// </summary>
+        /// <returns></returns>
+        public static long GetUNIXTime()
         {
-            return (int) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
-        }
-
-        //TODO: Implement
-        public static int StringToUnixTime(string time)
-        {
-            return 0;
+            var dt = DateTime.Now; 
+            var unixTime = ((DateTimeOffset)dt).ToUnixTimeSeconds();
+            return unixTime;
         }
 
         /// <summary>

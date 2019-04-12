@@ -39,7 +39,7 @@ namespace Poseidon
         {
             CreateTable("Poseidon.ECB_Data", "Date");
             CreateTable("Poseidon.BOC_Data", "Date");
-            CreateTable("Poseidon.FIXER_Data", "Date");
+            CreateTable("Poseidon.FIXER_Data", "TimeStamp");
             CreateTable("Poseidon.KRAKEN_Data", "Date");
         }
 

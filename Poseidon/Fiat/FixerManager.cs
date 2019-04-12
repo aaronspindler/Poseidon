@@ -74,7 +74,7 @@ namespace Poseidon.Fiat
         {
             FixerResponse response = _response;
             FixerEntry entry = new FixerEntry();
-            entry.SetDate(response.date);
+            entry.SetTimeStamp(Utilities.UnixTimestampToString(response.timeStamp));
             foreach (var valuation in response.rebasedRates)
             {
                 entry.AddValuation(valuation.Key, valuation.Value);

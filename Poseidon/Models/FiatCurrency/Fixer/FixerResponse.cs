@@ -5,6 +5,7 @@ namespace Poseidon.Models.FiatCurrency.Fixer
     public class FixerResponse
     {
         public bool success { get; set; }
+        public double timeStamp { get; set; }
         public Error error { get; set; }
         public string baseCurrency { get; set; }
         public string date { get; set; }

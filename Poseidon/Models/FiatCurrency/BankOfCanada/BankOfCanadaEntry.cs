@@ -26,7 +26,7 @@ namespace Poseidon.Models.FiatCurrency.BankOfCanada
         }
 
         [DynamoDBHashKey] private string Date { get; set; }
-        [DynamoDBProperty] private Dictionary<string, double> _valuations { get; }
+        [DynamoDBProperty] private Dictionary<string, double> _valuations { get; set; }
 
         public void SetDate(string date)
         {

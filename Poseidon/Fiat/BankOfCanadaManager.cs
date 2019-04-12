@@ -145,7 +145,7 @@ namespace Poseidon.Fiat
         /// </summary>
         private void GetData()
         {
-            GetData(DateTime.Today, DateTime.Today);
+            GetData(DateTime.Today.AddDays(-1), DateTime.Today);
         }
 
         /// <summary>
@@ -153,7 +153,10 @@ namespace Poseidon.Fiat
         /// </summary>
         private void AddToDatabase()
         {
-            foreach (var entry in _response.GetEntries()) Database.CreateBOCEntry(entry);
+            foreach (var entry in _response.GetEntries())
+            {
+                Database.CreateBOCEntry(entry);
+            }
         }
 
         /// <summary>

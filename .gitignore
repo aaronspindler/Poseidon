@@ -43,3 +43,6 @@ Thumbs.db
 # OTHER
 .DS_Store
 .idea/
+
+# Django
+.env

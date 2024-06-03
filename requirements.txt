@@ -2,7 +2,7 @@ asgiref==3.7.2
 certifi==2024.2.2
 cffi==1.16.0
 cfgv==3.4.0
-charset-normalizer==3.0.1
+charset-normalizer==3.3.2
 crispy-bootstrap5==2023.10
 cryptography==42.0.7
 defusedxml==0.7.1

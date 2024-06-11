@@ -3,7 +3,7 @@ certifi==2024.2.2
 cffi==1.16.0
 cfgv==3.4.0
 charset-normalizer==3.3.2
-crispy-bootstrap5==2023.10
+crispy-bootstrap5==2024.2
 cryptography==42.0.7
 defusedxml==0.7.1
 distlib==0.3.8

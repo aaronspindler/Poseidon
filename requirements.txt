@@ -21,7 +21,7 @@ oauthlib==3.2.2
 packaging==24.1
 platformdirs==4.2.2
 pre-commit==3.7.1
-psycopg==3.1.18
+psycopg==3.1.19
 psycopg-binary==3.1.19
 pycparser==2.21
 PyJWT==2.8.0

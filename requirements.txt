@@ -7,7 +7,7 @@ crispy-bootstrap5==2024.2
 cryptography==42.0.7
 defusedxml==0.7.1
 distlib==0.3.8
-Django==5.0.3
+Django==5.0.6
 django-allauth==0.63.3
 django-crispy-forms==2.1
 django-debug-toolbar==4.2.0

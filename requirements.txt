@@ -1,4 +1,4 @@
-asgiref==3.7.2
+asgiref==3.8.1
 certifi==2024.2.2
 cffi==1.16.0
 cfgv==3.4.0

@@ -34,4 +34,4 @@ typing_extensions==4.12.2
 urllib3==2.2.2
 virtualenv==20.26.2
 whitenoise==6.6.0
-zipp==3.19.1
+zipp==3.19.2

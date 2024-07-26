@@ -29,7 +29,7 @@ python3-openid==3.2.0
 PyYAML==6.0.1
 requests==2.32.3
 requests-oauthlib==2.0.0
-sqlparse==0.5.0
+sqlparse==0.5.1
 typing_extensions==4.12.2
 urllib3==2.2.2
 virtualenv==20.26.3

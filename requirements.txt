@@ -20,7 +20,7 @@ nodeenv==1.9.1
 oauthlib==3.2.2
 packaging==24.1
 platformdirs==4.2.2
-pre-commit==3.7.1
+pre-commit==3.8.0
 psycopg==3.2.1
 psycopg-binary==3.2.1
 pycparser==2.22

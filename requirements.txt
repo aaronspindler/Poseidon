@@ -24,7 +24,7 @@ pre-commit==3.8.0
 psycopg==3.2.1
 psycopg-binary==3.2.1
 pycparser==2.22
-PyJWT==2.8.0
+PyJWT==2.9.0
 python3-openid==3.2.0
 PyYAML==6.0.1
 requests==2.32.3

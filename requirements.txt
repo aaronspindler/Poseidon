@@ -1,6 +1,6 @@
 asgiref==3.8.1
 certifi==2024.7.4
-cffi==1.16.0
+cffi==1.17.0
 cfgv==3.4.0
 charset-normalizer==3.3.2
 crispy-bootstrap5==2024.2

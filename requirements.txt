@@ -12,7 +12,7 @@ django-allauth==64.0.0
 django-crispy-forms==2.3
 django-debug-toolbar==4.4.6
 filelock==3.15.4
-gunicorn==22.0.0
+gunicorn==23.0.0
 identify==2.6.0
 idna==3.7
 importlib-metadata==8.2.0

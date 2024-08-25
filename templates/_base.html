@@ -6,8 +6,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
-  <title>{% block title %}Django{% endblock title %}</title>
-  <meta name="description" content="A framework for launching new Django projects quickly.">
+  <title>{% block title %}Poseidon{% endblock title %}</title>
+  <meta name="description" content="Master the ocean of data with Poseidon.">
   <meta name="author" content="">
   <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
 
@@ -23,7 +23,7 @@
 <body>
   <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
-      <a class="navbar-brand" href="{% url 'home' %}">Django</a>
+      <a class="navbar-brand" href="{% url 'home' %}">Poseidon</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -52,10 +52,11 @@
           </li>
         </ul>
         {% else %}
-        <form class="form d-flex me-auto">
-          <a href="{% url 'account_login' %}" class="btn btn-outline-secondary">Log in</a>
-          <a href="{% url 'account_signup' %}" class="btn btn-primary ml-2">Sign up</a>
-        </form>
+        </ul>
+        <div class="navbar-nav ms-auto">
+          <a href="{% url 'account_login' %}" class="btn btn-outline-secondary me-2">Log in</a>
+          <a href="{% url 'account_signup' %}" class="btn btn-primary">Sign up</a>
+        </div>
         {% endif %}
       </div>
     </div>
@@ -69,7 +70,10 @@
 
   <footer class="footer">
     <div class="container">
-      <span class="text-muted">Footer...</span>
+      <span class="text-muted">
+        <a href="{% url 'terms_conditions' %}" style="color: inherit; text-decoration: none;">Terms & Conditions</a> | 
+        <a href="{% url 'privacy_policy' %}" style="color: inherit; text-decoration: none;">Privacy Policy</a>
+      </span>
     </div>
   </footer>
 
